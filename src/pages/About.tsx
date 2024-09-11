@@ -1,4 +1,4 @@
-import Table from '../components/drafts/Table/Table.tsx';
+import Table from '../components/drafts/Table/Table';
 
 export default function About() {
   return (
