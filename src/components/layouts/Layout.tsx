@@ -1,12 +1,13 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense } from 'react';
 import { Container } from '@mui/material';
-import { LoagingSpinner } from '../LoadingSpinner';
+import { LoadingSpinner } from '../LoadingSpinner';
 
 export const Layout = () => {
   return (
     <>
-      <Suspense fallback={<LoagingSpinner />}>
+      <Suspense fallback={<LoadingSpinner />}>
+        <ScrollRestoration />
         <Container maxWidth="md">
           <Outlet />
         </Container>
