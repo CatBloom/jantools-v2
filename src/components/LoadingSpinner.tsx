@@ -1,6 +1,6 @@
 import { CircularProgress, Box } from '@mui/material';
 
-export function LoagingSpinner() {
+export function LoadingSpinner() {
   return (
     <>
       <Box

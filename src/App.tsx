@@ -1,15 +1,17 @@
-// import { useState } from 'react'
-import { Layout, Header, Footer } from './components/layouts';
-import { Route, Routes } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { loadingState } from './state/loadingState';
-import { LoagingSpinner } from './components/LoadingSpinner';
-import { lazy } from 'react';
-import { Home } from './pages';
-const About = lazy(() => import('./pages/About'));
+import { LoadingSpinner } from './components/LoadingSpinner';
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
+import { lightTheme, darkTheme } from './themes';
+import { useRecoilValue } from 'recoil';
+import { themeState } from './state/themeState';
 
 export function App() {
   const [loaging, setLoading] = useRecoilState(loadingState);
+  const mode = useRecoilValue(themeState);
 
   // loading test
   const handler = async () => {
@@ -25,21 +27,11 @@ export function App() {
 
   return (
     <>
-      <Header />
-      {loaging ? (
-        <LoagingSpinner />
-      ) : (
-        <>
-          <Routes>
-            <Route path="/" index element={<Home />} />
-            <Route element={<Layout />}>
-              <Route path="/about" element={<About />} />
-            </Route>
-          </Routes>
-          <button onClick={handler}>スピナーテスト</button>
-        </>
-      )}
-      <Footer />
+      <ThemeProvider theme={mode === 'dark' ? darkTheme : lightTheme}>
+        <CssBaseline />
+        {loaging ? <LoadingSpinner /> : <RouterProvider router={router} />}
+        <button onClick={handler}>スピナーテスト</button>
+      </ThemeProvider>
     </>
   );
 }
