@@ -1,5 +1,10 @@
 import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { Container } from '@mui/material';
+import { lazy } from 'react';
+import { Suspense } from 'react';
+import { LoadingSpinner } from '../components/LoadingSpinner';
+const LeagueForm = lazy(() => import('../components/forms/LeagueForm'));
 
 export function Home() {
   return (
@@ -18,6 +23,11 @@ export function Home() {
           }}
         ></Box>
         <Link to="/about">about</Link>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Container maxWidth="md">
+            <LeagueForm></LeagueForm>
+          </Container>
+        </Suspense>
       </Box>
     </>
   );
