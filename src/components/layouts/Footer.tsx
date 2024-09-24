@@ -10,6 +10,7 @@ export const Footer = () => {
         flexGrow: 1,
         backgroundColor: theme.palette.primary.dark,
         height: '10vh',
+        mt: '2rem',
       }}
     >
       <Box

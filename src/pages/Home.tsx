@@ -11,7 +11,7 @@ export function Home() {
     <>
       <Box
         sx={{
-          height: '100vh',
+          minHeight: '100vh',
         }}
       >
         <Box

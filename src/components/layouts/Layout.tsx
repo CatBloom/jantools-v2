@@ -3,12 +3,15 @@ import { Suspense } from 'react';
 import { Container } from '@mui/material';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { Header, Footer } from './index';
+import { useRecoilValue } from 'recoil';
+import { loadingState } from '../../state/loadingState';
 
 export const AppLayout = () => {
+  const loading = useRecoilValue(loadingState);
   return (
     <>
       <Header />
-      <Outlet />
+      {loading ? <LoadingSpinner /> : <Outlet />}
       <Footer />
     </>
   );
