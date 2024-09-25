@@ -15,6 +15,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { LeagueFormData, LeagueRuleFormData, League } from '../../types/league';
 import { MahjongSoulRule, TenhouRule, MLeagueRule } from './const-rules';
 import { usePostLeagueData } from '../../hooks/useLeagueData';
+import { useNavigate } from 'react-router-dom';
 
 export default function LeagueForm() {
   const {
@@ -28,7 +29,7 @@ export default function LeagueForm() {
     mode: 'onChange',
     defaultValues: {
       name: '',
-      description: '',
+      manual: '',
       playerCount: '4',
       gameType: '半荘戦',
       tanyao: true,
@@ -58,13 +59,23 @@ export default function LeagueForm() {
     },
   };
 
-  const { postLeagueData, id, error } = usePostLeagueData();
+  const { postLeagueData, id } = usePostLeagueData();
+  const navigate = useNavigate();
 
+  // 大会ページに遷移する
+  useEffect(() => {
+    if (id) {
+      //仮URL
+      navigate(`/about/${id}`);
+    }
+  }, [id, navigate]);
+
+  // 送信時の処理
   const onSubmit: SubmitHandler<LeagueFormData> = async (formData) => {
     // FormDataをAPI用のデータに加工
     const league: League = {
       name: formData.name,
-      manual: formData.description,
+      manual: formData.manual,
       rule: {
         playerCount: parseInt(formData.playerCount, 10),
         gameType: formData.gameType,
@@ -97,10 +108,10 @@ export default function LeagueForm() {
     const rule = ruleMap[value];
 
     if (!rule) {
-      const { name, description } = getValues();
+      const { name, manual } = getValues();
       reset();
       setValue('name', name);
-      setValue('description', description);
+      setValue('manual', manual);
     } else {
       Object.keys(rule).forEach((key) => {
         setValue(key as keyof LeagueFormData, rule[key as keyof LeagueRuleFormData], {
@@ -144,7 +155,7 @@ export default function LeagueForm() {
         ></Controller>
 
         <Controller
-          name="description"
+          name="manual"
           control={control}
           render={({ field }) => <TextField {...field} fullWidth label="説明" multiline rows={4} />}
         ></Controller>

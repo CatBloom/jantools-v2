@@ -18,7 +18,7 @@ interface LeagueRule {
 
 export interface LeagueFormData extends LeagueRuleFormData {
   name: string;
-  description: string;
+  manual: string;
 }
 
 export interface LeagueRuleFormData {
