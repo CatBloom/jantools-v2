@@ -12,7 +12,8 @@ export const usePostLeagueData = () => {
   const postLeagueData = async (data: League) => {
     setLoading(true);
     try {
-      const res = await axios.post<League>('http://localhost:8080/api/v2/league', data);
+      const apiUrl: string = import.meta.env.VITE_API_URL;
+      const res = await axios.post<League>(`${apiUrl}/league`, data);
       if (res.data.id) {
         setID(res.data.id);
       } else {
