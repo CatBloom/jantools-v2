@@ -22,7 +22,6 @@ export function Home() {
             width: 1,
           }}
         ></Box>
-        <Link to="/about">about</Link>
         <Suspense fallback={<LoadingSpinner />}>
           <Container maxWidth="md">
             <LeagueForm></LeagueForm>
