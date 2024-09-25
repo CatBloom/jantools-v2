@@ -7,11 +7,11 @@ export const Footer = () => {
   return (
     <Box
       sx={{
-        flexGrow: 1,
         backgroundColor: theme.palette.primary.dark,
-        height: '10vh',
+        p: '1rem 0',
         mt: '2rem',
       }}
+      component="footer"
     >
       <Box
         sx={{
@@ -19,12 +19,20 @@ export const Footer = () => {
           color: '#ffffff',
         }}
       >
-        <Typography component="p" sx={{ p: '0.5rem' }}>
-          © 2022 JanTools CatBloom
-        </Typography>
-        <a href="https://github.com/CatBloom" target="_blank" rel="noopener noreferrer">
-          <IconGithub />
-        </a>
+        <Box
+          sx={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+          }}
+        >
+          <Typography component="p" sx={{ p: '0.5rem', m: 0 }}>
+            © 2022 JanTools CatBloom
+          </Typography>
+          <a href="https://github.com/CatBloom" target="_blank" rel="noopener noreferrer">
+            <IconGithub />
+          </a>
+        </Box>
       </Box>
     </Box>
   );
