@@ -9,6 +9,7 @@ import {
   FormControl,
   FormLabel,
   MenuItem,
+  Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
@@ -59,6 +60,28 @@ export default function LeagueForm() {
     },
   };
 
+  const [validateErorrMsg, setValidateErrorMsg] = useState('');
+  const validateFormData = (formData: LeagueFormData): boolean => {
+    const { umaArray, startPoint, returnPoint } = formData;
+
+    if (!checkTotalZero(umaArray.map(Number))) {
+      setValidateErrorMsg('ウマの合計は0である必要があります。');
+      return true;
+    }
+
+    if (Number(startPoint) > Number(returnPoint)) {
+      setValidateErrorMsg('返し点は、配給減点と同じ数値か、それ以上の数値である必要があります。');
+      return true;
+    }
+
+    return false;
+  };
+
+  const checkTotalZero = (numArray: number[]) => {
+    const sum = numArray.reduce((prev, curr) => prev + curr, 0);
+    return sum === 0;
+  };
+
   const { postLeagueData, id } = usePostLeagueData();
   const navigate = useNavigate();
 
@@ -72,18 +95,23 @@ export default function LeagueForm() {
 
   // 送信時の処理
   const onSubmit: SubmitHandler<LeagueFormData> = async (formData) => {
+    // 登録時のvalidation
+    if (validateFormData(formData)) {
+      return;
+    }
+
     // FormDataをAPI用のデータに加工
     const league: League = {
       name: formData.name,
       manual: formData.manual,
       rule: {
-        playerCount: parseInt(formData.playerCount, 10),
+        playerCount: Number(formData.playerCount),
         gameType: formData.gameType,
         tanyao: formData.tanyao,
         back: formData.back,
-        dora: parseInt(formData.dora, 10),
-        startPoint: parseInt(formData.startPoint, 10),
-        returnPoint: parseInt(formData.returnPoint, 10),
+        dora: Number(formData.dora),
+        startPoint: Number(formData.startPoint),
+        returnPoint: Number(formData.returnPoint),
         uma: formData.umaArray.map(Number),
       },
     };
@@ -356,6 +384,9 @@ export default function LeagueForm() {
             </Grid>
           ))}
         </Grid>
+        <Typography component="p" color="error">
+          {validateErorrMsg}
+        </Typography>
 
         <Button variant="contained" type="submit" disabled={!isValid}>
           送信
