@@ -19,6 +19,8 @@ import { usePostLeagueData } from '../../hooks/useLeagueData';
 import { useNavigate } from 'react-router-dom';
 
 export default function LeagueForm() {
+  const [validateErorrMsg, setValidateErrorMsg] = useState('');
+  const [selectedRule, setSelectedRule] = useState<string>('');
   const {
     control,
     handleSubmit,
@@ -41,6 +43,9 @@ export default function LeagueForm() {
       umaArray: Array(4).fill(''),
     },
   });
+  const [umaArray, setUmaArray] = useState<string[]>(getValues('umaArray'));
+  const { postLeagueData, id } = usePostLeagueData();
+  const navigate = useNavigate();
 
   const validation = {
     name: {
@@ -60,7 +65,15 @@ export default function LeagueForm() {
     },
   };
 
-  const [validateErorrMsg, setValidateErrorMsg] = useState('');
+  // 登録後ID取得後に大会ページに遷移する
+  useEffect(() => {
+    if (id) {
+      //仮URL
+      navigate(`/about/${id}`);
+    }
+  }, [id, navigate]);
+
+  // フォーム送信時のvalidation
   const validateFormData = (formData: LeagueFormData): boolean => {
     const { umaArray, startPoint, returnPoint } = formData;
 
@@ -68,7 +81,6 @@ export default function LeagueForm() {
       setValidateErrorMsg('ウマの合計は0である必要があります。');
       return true;
     }
-
     if (Number(startPoint) > Number(returnPoint)) {
       setValidateErrorMsg('返し点は、配給減点と同じ数値か、それ以上の数値である必要があります。');
       return true;
@@ -82,24 +94,11 @@ export default function LeagueForm() {
     return sum === 0;
   };
 
-  const { postLeagueData, id } = usePostLeagueData();
-  const navigate = useNavigate();
-
-  // 大会ページに遷移する
-  useEffect(() => {
-    if (id) {
-      //仮URL
-      navigate(`/about/${id}`);
-    }
-  }, [id, navigate]);
-
   // 送信時の処理
   const onSubmit: SubmitHandler<LeagueFormData> = async (formData) => {
-    // 登録時のvalidation
     if (validateFormData(formData)) {
       return;
     }
-
     // FormDataをAPI用のデータに加工
     const league: League = {
       name: formData.name,
@@ -118,9 +117,7 @@ export default function LeagueForm() {
     await postLeagueData(league);
   };
 
-  const [selectedRule, setSelectedRule] = useState<string>('');
-  const [umaArray, setUmaArray] = useState<string[]>(getValues('umaArray'));
-
+  // ルールプリセット選択時に対応のルールをフォームに入力する
   const handleRuleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
@@ -150,6 +147,7 @@ export default function LeagueForm() {
     setSelectedRule(value);
   };
 
+  // 四麻と三麻でウマの入力フィールドの数を変更する
   const handleGameTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (value === '4') {
