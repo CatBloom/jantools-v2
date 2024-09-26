@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LeagueForm() {
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
+  const [disableForm, setDisableForm] = useState(false);
   const [selectedRule, setSelectedRule] = useState<string>('');
   const {
     control,
@@ -134,6 +135,7 @@ export default function LeagueForm() {
 
     if (!rule) {
       const { name, manual } = getValues();
+      setDisableForm(false);
       reset();
       setValue('name', name);
       setValue('manual', manual);
@@ -143,6 +145,7 @@ export default function LeagueForm() {
           shouldValidate: true,
         });
       });
+      setDisableForm(true);
     }
     setSelectedRule(value);
   };
@@ -232,10 +235,16 @@ export default function LeagueForm() {
               <FormControlLabel
                 sx={{ width: '10rem' }}
                 value="4"
+                disabled={disableForm}
                 control={<Radio color="secondary" />}
                 label="4人麻雀"
               />
-              <FormControlLabel value="3" control={<Radio color="secondary" />} label="3人麻雀" />
+              <FormControlLabel
+                value="3"
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="3人麻雀"
+              />
             </RadioGroup>
           )}
         ></Controller>
@@ -249,11 +258,13 @@ export default function LeagueForm() {
               <FormControlLabel
                 sx={{ width: '10rem' }}
                 value="東風戦"
+                disabled={disableForm}
                 control={<Radio color="secondary" />}
                 label="東風戦"
               />
               <FormControlLabel
                 value="半荘戦"
+                disabled={disableForm}
                 control={<Radio color="secondary" />}
                 label="半荘戦"
               />
@@ -270,10 +281,16 @@ export default function LeagueForm() {
               <FormControlLabel
                 sx={{ width: '10rem' }}
                 value={true}
+                disabled={disableForm}
                 control={<Radio color="secondary" />}
                 label="あり"
               />
-              <FormControlLabel value={false} control={<Radio color="secondary" />} label="なし" />
+              <FormControlLabel
+                value={false}
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="なし"
+              />
             </RadioGroup>
           )}
         ></Controller>
@@ -287,10 +304,16 @@ export default function LeagueForm() {
               <FormControlLabel
                 sx={{ width: '10rem' }}
                 value={true}
+                disabled={disableForm}
                 control={<Radio color="secondary" />}
                 label="あり"
               />
-              <FormControlLabel value={false} control={<Radio color="secondary" />} label="なし" />
+              <FormControlLabel
+                value={false}
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="なし"
+              />
             </RadioGroup>
           )}
         ></Controller>
@@ -302,6 +325,7 @@ export default function LeagueForm() {
             <TextField
               {...field}
               select
+              disabled={disableForm}
               label="赤ドラ"
               sx={{ maxWidth: '15rem' }}
               slotProps={{
@@ -334,6 +358,7 @@ export default function LeagueForm() {
             <TextField
               {...field}
               required
+              disabled={disableForm}
               label="配給原点"
               error={errors.startPoint !== undefined}
               helperText={errors.startPoint?.message}
@@ -351,6 +376,7 @@ export default function LeagueForm() {
             <TextField
               {...field}
               required
+              disabled={disableForm}
               label="返し点"
               error={errors.returnPoint !== undefined}
               helperText={errors.returnPoint?.message}
@@ -372,6 +398,7 @@ export default function LeagueForm() {
                     {...field}
                     fullWidth
                     required
+                    disabled={disableForm}
                     error={errors.umaArray?.[i] !== undefined}
                     helperText={errors.umaArray?.[i]?.message}
                     label={'ウマ:' + (i + 1) + '位'}
