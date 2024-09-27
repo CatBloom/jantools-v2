@@ -1,6 +1,6 @@
 import { CircularProgress, Box } from '@mui/material';
 
-export function LoadingSpinner() {
+export const LoadingSpinner = () => {
   return (
     <>
       <Box
@@ -20,4 +20,4 @@ export function LoadingSpinner() {
       </Box>
     </>
   );
-}
+};

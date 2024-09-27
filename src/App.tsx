@@ -8,7 +8,7 @@ import { lightTheme, darkTheme } from './themes';
 import { useRecoilValue } from 'recoil';
 import { themeState } from './state/themeState';
 
-export function App() {
+export const App = () => {
   const setLoading = useSetRecoilState(loadingState);
   const mode = useRecoilValue(themeState);
 
@@ -33,4 +33,4 @@ export function App() {
       </ThemeProvider>
     </>
   );
-}
+};
