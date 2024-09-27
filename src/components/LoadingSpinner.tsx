@@ -1,11 +1,10 @@
-import { CircularProgress, Box, useTheme } from '@mui/material';
+import { CircularProgress, Box } from '@mui/material';
 
 export function LoadingSpinner() {
-  const theme = useTheme();
   return (
     <>
       <Box
-        sx={{
+        sx={(theme) => ({
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -15,7 +14,7 @@ export function LoadingSpinner() {
           backgroundColor: theme.palette.background.default,
           opacity: 0.9,
           zIndex: 9999,
-        }}
+        })}
       >
         <CircularProgress color={'secondary'} size={100} />
       </Box>
