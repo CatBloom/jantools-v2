@@ -1,0 +1,31 @@
+import axios from 'axios';
+import { League } from '../types/league';
+import { useSetRecoilState } from 'recoil';
+import { loadingState } from '../state/loadingState';
+import { useState } from 'react';
+
+export const usePostLeagueData = () => {
+  const setLoading = useSetRecoilState(loadingState);
+  const [id, setID] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  const postLeagueData = async (data: League) => {
+    setLoading(true);
+    try {
+      const apiUrl: string = import.meta.env.VITE_API_URL;
+      const res = await axios.post<League>(`${apiUrl}/league`, data);
+      if (res.data.id) {
+        setID(res.data.id);
+      } else {
+        setError('error:empty id');
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.message) {
+        setError(err.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { postLeagueData, id, error };
+};

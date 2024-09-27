@@ -1,6 +1,5 @@
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { loadingState } from './state/loadingState';
-import { LoadingSpinner } from './components/LoadingSpinner';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { RouterProvider } from 'react-router-dom';
@@ -10,7 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { themeState } from './state/themeState';
 
 export function App() {
-  const [loaging, setLoading] = useRecoilState(loadingState);
+  const setLoading = useSetRecoilState(loadingState);
   const mode = useRecoilValue(themeState);
 
   // loading test
@@ -29,7 +28,7 @@ export function App() {
     <>
       <ThemeProvider theme={mode === 'dark' ? darkTheme : lightTheme}>
         <CssBaseline />
-        {loaging ? <LoadingSpinner /> : <RouterProvider router={router} />}
+        <RouterProvider router={router} />
         <button onClick={handler}>スピナーテスト</button>
       </ThemeProvider>
     </>
