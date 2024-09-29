@@ -5,7 +5,7 @@ export interface League {
   rule: LeagueRule;
 }
 
-interface LeagueRule {
+export interface LeagueRule {
   playerCount: number;
   gameType: string;
   tanyao: boolean;

@@ -1,8 +1,8 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { lazy } from 'react';
 import { Home } from './pages';
 import { AppLayout, ContentLayout } from './components/layouts';
-const About = lazy(() => import('./pages/About'));
+const Detail = lazy(() => import('./pages/Detail'));
 
 export const router = createBrowserRouter([
   {
@@ -17,8 +17,12 @@ export const router = createBrowserRouter([
         element: <ContentLayout />,
         children: [
           {
-            path: 'about/:id',
-            element: <About />,
+            path: 'detail/:id',
+            element: <Detail />,
+          },
+          {
+            path: '*',
+            element: <Navigate to="/" replace />,
           },
         ],
       },
