@@ -1,6 +1,6 @@
 export interface League {
   id?: string;
-  createdAt: string;
+  createdAt?: string;
   name: string;
   manual: string;
   rule: LeagueRule;
