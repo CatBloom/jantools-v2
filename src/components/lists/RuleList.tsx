@@ -4,7 +4,7 @@ import { LeagueRule } from '../../types/league';
 export const RuleList = (props: { rule: LeagueRule }) => {
   const { rule } = props;
   return (
-    <List>
+    <List disablePadding>
       <ListItem disablePadding>
         <ListItemText sx={{ flex: '0 0 40%' }} primary="ゲーム" />
         <ListItemText primary={rule.playerCount === 3 ? '三人麻雀' : '四人麻雀'} />
