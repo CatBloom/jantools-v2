@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
   Stack,
-  Box,
   TextField,
   Button,
   Radio,
@@ -11,6 +10,7 @@ import {
   FormLabel,
   MenuItem,
   Typography,
+  Collapse,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
@@ -71,8 +71,7 @@ export default function LeagueForm() {
   // 登録後ID取得後に大会ページに遷移する
   useEffect(() => {
     if (id) {
-      //仮URL
-      navigate(`/about/${id}`);
+      navigate(`/detail/${id}`);
     }
   }, [id, navigate]);
 
@@ -168,7 +167,7 @@ export default function LeagueForm() {
   return (
     <>
       <Stack component="form" sx={{ width: '100%' }} spacing={1} onSubmit={handleSubmit(onSubmit)}>
-        <h2>大会登録</h2>
+        <Typography variant="h2">大会登録</Typography>
         <Controller
           name="name"
           control={control}
@@ -221,7 +220,7 @@ export default function LeagueForm() {
           </RadioGroup>
         </FormControl>
 
-        <Box sx={{ display: showRuleForm ? 'block' : 'none' }}>
+        <Collapse in={showRuleForm}>
           <FormLabel>人数</FormLabel>
           <Controller
             name="playerCount"
@@ -414,7 +413,7 @@ export default function LeagueForm() {
               ))}
             </Grid>
           </Stack>
-        </Box>
+        </Collapse>
         <Typography component="p" color="error">
           {validateErorrMsg}
         </Typography>

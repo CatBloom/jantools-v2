@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 const LeagueForm = lazy(() => import('../components/forms/LeagueForm'));
 
-export function Home() {
+export const Home = () => {
   return (
     <>
       <Box
@@ -29,4 +29,4 @@ export function Home() {
       </Box>
     </>
   );
-}
+};

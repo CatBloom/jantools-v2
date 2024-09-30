@@ -1,11 +1,12 @@
 export interface League {
   id?: string;
+  createdAt: string;
   name: string;
   manual: string;
   rule: LeagueRule;
 }
 
-interface LeagueRule {
+export interface LeagueRule {
   playerCount: number;
   gameType: string;
   tanyao: boolean;

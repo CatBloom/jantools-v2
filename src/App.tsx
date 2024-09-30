@@ -4,11 +4,11 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
-import { lightTheme, darkTheme } from './themes';
+import { lightTheme, darkTheme } from './theme';
 import { useRecoilValue } from 'recoil';
 import { themeState } from './state/themeState';
 
-export function App() {
+export const App = () => {
   const setLoading = useSetRecoilState(loadingState);
   const mode = useRecoilValue(themeState);
 
@@ -33,4 +33,4 @@ export function App() {
       </ThemeProvider>
     </>
   );
-}
+};

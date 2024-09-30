@@ -1,16 +1,15 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { Typography } from '@mui/material';
 import { IconGithub } from '../icons';
 
 export const Footer = () => {
-  const theme = useTheme();
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         backgroundColor: theme.palette.primary.dark,
         p: '1rem 0',
         mt: '2rem',
-      }}
+      })}
       component="footer"
     >
       <Box

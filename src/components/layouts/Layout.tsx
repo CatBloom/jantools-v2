@@ -25,7 +25,7 @@ export const ContentLayout = () => {
     <>
       <Suspense fallback={<LoadingSpinner />}>
         <ScrollRestoration />
-        <Container maxWidth="md">
+        <Container sx={{ mt: '2rem' }} maxWidth="md">
           <Outlet />
         </Container>
       </Suspense>
