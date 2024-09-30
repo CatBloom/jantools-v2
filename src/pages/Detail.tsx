@@ -7,6 +7,7 @@ import { RuleList } from '../components/lists/RuleList';
 import { GameTotalRow } from '../components/tables/GameTotalRow';
 import { GameResultTotal } from '../types/game';
 import { Column } from '../types/common';
+import { dateFormat } from '../utils/date';
 
 export default function Detail() {
   const { fetchLeagueData, league } = useFetchLeagueData();
@@ -38,7 +39,19 @@ export default function Detail() {
       <Stack spacing={3}>
         {league && (
           <>
-            <Typography variant="h2">{league.name}</Typography>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              flexWrap="wrap"
+            >
+              <Typography minWidth="15rem" variant="h2">
+                {league.name}
+              </Typography>
+              {league.createdAt && (
+                <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
+              )}
+            </Stack>
             {league.manual && (
               <Stack spacing={1}>
                 <Typography variant="h3">詳細</Typography>
