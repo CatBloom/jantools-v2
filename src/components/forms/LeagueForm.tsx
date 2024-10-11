@@ -16,17 +16,13 @@ import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { LeagueFormData, LeagueRuleFormData, League } from '../../types/league';
 import { MahjongSoulRule, TenhouRule, MLeagueRule } from './const-rules';
-import { useLeagueData } from '../../hooks/useLeagueData';
-import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { loadingAtom } from '../../recoil/atoms';
 
-export default function LeagueForm() {
+export default function LeagueForm(props: { submit: (league: League) => void }) {
+  const { submit } = props;
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
   const [disableForm, setDisableForm] = useState(false);
   const [showRuleForm, setShowRuleForm] = useState(false);
   const [selectedRule, setSelectedRule] = useState<string>('');
-  const setLoading = useSetRecoilState(loadingAtom);
   const {
     control,
     handleSubmit,
@@ -50,8 +46,6 @@ export default function LeagueForm() {
     },
   });
   const [umaArray, setUmaArray] = useState<string[]>(getValues('umaArray'));
-  const { createLeagueData } = useLeagueData();
-  const navigate = useNavigate();
 
   const validation = {
     name: {
@@ -77,14 +71,14 @@ export default function LeagueForm() {
 
     if (!checkTotalZero(umaArray.map(Number))) {
       setValidateErrorMsg('ウマの合計は0である必要があります。');
-      return true;
+      return false;
     }
     if (Number(startPoint) > Number(returnPoint)) {
       setValidateErrorMsg('返し点は、配給減点と同じ数値か、それ以上の数値である必要があります。');
-      return true;
+      return false;
     }
 
-    return false;
+    return true;
   };
 
   const checkTotalZero = (numArray: number[]) => {
@@ -93,8 +87,8 @@ export default function LeagueForm() {
   };
 
   // 送信時の処理
-  const onSubmit: SubmitHandler<LeagueFormData> = async (formData) => {
-    if (validateFormData(formData)) {
+  const handleSubmitForm: SubmitHandler<LeagueFormData> = async (formData) => {
+    if (!validateFormData(formData)) {
       return;
     }
     // FormDataをAPI用のデータに加工
@@ -112,16 +106,7 @@ export default function LeagueForm() {
         uma: formData.umaArray.map(Number),
       },
     };
-
-    setLoading(true);
-    try {
-      const res = await createLeagueData(league);
-      setLoading(false);
-      navigate(`/detail/${res}`);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    }
+    submit(league);
   };
 
   // ルールプリセット選択時に対応のルールをフォームに入力する
@@ -171,7 +156,12 @@ export default function LeagueForm() {
 
   return (
     <>
-      <Stack component="form" sx={{ width: '100%' }} spacing={1} onSubmit={handleSubmit(onSubmit)}>
+      <Stack
+        component="form"
+        sx={{ width: '100%' }}
+        spacing={1}
+        onSubmit={handleSubmit(handleSubmitForm)}
+      >
         <Typography variant="h2">大会登録</Typography>
         <Controller
           name="name"
