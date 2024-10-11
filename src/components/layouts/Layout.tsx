@@ -11,7 +11,7 @@ export const AppLayout = () => {
   return (
     <>
       <Header />
-      <Box sx={{ position: 'relative', minHeight: '100vh' }}>
+      <Box sx={{ position: 'relative', minHeight: '80vh' }}>
         {loading && <LoadingSpinner />}
         <Outlet />
       </Box>
