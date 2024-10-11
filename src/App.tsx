@@ -1,16 +1,15 @@
 import { useSetRecoilState } from 'recoil';
-import { loadingState } from './state/loadingState';
+import { loadingAtom, themeAtom } from './recoil/atoms';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
 import { lightTheme, darkTheme } from './theme';
 import { useRecoilValue } from 'recoil';
-import { themeState } from './state/themeState';
 
 export const App = () => {
-  const setLoading = useSetRecoilState(loadingState);
-  const mode = useRecoilValue(themeState);
+  const setLoading = useSetRecoilState(loadingAtom);
+  const mode = useRecoilValue(themeAtom);
 
   // loading test
   const handler = async () => {

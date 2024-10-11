@@ -4,10 +4,10 @@ import { Container, Box } from '@mui/material';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { Header, Footer } from './index';
 import { useRecoilValue } from 'recoil';
-import { loadingState } from '../../state/loadingState';
+import { loadingAtom } from '../../recoil/atoms';
 
 export const AppLayout = () => {
-  const loading = useRecoilValue(loadingState);
+  const loading = useRecoilValue(loadingAtom);
   return (
     <>
       <Header />

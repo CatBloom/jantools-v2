@@ -2,11 +2,11 @@ import { AppBar, Box, Toolbar } from '@mui/material';
 import { MUIThemeSwitch } from '../buttons/MUIThemeSwitch';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { themeState } from '../../state/themeState';
+import { themeAtom } from '../../recoil/atoms';
 import logo from '../../assets/titlelogo.png';
 
 export const Header = () => {
-  const [theme, setTheme] = useRecoilState(themeState);
+  const [theme, setTheme] = useRecoilState(themeAtom);
 
   const switchHandler = (event: { target: { checked: boolean } }) => {
     const newTheme = event.target.checked ? 'dark' : 'light';

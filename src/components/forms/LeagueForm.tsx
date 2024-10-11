@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Stack,
   TextField,
@@ -16,14 +16,17 @@ import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { LeagueFormData, LeagueRuleFormData, League } from '../../types/league';
 import { MahjongSoulRule, TenhouRule, MLeagueRule } from './const-rules';
-import { usePostLeagueData } from '../../hooks/useLeagueData';
+import { useLeagueData } from '../../hooks/useLeagueData';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { loadingAtom } from '../../recoil/atoms';
 
 export default function LeagueForm() {
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
   const [disableForm, setDisableForm] = useState(false);
   const [showRuleForm, setShowRuleForm] = useState(false);
   const [selectedRule, setSelectedRule] = useState<string>('');
+  const setLoading = useSetRecoilState(loadingAtom);
   const {
     control,
     handleSubmit,
@@ -47,7 +50,7 @@ export default function LeagueForm() {
     },
   });
   const [umaArray, setUmaArray] = useState<string[]>(getValues('umaArray'));
-  const { postLeagueData, id } = usePostLeagueData();
+  const { createLeagueData } = useLeagueData();
   const navigate = useNavigate();
 
   const validation = {
@@ -67,13 +70,6 @@ export default function LeagueForm() {
       required: '必須項目です',
     },
   };
-
-  // 登録後ID取得後に大会ページに遷移する
-  useEffect(() => {
-    if (id) {
-      navigate(`/detail/${id}`);
-    }
-  }, [id, navigate]);
 
   // フォーム送信時のvalidation
   const validateFormData = (formData: LeagueFormData): boolean => {
@@ -116,7 +112,16 @@ export default function LeagueForm() {
         uma: formData.umaArray.map(Number),
       },
     };
-    await postLeagueData(league);
+
+    setLoading(true);
+    try {
+      const res = await createLeagueData(league);
+      setLoading(false);
+      navigate(`/detail/${res}`);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
   };
 
   // ルールプリセット選択時に対応のルールをフォームに入力する
