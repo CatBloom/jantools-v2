@@ -1,16 +1,22 @@
 import { useEffect } from 'react';
-import { GeneralTable } from '../components/tables/GeneralTable';
-import { useFetchLeagueData } from '../hooks/useLeagueData';
+import { GeneralTable, RuleList, GameTotalRow } from '../components';
 import { Divider, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { RuleList } from '../components/lists/RuleList';
-import { GameTotalRow } from '../components/tables/GameTotalRow';
 import { GameResultTotal } from '../types/game';
 import { Column } from '../types/common';
 import { dateFormat } from '../utils/date';
+import { useLeagueData } from '../hooks/useLeagueData';
+import { useGameData } from '../hooks/useGameData';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { gameResultTotalSelector } from '../recoil/selectors';
+import { loadingAtom } from '../recoil/atoms';
 
 export default function Detail() {
-  const { fetchLeagueData, league } = useFetchLeagueData();
+  const { league, fetchLeagueData } = useLeagueData();
+  const { fetchGameListData } = useGameData();
+  const setLoading = useSetRecoilState(loadingAtom);
+  const gameResultTotal = useRecoilValue(gameResultTotalSelector);
+
   const { id } = useParams();
 
   const columns: Column<GameResultTotal>[] = [
@@ -21,16 +27,15 @@ export default function Detail() {
     { key: 'averageRank', display: '平均着順' },
   ];
 
-  const mockGameTotalResult = [
-    { rank: 1, name: 'atest', gameCount: 1, totalPoint: 40000, averageRank: 1 },
-    { rank: 2, name: 'btest', gameCount: 1, totalPoint: 35000, averageRank: 2 },
-    { rank: 3, name: 'ctest', gameCount: 1, totalPoint: 20000, averageRank: 3 },
-    { rank: 4, name: 'dtest', gameCount: 1, totalPoint: 5000, averageRank: 4 },
-  ];
-
   useEffect(() => {
+    const fetchData = async (id: string) => {
+      setLoading(true);
+      await Promise.all([fetchLeagueData(id), fetchGameListData(id)]);
+      setLoading(false);
+    };
+
     if (id) {
-      fetchLeagueData(id);
+      fetchData(id);
     }
   }, [id]);
 
@@ -68,12 +73,14 @@ export default function Detail() {
             )}
           </>
         )}
-        <GeneralTable<GameResultTotal>
-          rows={mockGameTotalResult}
-          columns={columns}
-          align="center"
-          RowComponent={GameTotalRow}
-        />
+        {gameResultTotal && (
+          <GeneralTable<GameResultTotal>
+            rows={gameResultTotal}
+            columns={columns}
+            align="center"
+            RowComponent={GameTotalRow}
+          />
+        )}
       </Stack>
     </>
   );
