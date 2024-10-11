@@ -1,57 +1,95 @@
 import axios from 'axios';
 import { League } from '../types/league';
-import { useSetRecoilState } from 'recoil';
-import { loadingState } from '../state/loadingState';
 import { useState } from 'react';
+import {
+  createLeague,
+  fetchLeague,
+  updateLeague,
+  deleteLeague,
+} from '../api/services/leagueService';
 
-export const useFetchLeagueData = () => {
-  const setLoading = useSetRecoilState(loadingState);
+export const useLeagueData = () => {
   const [league, setLeague] = useState<League | null>(null);
   const [error, setError] = useState<string>('');
-  const apiUrl: string = import.meta.env.VITE_API_URL;
+  const errorEmpty = 'error:empty data';
+  const errException = 'error: an unexpected error occurred';
 
   const fetchLeagueData = async (id: string) => {
-    setLoading(true);
     try {
-      const res = await axios.get<League>(`${apiUrl}/league/${id}`);
-      if (res.data) {
-        setLeague(res.data);
+      const res = await fetchLeague(id);
+      if (res) {
+        setLeague(res);
       } else {
-        setError('error:empty league data');
+        throw new Error(errorEmpty);
       }
     } catch (err) {
       if (axios.isAxiosError(err) && err.message) {
         setError(err.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(errException);
       }
-    } finally {
-      setLoading(false);
     }
   };
-  return { fetchLeagueData, league, error };
-};
 
-export const usePostLeagueData = () => {
-  const setLoading = useSetRecoilState(loadingState);
-  const [id, setID] = useState<string>('');
-  const [error, setError] = useState<string>('');
-  const apiUrl: string = import.meta.env.VITE_API_URL;
-
-  const postLeagueData = async (data: League) => {
-    setLoading(true);
+  const createLeagueData = async (data: League) => {
     try {
-      const res = await axios.post<League>(`${apiUrl}/league`, data);
-      if (res.data.id) {
-        setID(res.data.id);
+      const res = await createLeague(data);
+      if (res) {
+        setLeague(res);
+        return res;
       } else {
-        setError('error:empty id');
+        throw new Error(errorEmpty);
       }
     } catch (err) {
       if (axios.isAxiosError(err) && err.message) {
         setError(err.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(errException);
       }
-    } finally {
-      setLoading(false);
     }
   };
-  return { postLeagueData, id, error };
+
+  const updateLeagueData = async (data: League) => {
+    try {
+      const res = await updateLeague(data);
+      if (res) {
+        setLeague(res);
+      } else {
+        throw new Error(errorEmpty);
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.message) {
+        setError(err.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(errException);
+      }
+    }
+  };
+
+  const daleteLeagueData = async (id: string) => {
+    try {
+      const res = await deleteLeague(id);
+      if (res) {
+        setLeague(null);
+      } else {
+        throw new Error(errorEmpty);
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.message) {
+        setError(err.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(errException);
+      }
+    }
+  };
+
+  return { league, error, fetchLeagueData, createLeagueData, updateLeagueData, daleteLeagueData };
 };

@@ -1,5 +1,6 @@
 export interface Game {
-  id: string;
+  id?: string;
+  leagueID: string;
   createdAt: Date;
   results: GameResult[];
 }
@@ -9,6 +10,10 @@ export interface GameResult {
   name: string;
   point: number;
   calcPoint: number;
+}
+
+export interface GameID {
+  id: string;
 }
 
 export interface GameResultTotal {

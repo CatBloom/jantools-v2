@@ -17,6 +17,10 @@ export interface LeagueRule {
   uma: number[];
 }
 
+export interface LeagueID {
+  id: string;
+}
+
 export interface LeagueFormData extends LeagueRuleFormData {
   name: string;
   manual: string;

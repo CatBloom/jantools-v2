@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const themeState = atom({
-  key: 'themeState',
+export const themeAtom = atom({
+  key: 'themeAtom',
   default: sessionStorage.getItem('theme') === 'dark' ? 'dark' : 'light',
 });
