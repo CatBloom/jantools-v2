@@ -1,7 +1,7 @@
 export interface Game {
   id: string;
   leagueID: string;
-  createdAt: Date;
+  createdAt: string;
   results: GameResult[];
 }
 
