@@ -8,11 +8,9 @@ import { lightTheme, darkTheme } from './theme';
 export const App = () => {
   const mode = useRecoilValue(themeAtom);
   return (
-    <>
-      <ThemeProvider theme={mode === 'dark' ? darkTheme : lightTheme}>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={mode === 'dark' ? darkTheme : lightTheme}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   );
 };

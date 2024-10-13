@@ -40,48 +40,41 @@ export default function Detail() {
   }, [id]);
 
   return (
-    <>
-      <Stack spacing={3}>
-        {league && (
-          <>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              flexWrap="wrap"
-            >
-              <Typography minWidth="15rem" variant="h2">
-                {league.name}
-              </Typography>
-              {league.createdAt && (
-                <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
-              )}
+    <Stack spacing={3}>
+      {league && (
+        <>
+          <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+            <Typography minWidth="15rem" variant="h2">
+              {league.name}
+            </Typography>
+            {league.createdAt && (
+              <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
+            )}
+          </Stack>
+          {league.manual && (
+            <Stack spacing={1}>
+              <Typography variant="h3">詳細</Typography>
+              <Divider />
+              <Typography component="p">{league.manual}</Typography>
             </Stack>
-            {league.manual && (
-              <Stack spacing={1}>
-                <Typography variant="h3">詳細</Typography>
-                <Divider />
-                <Typography component="p">{league.manual}</Typography>
-              </Stack>
-            )}
-            {league.rule && (
-              <Stack spacing={1}>
-                <Typography variant="h3">ルール</Typography>
-                <Divider />
-                <RuleList rule={league.rule} />
-              </Stack>
-            )}
-          </>
-        )}
-        {gameResultTotal && (
-          <GeneralTable<GameResultTotal>
-            rows={gameResultTotal}
-            columns={columns}
-            align="center"
-            RowComponent={GameTotalRow}
-          />
-        )}
-      </Stack>
-    </>
+          )}
+          {league.rule && (
+            <Stack spacing={1}>
+              <Typography variant="h3">ルール</Typography>
+              <Divider />
+              <RuleList rule={league.rule} />
+            </Stack>
+          )}
+        </>
+      )}
+      {gameResultTotal && (
+        <GeneralTable<GameResultTotal>
+          rows={gameResultTotal}
+          columns={columns}
+          align="center"
+          RowComponent={GameTotalRow}
+        />
+      )}
+    </Stack>
   );
 }
