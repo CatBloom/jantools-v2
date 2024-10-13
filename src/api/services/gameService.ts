@@ -1,4 +1,4 @@
-import { Game, GameID } from '../../types/game';
+import { Game, ReqCreateGame, ResDeleteGame } from '../../types/game';
 import { apiClient } from '../apiClient';
 
 export const fetchGameList = async (lid: string): Promise<Game[]> => {
@@ -21,7 +21,7 @@ export const fetchGame = async (id: string, lid: string): Promise<Game> => {
   }
 };
 
-export const createGame = async (game: Game): Promise<Game> => {
+export const createGame = async (game: ReqCreateGame): Promise<Game> => {
   try {
     const res = await apiClient.post<Game>(`/game`, game);
     return res.data;
@@ -39,10 +39,10 @@ export const updateGame = async (game: Game): Promise<Game> => {
   }
 };
 
-export const deleteGame = async (id: string, lid: string): Promise<GameID> => {
+export const deleteGame = async (id: string, lid: string): Promise<ResDeleteGame> => {
   const params = { id: id, leagueID: lid };
   try {
-    const res = await apiClient.delete<GameID>(`/game`, { params: params });
+    const res = await apiClient.delete<ResDeleteGame>(`/game`, { params: params });
     return res.data;
   } catch (err) {
     throw err;

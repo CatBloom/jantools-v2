@@ -1,7 +1,7 @@
 export interface Game {
-  id?: string;
+  id: string;
   leagueID: string;
-  createdAt: Date;
+  createdAt: string;
   results: GameResult[];
 }
 
@@ -12,9 +12,9 @@ export interface GameResult {
   calcPoint: number;
 }
 
-export interface GameID {
-  id: string;
-}
+export type ReqCreateGame = Omit<Game, 'id' | 'createdAt'>;
+
+export type ResDeleteGame = Pick<Game, 'id'>;
 
 export interface GameResultTotal {
   rank: number;

@@ -14,10 +14,10 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { LeagueFormData, LeagueRuleFormData, League } from '../../types/league';
+import { LeagueFormData, LeagueRuleFormData, ReqCreateLeague } from '../../types/league';
 import { MahjongSoulRule, TenhouRule, MLeagueRule } from './const-rules';
 
-export default function LeagueForm(props: { submit: (league: League) => void }) {
+export default function LeagueForm(props: { submit: (league: ReqCreateLeague) => void }) {
   const { submit } = props;
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
   const [disableForm, setDisableForm] = useState(false);
@@ -92,7 +92,7 @@ export default function LeagueForm(props: { submit: (league: League) => void }) 
       return;
     }
     // FormDataをAPI用のデータに加工
-    const league: League = {
+    const league: ReqCreateLeague = {
       name: formData.name,
       manual: formData.manual,
       rule: {
@@ -155,268 +155,266 @@ export default function LeagueForm(props: { submit: (league: League) => void }) 
   };
 
   return (
-    <>
-      <Stack
-        component="form"
-        sx={{ width: '100%' }}
-        spacing={1}
-        onSubmit={handleSubmit(handleSubmitForm)}
-      >
-        <Typography variant="h2">大会登録</Typography>
+    <Stack
+      component="form"
+      sx={{ width: '100%' }}
+      spacing={1}
+      onSubmit={handleSubmit(handleSubmitForm)}
+    >
+      <Typography variant="h2">大会登録</Typography>
+      <Controller
+        name="name"
+        control={control}
+        rules={validation.name}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            required
+            fullWidth
+            label="大会名"
+            error={errors.name !== undefined}
+            helperText={errors.name?.message}
+          />
+        )}
+      ></Controller>
+
+      <Controller
+        name="manual"
+        control={control}
+        render={({ field }) => <TextField {...field} fullWidth label="説明" multiline rows={4} />}
+      ></Controller>
+
+      <FormControl>
+        <FormLabel>ルール</FormLabel>
+        <RadioGroup row value={selectedRule} onChange={handleRuleChange}>
+          <FormControlLabel
+            value="M"
+            sx={{ minWidth: '10rem' }}
+            control={<Radio color="secondary" />}
+            label="Mリーグルール"
+          />
+          <FormControlLabel
+            value="J"
+            sx={{ minWidth: '10rem' }}
+            control={<Radio color="secondary" />}
+            label="雀魂半荘ルール"
+          />
+          <FormControlLabel
+            value="T"
+            sx={{ minWidth: '10rem' }}
+            control={<Radio color="secondary" />}
+            label="天鳳半荘ルール"
+          />
+          <FormControlLabel
+            value="C"
+            sx={{ minWidth: '10rem' }}
+            control={<Radio color="secondary" />}
+            label="カスタムルール"
+          />
+        </RadioGroup>
+      </FormControl>
+
+      <Collapse in={showRuleForm}>
+        <FormLabel>人数</FormLabel>
         <Controller
-          name="name"
+          name="playerCount"
           control={control}
-          rules={validation.name}
           render={({ field }) => (
-            <TextField
+            <RadioGroup
               {...field}
-              required
-              fullWidth
-              label="大会名"
-              error={errors.name !== undefined}
-              helperText={errors.name?.message}
-            />
+              row
+              onChange={(e) => {
+                field.onChange(e);
+                handleGameTypeChange(e);
+              }}
+            >
+              <FormControlLabel
+                sx={{ width: '10rem' }}
+                value="4"
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="4人麻雀"
+              />
+              <FormControlLabel
+                value="3"
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="3人麻雀"
+              />
+            </RadioGroup>
           )}
         ></Controller>
 
+        <FormLabel>局数</FormLabel>
         <Controller
-          name="manual"
+          name="gameType"
           control={control}
-          render={({ field }) => <TextField {...field} fullWidth label="説明" multiline rows={4} />}
+          render={({ field }) => (
+            <RadioGroup row {...field}>
+              <FormControlLabel
+                sx={{ width: '10rem' }}
+                value="東風戦"
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="東風戦"
+              />
+              <FormControlLabel
+                value="半荘戦"
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="半荘戦"
+              />
+            </RadioGroup>
+          )}
         ></Controller>
 
-        <FormControl>
-          <FormLabel>ルール</FormLabel>
-          <RadioGroup row value={selectedRule} onChange={handleRuleChange}>
-            <FormControlLabel
-              value="M"
-              sx={{ minWidth: '10rem' }}
-              control={<Radio color="secondary" />}
-              label="Mリーグルール"
-            />
-            <FormControlLabel
-              value="J"
-              sx={{ minWidth: '10rem' }}
-              control={<Radio color="secondary" />}
-              label="雀魂半荘ルール"
-            />
-            <FormControlLabel
-              value="T"
-              sx={{ minWidth: '10rem' }}
-              control={<Radio color="secondary" />}
-              label="天鳳半荘ルール"
-            />
-            <FormControlLabel
-              value="C"
-              sx={{ minWidth: '10rem' }}
-              control={<Radio color="secondary" />}
-              label="カスタムルール"
-            />
-          </RadioGroup>
-        </FormControl>
+        <FormLabel>喰タン</FormLabel>
+        <Controller
+          name="tanyao"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup row {...field} onChange={(e) => field.onChange(e.target.value === 'true')}>
+              <FormControlLabel
+                sx={{ width: '10rem' }}
+                value={true}
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="あり"
+              />
+              <FormControlLabel
+                value={false}
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="なし"
+              />
+            </RadioGroup>
+          )}
+        ></Controller>
 
-        <Collapse in={showRuleForm}>
-          <FormLabel>人数</FormLabel>
+        <FormLabel>後付け</FormLabel>
+        <Controller
+          name="back"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup row {...field} onChange={(e) => field.onChange(e.target.value === 'true')}>
+              <FormControlLabel
+                sx={{ width: '10rem' }}
+                value={true}
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="あり"
+              />
+              <FormControlLabel
+                value={false}
+                disabled={disableForm}
+                control={<Radio color="secondary" />}
+                label="なし"
+              />
+            </RadioGroup>
+          )}
+        ></Controller>
+
+        <Stack sx={{ mt: '1rem' }} spacing={1}>
           <Controller
-            name="playerCount"
+            name="dora"
             control={control}
             render={({ field }) => (
-              <RadioGroup
+              <TextField
                 {...field}
-                row
-                onChange={(e) => {
-                  field.onChange(e);
-                  handleGameTypeChange(e);
-                }}
-              >
-                <FormControlLabel
-                  sx={{ width: '10rem' }}
-                  value="4"
-                  disabled={disableForm}
-                  control={<Radio color="secondary" />}
-                  label="4人麻雀"
-                />
-                <FormControlLabel
-                  value="3"
-                  disabled={disableForm}
-                  control={<Radio color="secondary" />}
-                  label="3人麻雀"
-                />
-              </RadioGroup>
-            )}
-          ></Controller>
-
-          <FormLabel>局数</FormLabel>
-          <Controller
-            name="gameType"
-            control={control}
-            render={({ field }) => (
-              <RadioGroup row {...field}>
-                <FormControlLabel
-                  sx={{ width: '10rem' }}
-                  value="東風戦"
-                  disabled={disableForm}
-                  control={<Radio color="secondary" />}
-                  label="東風戦"
-                />
-                <FormControlLabel
-                  value="半荘戦"
-                  disabled={disableForm}
-                  control={<Radio color="secondary" />}
-                  label="半荘戦"
-                />
-              </RadioGroup>
-            )}
-          ></Controller>
-
-          <FormLabel>喰タン</FormLabel>
-          <Controller
-            name="tanyao"
-            control={control}
-            render={({ field }) => (
-              <RadioGroup row {...field}>
-                <FormControlLabel
-                  sx={{ width: '10rem' }}
-                  value={true}
-                  disabled={disableForm}
-                  control={<Radio color="secondary" />}
-                  label="あり"
-                />
-                <FormControlLabel
-                  value={false}
-                  disabled={disableForm}
-                  control={<Radio color="secondary" />}
-                  label="なし"
-                />
-              </RadioGroup>
-            )}
-          ></Controller>
-
-          <FormLabel>後付け</FormLabel>
-          <Controller
-            name="back"
-            control={control}
-            render={({ field }) => (
-              <RadioGroup row {...field}>
-                <FormControlLabel
-                  sx={{ width: '10rem' }}
-                  value={true}
-                  disabled={disableForm}
-                  control={<Radio color="secondary" />}
-                  label="あり"
-                />
-                <FormControlLabel
-                  value={false}
-                  disabled={disableForm}
-                  control={<Radio color="secondary" />}
-                  label="なし"
-                />
-              </RadioGroup>
-            )}
-          ></Controller>
-
-          <Stack sx={{ mt: '1rem' }} spacing={1}>
-            <Controller
-              name="dora"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  select
-                  disabled={disableForm}
-                  label="赤ドラ"
-                  sx={{ maxWidth: '15rem' }}
-                  slotProps={{
-                    select: {
-                      MenuProps: {
-                        PaperProps: {
-                          style: {
-                            maxHeight: 200,
-                            overflowY: 'auto',
-                          },
+                select
+                disabled={disableForm}
+                label="赤ドラ"
+                sx={{ maxWidth: '15rem' }}
+                slotProps={{
+                  select: {
+                    MenuProps: {
+                      PaperProps: {
+                        style: {
+                          maxHeight: 200,
+                          overflowY: 'auto',
                         },
                       },
                     },
-                  }}
-                >
-                  {[...Array(21).keys()].map((value) => (
-                    <MenuItem key={value} value={value}>
-                      {value}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              )}
-            />
+                  },
+                }}
+              >
+                {[...Array(21).keys()].map((value) => (
+                  <MenuItem key={value} value={value}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </TextField>
+            )}
+          />
 
-            <Controller
-              name="startPoint"
-              rules={validation.startPoint}
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  required
-                  disabled={disableForm}
-                  label="配給原点"
-                  error={errors.startPoint !== undefined}
-                  helperText={errors.startPoint?.message}
-                  sx={{ maxWidth: '15rem' }}
-                  type="number"
-                />
-              )}
-            ></Controller>
+          <Controller
+            name="startPoint"
+            rules={validation.startPoint}
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                required
+                disabled={disableForm}
+                label="配給原点"
+                error={errors.startPoint !== undefined}
+                helperText={errors.startPoint?.message}
+                sx={{ maxWidth: '15rem' }}
+                type="number"
+              />
+            )}
+          ></Controller>
 
-            <Controller
-              name="returnPoint"
-              rules={validation.returnPoint}
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  required
-                  disabled={disableForm}
-                  label="返し点"
-                  error={errors.returnPoint !== undefined}
-                  helperText={errors.returnPoint?.message}
-                  sx={{ maxWidth: '15rem' }}
-                  type="number"
-                />
-              )}
-            ></Controller>
+          <Controller
+            name="returnPoint"
+            rules={validation.returnPoint}
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                required
+                disabled={disableForm}
+                label="返し点"
+                error={errors.returnPoint !== undefined}
+                helperText={errors.returnPoint?.message}
+                sx={{ maxWidth: '15rem' }}
+                type="number"
+              />
+            )}
+          ></Controller>
 
-            <Grid container spacing={1}>
-              {umaArray.map((_, i) => (
-                <Grid size={3} key={i}>
-                  <Controller
-                    name={`umaArray.${i}`}
-                    rules={validation.umaArray}
-                    control={control}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        fullWidth
-                        required
-                        disabled={disableForm}
-                        error={errors.umaArray?.[i] !== undefined}
-                        helperText={errors.umaArray?.[i]?.message}
-                        label={'ウマ:' + (i + 1) + '位'}
-                        type="number"
-                      />
-                    )}
-                  ></Controller>
-                </Grid>
-              ))}
-            </Grid>
-          </Stack>
-        </Collapse>
-        <Typography component="p" color="error">
-          {validateErorrMsg}
-        </Typography>
+          <Grid container spacing={1}>
+            {umaArray.map((_, i) => (
+              <Grid size={3} key={i}>
+                <Controller
+                  name={`umaArray.${i}`}
+                  rules={validation.umaArray}
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      fullWidth
+                      required
+                      disabled={disableForm}
+                      error={errors.umaArray?.[i] !== undefined}
+                      helperText={errors.umaArray?.[i]?.message}
+                      label={'ウマ:' + (i + 1) + '位'}
+                      type="number"
+                    />
+                  )}
+                ></Controller>
+              </Grid>
+            ))}
+          </Grid>
+        </Stack>
+      </Collapse>
+      <Typography component="p" color="error">
+        {validateErorrMsg}
+      </Typography>
 
-        <Button variant="contained" type="submit" disabled={!isValid}>
-          送信
-        </Button>
-      </Stack>
-    </>
+      <Button variant="contained" type="submit" disabled={!isValid}>
+        送信
+      </Button>
+    </Stack>
   );
 }

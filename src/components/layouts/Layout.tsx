@@ -22,13 +22,11 @@ export const AppLayout = () => {
 
 export const ContentLayout = () => {
   return (
-    <>
-      <Suspense fallback={<LoadingSpinner />}>
-        <ScrollRestoration />
-        <Container sx={{ mt: '2rem' }} maxWidth="md">
-          <Outlet />
-        </Container>
-      </Suspense>
-    </>
+    <Suspense fallback={<LoadingSpinner />}>
+      <ScrollRestoration />
+      <Container sx={{ mt: '2rem' }} maxWidth="md">
+        <Outlet />
+      </Container>
+    </Suspense>
   );
 };
