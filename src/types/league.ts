@@ -1,6 +1,6 @@
 export interface League {
-  id?: string;
-  createdAt?: string;
+  id: string;
+  createdAt: string;
   name: string;
   manual: string;
   rule: LeagueRule;
@@ -17,9 +17,9 @@ export interface LeagueRule {
   uma: number[];
 }
 
-export interface LeagueID {
-  id: string;
-}
+export type ReqCreateLeague = Omit<League, 'id' | 'createdAt'>;
+
+export type ResDeleteLeague = Pick<League, 'id'>;
 
 export interface LeagueFormData extends LeagueRuleFormData {
   name: string;

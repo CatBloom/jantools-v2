@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { League } from '../types/league';
+import { League, ReqCreateLeague } from '../types/league';
 import { useState } from 'react';
 import {
   createLeague,
@@ -33,7 +33,7 @@ export const useLeagueData = () => {
     }
   };
 
-  const createLeagueData = async (data: League) => {
+  const createLeagueData = async (data: ReqCreateLeague) => {
     try {
       const res = await createLeague(data);
       if (res) {

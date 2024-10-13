@@ -14,10 +14,10 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { LeagueFormData, LeagueRuleFormData, League } from '../../types/league';
+import { LeagueFormData, LeagueRuleFormData, ReqCreateLeague } from '../../types/league';
 import { MahjongSoulRule, TenhouRule, MLeagueRule } from './const-rules';
 
-export default function LeagueForm(props: { submit: (league: League) => void }) {
+export default function LeagueForm(props: { submit: (league: ReqCreateLeague) => void }) {
   const { submit } = props;
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
   const [disableForm, setDisableForm] = useState(false);
@@ -92,7 +92,7 @@ export default function LeagueForm(props: { submit: (league: League) => void }) 
       return;
     }
     // FormDataをAPI用のデータに加工
-    const league: League = {
+    const league: ReqCreateLeague = {
       name: formData.name,
       manual: formData.manual,
       rule: {
