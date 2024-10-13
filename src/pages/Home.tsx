@@ -17,7 +17,7 @@ export const Home = () => {
     setLoading(true);
     try {
       const res = await createLeagueData(league);
-      if (res?.id) {
+      if (res) {
         navigate(`/detail/${res.id}`);
       } else {
         console.error('error:empty league id');
