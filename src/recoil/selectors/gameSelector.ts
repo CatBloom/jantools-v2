@@ -2,6 +2,25 @@ import { selector } from 'recoil';
 import { GameResultTotal } from '../../types/game';
 import { gameListAtom } from '../atoms/gameAtom';
 
+export const gamePlayerSelector = selector<string[]>({
+  key: 'gamePlayerSelector',
+  get: ({ get }) => {
+    const gameList = get(gameListAtom);
+    if (!gameList) {
+      return [];
+    }
+
+    const playerSet = new Set<string>();
+    gameList.forEach((game) => {
+      game.results.forEach((result) => {
+        playerSet.add(result.name);
+      });
+    });
+
+    return Array.from(playerSet);
+  },
+});
+
 export const gameResultTotalSelector = selector<GameResultTotal[] | null>({
   key: 'gameResultTotalSelector',
   get: ({ get }) => {

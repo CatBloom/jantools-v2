@@ -8,14 +8,16 @@ import { dateFormat } from '../utils/date';
 import { useLeagueData } from '../hooks/useLeagueData';
 import { useGameData } from '../hooks/useGameData';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { gameResultTotalSelector } from '../recoil/selectors';
+import { gamePlayerSelector, gameResultTotalSelector } from '../recoil/selectors';
 import { loadingAtom } from '../recoil/atoms';
+import { GameForm } from '../components/forms/GameForm';
 
 export default function Detail() {
   const { league, fetchLeagueData } = useLeagueData();
   const { fetchGameListData } = useGameData();
   const setLoading = useSetRecoilState(loadingAtom);
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
+  const gamePlayers = useRecoilValue(gamePlayerSelector);
 
   const { id } = useParams();
 
@@ -65,8 +67,11 @@ export default function Detail() {
               <RuleList rule={league.rule} />
             </Stack>
           )}
+
+          {league.rule && <GameForm rule={league.rule} gamePlayers={gamePlayers} />}
         </>
       )}
+
       {gameResultTotal && (
         <GeneralTable<GameResultTotal>
           rows={gameResultTotal}
