@@ -49,8 +49,10 @@ export const gameResultTotalSelector = selector<GameResultTotal[] | null>({
       });
     });
 
-    // 平均着順を作成(少数点第2位まで)
     Object.values(nameMap).forEach((name) => {
+      // 合計得点を整形(少数第1位まで)
+      name.totalPoint = Math.floor(name.totalPoint * 10) / 10;
+      // 平均着順を作成(少数点第2位まで)
       name.averageRank = Math.floor((name.sumRank / name.gameCount) * 100) / 100;
     });
 
@@ -64,8 +66,8 @@ export const gameResultTotalSelector = selector<GameResultTotal[] | null>({
     });
 
     // ソートした配列に順位を追加
-    sortedResults.forEach((player, index) => {
-      player.rank = index + 1; // 1位から順にrankを設定
+    sortedResults.forEach((name, i) => {
+      name.rank = i + 1; // 1位から順にrankを設定
     });
 
     return sortedResults;
