@@ -1,7 +1,5 @@
-import { LeagueRuleFormData } from '../../types/league';
-
 // 雀魂公式ルール
-export const MahjongSoulRule: LeagueRuleFormData = {
+export const MahjongSoulRule = {
   playerCount: '4',
   gameType: '半荘戦',
   tanyao: true,
@@ -12,7 +10,7 @@ export const MahjongSoulRule: LeagueRuleFormData = {
   umaArray: ['15', '5', '-5', '-15'],
 };
 // 天鳳公式ルール
-export const TenhouRule: LeagueRuleFormData = {
+export const TenhouRule = {
   playerCount: '4',
   gameType: '半荘戦',
   tanyao: true,
@@ -23,7 +21,7 @@ export const TenhouRule: LeagueRuleFormData = {
   umaArray: ['20', '10', '-10', '-20'],
 };
 // Mリーグ公式ルール
-export const MLeagueRule: LeagueRuleFormData = {
+export const MLeagueRule = {
   playerCount: '4',
   gameType: '半荘戦',
   tanyao: true,
