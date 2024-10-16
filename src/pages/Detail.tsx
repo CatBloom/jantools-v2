@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GeneralTable, RuleList, GameTotalRow } from '../components';
-import { Divider, Stack, Typography } from '@mui/material';
+import { Button, Container, Divider, Modal, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { GameResultTotal } from '../types/game';
+import { GameFormData, GameResultTotal, ReqCreateGame } from '../types/game';
 import { Column } from '../types/common';
 import { dateFormat } from '../utils/date';
 import { useLeagueData } from '../hooks/useLeagueData';
@@ -14,7 +14,8 @@ import { GameForm } from '../components/forms/GameForm';
 
 export default function Detail() {
   const { league, fetchLeagueData } = useLeagueData();
-  const { fetchGameListData } = useGameData();
+  const { fetchGameListData, createGameData } = useGameData();
+  const [open, setOpen] = useState(false);
   const setLoading = useSetRecoilState(loadingAtom);
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
   const gamePlayers = useRecoilValue(gamePlayerSelector);
@@ -30,16 +31,43 @@ export default function Detail() {
   ];
 
   useEffect(() => {
+    const abortController = new AbortController();
     const fetchData = async (id: string) => {
       setLoading(true);
-      await Promise.all([fetchLeagueData(id), fetchGameListData(id)]);
+      Promise.all([
+        fetchLeagueData(id, abortController.signal),
+        fetchGameListData(id, abortController.signal),
+      ]);
       setLoading(false);
     };
 
     if (id) {
       fetchData(id);
     }
+    return () => {
+      abortController.abort();
+    };
   }, [id]);
+
+  const submit = async (formdata: GameFormData) => {
+    if (!id) {
+      return;
+    }
+    const req: ReqCreateGame = { ...formdata, leagueID: id };
+
+    setLoading(true);
+    try {
+      await createGameData(req);
+      setOpen(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Stack spacing={3}>
@@ -67,10 +95,39 @@ export default function Detail() {
               <RuleList rule={league.rule} />
             </Stack>
           )}
-
-          {league.rule && <GameForm rule={league.rule} gamePlayers={gamePlayers} />}
         </>
       )}
+
+      <Button variant="contained" onClick={handleOpen}>
+        成績登録
+      </Button>
+      <Modal open={open}>
+        <Container
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            bgcolor: 'background.paper',
+            p: 2,
+          }}
+          maxWidth="sm"
+        >
+          {league && league.rule ? (
+            <Stack spacing={2}>
+              <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
+                <Typography variant="h3">成績登録</Typography>
+                <Button variant="text" onClick={handleClose}>
+                  ❌
+                </Button>
+              </Stack>
+              <GameForm rule={league.rule} gamePlayers={gamePlayers} submit={submit} />
+            </Stack>
+          ) : (
+            <p>読み込みエラー</p>
+          )}
+        </Container>
+      </Modal>
 
       {gameResultTotal && (
         <GeneralTable<GameResultTotal>

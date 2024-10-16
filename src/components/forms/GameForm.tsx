@@ -2,30 +2,33 @@ import { LeagueRule } from '../../types/league';
 import { Stack, TextField, Button, Autocomplete } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { GameResult } from '../../types/game';
+import { GameFormData } from '../../types/game';
 
-interface GameFormData {
-  gameArray: GameResultFormData[];
+interface FormData {
+  gameArray: FormDataGameResult[];
 }
 
-interface GameResultFormData {
+interface FormDataGameResult {
   rank: string;
   name: string;
   point: string;
   calcPoint: string;
 }
 
-export const GameForm = (props: { rule: LeagueRule; gamePlayers: string[] }) => {
-  const { rule, gamePlayers } = props;
+export const GameForm = (props: {
+  rule: LeagueRule;
+  gamePlayers: string[];
+  submit: (formdata: GameFormData) => void;
+}) => {
+  const { rule, gamePlayers, submit } = props;
 
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setValue,
     getValues,
-  } = useForm<GameFormData>({
-    mode: 'onChange',
+  } = useForm<FormData>({
     defaultValues: {
       gameArray: Array.from({ length: rule.playerCount }, (_, i) => ({
         rank: String(i + 1),
@@ -39,7 +42,6 @@ export const GameForm = (props: { rule: LeagueRule; gamePlayers: string[] }) => 
   const validation = {
     name: {
       required: '必須項目です。',
-      minLength: { value: 3, message: '3文字以上で入力してください。' },
     },
     point: {
       required: '必須項目です',
@@ -73,23 +75,23 @@ export const GameForm = (props: { rule: LeagueRule; gamePlayers: string[] }) => 
   };
 
   // 送信時の処理
-  const handleSubmitForm: SubmitHandler<GameFormData> = async (formData) => {
+  const handleSubmitForm: SubmitHandler<FormData> = async (formData) => {
     // if (!validateFormData(formData)) {
     //   return;
     // }
+
     // FormDataをAPI用のデータに加工
-    const game: GameResult[] = formData.gameArray.map((v) => {
-      return {
-        rank: Number(v.rank),
-        name: v.name,
-        point: Number(v.point),
-        calcPoint: Number(v.calcPoint),
-      };
-    });
-
-    console.log(game);
-
-    // submit(league);
+    const gameFormData: GameFormData = {
+      results: formData.gameArray.map((v) => {
+        return {
+          rank: Number(v.rank),
+          name: v.name,
+          point: Number(v.point),
+          calcPoint: Number(v.calcPoint),
+        };
+      }),
+    };
+    submit(gameFormData);
   };
   return (
     <>
@@ -131,7 +133,6 @@ export const GameForm = (props: { rule: LeagueRule; gamePlayers: string[] }) => 
                           type="string"
                           onChange={(e) => field.onChange(e)}
                           error={!!errors.gameArray?.[i]?.name}
-                          helperText={errors.gameArray?.[i]?.name?.message}
                         />
                       )}
                     />
@@ -175,7 +176,7 @@ export const GameForm = (props: { rule: LeagueRule; gamePlayers: string[] }) => 
             </Grid>
           </Stack>
         ))}
-        <Button variant="contained" type="submit" disabled={!isValid}>
+        <Button variant="contained" type="submit">
           送信
         </Button>
       </Stack>
