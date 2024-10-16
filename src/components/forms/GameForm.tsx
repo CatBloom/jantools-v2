@@ -1,8 +1,9 @@
 import { LeagueRule } from '../../types/league';
-import { Stack, TextField, Button, Autocomplete } from '@mui/material';
+import { Stack, TextField, Button, Autocomplete, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { GameFormData } from '../../types/game';
+import { useState } from 'react';
 
 interface FormData {
   gameArray: FormDataGameResult[];
@@ -22,6 +23,7 @@ export const GameForm = (props: {
 }) => {
   const { rule, gamePlayers, submit } = props;
 
+  const [validateErorrMsg, setValidateErrorMsg] = useState('');
   const {
     control,
     handleSubmit,
@@ -47,6 +49,26 @@ export const GameForm = (props: {
       required: '必須項目です',
       minLength: { value: 4, message: '4桁以上で入力してください。' },
     },
+  };
+
+  const validateFormData = (formData: FormData) => {
+    const { gameArray } = formData;
+    const { startPoint, playerCount } = rule;
+    const totalPoint = gameArray.map((v) => Number(v.point)).reduce((prev, curr) => prev + curr, 0);
+    const players = gameArray.map((v) => v.name);
+    const uniquePlayers = new Set(players);
+
+    if (uniquePlayers.size !== players.length) {
+      setValidateErrorMsg('プレイヤーが重複しています。');
+      return false;
+    }
+
+    if (totalPoint !== startPoint * playerCount) {
+      setValidateErrorMsg('合計点数が不一致です。');
+      return false;
+    }
+
+    return true;
   };
 
   const calculatePoint = (point: number, i: number) => {
@@ -76,9 +98,9 @@ export const GameForm = (props: {
 
   // 送信時の処理
   const handleSubmitForm: SubmitHandler<FormData> = async (formData) => {
-    // if (!validateFormData(formData)) {
-    //   return;
-    // }
+    if (!validateFormData(formData)) {
+      return;
+    }
 
     // FormDataをAPI用のデータに加工
     const gameFormData: GameFormData = {
@@ -176,6 +198,9 @@ export const GameForm = (props: {
             </Grid>
           </Stack>
         ))}
+        <Typography component="p" color="error">
+          {validateErorrMsg}
+        </Typography>
         <Button variant="contained" type="submit">
           送信
         </Button>

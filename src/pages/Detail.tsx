@@ -34,16 +34,18 @@ export default function Detail() {
     const abortController = new AbortController();
     const fetchData = async (id: string) => {
       setLoading(true);
-      Promise.all([
+      await Promise.all([
         fetchLeagueData(id, abortController.signal),
         fetchGameListData(id, abortController.signal),
       ]);
       setLoading(false);
     };
 
-    if (id) {
-      fetchData(id);
+    if (!id) {
+      return;
     }
+    fetchData(id);
+
     return () => {
       abortController.abort();
     };
@@ -66,8 +68,8 @@ export default function Detail() {
     }
   };
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleModalOpen = () => setOpen(true);
+  const handleModalClose = () => setOpen(false);
 
   return (
     <Stack spacing={3}>
@@ -98,7 +100,7 @@ export default function Detail() {
         </>
       )}
 
-      <Button variant="contained" onClick={handleOpen}>
+      <Button variant="contained" onClick={handleModalOpen}>
         成績登録
       </Button>
       <Modal open={open}>
@@ -117,8 +119,14 @@ export default function Detail() {
             <Stack spacing={2}>
               <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
                 <Typography variant="h3">成績登録</Typography>
-                <Button variant="text" onClick={handleClose}>
-                  ❌
+                <Button
+                  variant="text"
+                  sx={(theme) => ({
+                    color: theme.palette.error.main,
+                  })}
+                  onClick={handleModalClose}
+                >
+                  ✖︎
                 </Button>
               </Stack>
               <GameForm rule={league.rule} gamePlayers={gamePlayers} submit={submit} />
