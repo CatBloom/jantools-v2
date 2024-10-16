@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLeagueData } from '../hooks/useLeagueData';
 import { loadingAtom } from '../recoil/atoms';
 import { useSetRecoilState } from 'recoil';
-import { ReqCreateLeague } from '../types/league';
+import { LeagueFormData, ReqCreateLeague } from '../types/league';
 const LeagueForm = lazy(() => import('../components/forms/LeagueForm'));
 
 export const Home = () => {
@@ -13,10 +13,12 @@ export const Home = () => {
   const { createLeagueData } = useLeagueData();
   const navigate = useNavigate();
 
-  const submit = async (league: ReqCreateLeague) => {
+  const submit = async (formdata: LeagueFormData) => {
+    const req: ReqCreateLeague = { ...formdata };
+
     setLoading(true);
     try {
-      const res = await createLeagueData(league);
+      const res = await createLeagueData(req);
       if (res) {
         navigate(`/detail/${res.id}`);
       } else {

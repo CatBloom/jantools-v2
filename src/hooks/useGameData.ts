@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Game } from '../types/game';
+import { Game, ReqCreateGame } from '../types/game';
 import { useRecoilState } from 'recoil';
 import { gameListAtom } from '../recoil/atoms';
 import { useState } from 'react';
@@ -12,10 +12,10 @@ export const useGameData = () => {
   const errorEmpty = 'error:empty data';
   const errException = 'error: an unexpected error occurred';
 
-  const fetchGameListData = async (lid: string) => {
+  const fetchGameListData = async (lid: string, signal?: AbortSignal) => {
     try {
       setGameList(null);
-      const res = await fetchGameList(lid);
+      const res = await fetchGameList(lid, signal);
       if (res) {
         setGameList(res);
       } else {
@@ -32,9 +32,9 @@ export const useGameData = () => {
     }
   };
 
-  const fetchGameData = async (id: string, lid: string) => {
+  const fetchGameData = async (id: string, lid: string, signal?: AbortSignal) => {
     try {
-      const res = await fetchGame(id, lid);
+      const res = await fetchGame(id, lid, signal);
       if (res) {
         setGame(res);
       } else {
@@ -51,7 +51,7 @@ export const useGameData = () => {
     }
   };
 
-  const createGameData = async (game: Game) => {
+  const createGameData = async (game: ReqCreateGame) => {
     try {
       const res = await createGame(game);
       if (res) {

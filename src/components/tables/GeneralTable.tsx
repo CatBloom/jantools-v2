@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -23,6 +23,10 @@ export const GeneralTable = <T,>(props: {
   const [orderBy, setOrderBy] = useState<keyof T | null>(null);
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [sortedRows, setSortedRows] = useState<T[]>(rows);
+
+  useEffect(() => {
+    setSortedRows(rows);
+  }, [rows]);
 
   const handleSort = (column: keyof T) => {
     const isAsc = orderBy === column && order === 'asc';

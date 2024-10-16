@@ -20,19 +20,5 @@ export interface LeagueRule {
 export type ReqCreateLeague = Omit<League, 'id' | 'createdAt'>;
 
 export type ResDeleteLeague = Pick<League, 'id'>;
-
-export interface LeagueFormData extends LeagueRuleFormData {
-  name: string;
-  manual: string;
-}
-
-export interface LeagueRuleFormData {
-  playerCount: string;
-  gameType: string;
-  tanyao: boolean;
-  back: boolean;
-  dora: string;
-  startPoint: string;
-  returnPoint: string;
-  umaArray: string[];
-}
+// Formから返却される型
+export type LeagueFormData = Omit<League, 'id' | 'createdAt'>;
