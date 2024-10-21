@@ -1,26 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { GeneralTable, RuleList, GameTotalRow } from '../components';
-import { Button, Container, Divider, Modal, Stack, Typography } from '@mui/material';
+import { Divider, Stack, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { GameFormData, GameResultTotal, ReqCreateGame } from '../types/game';
+import { GameResultTotal } from '../types/game';
 import { Column } from '../types/common';
 import { dateFormat } from '../utils/date';
 import { useLeagueData } from '../hooks/useLeagueData';
 import { useGameData } from '../hooks/useGameData';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { gamePlayerSelector, gameResultTotalSelector } from '../recoil/selectors';
+import { gameResultTotalSelector } from '../recoil/selectors';
 import { loadingAtom } from '../recoil/atoms';
-import { GameForm } from '../components/forms/GameForm';
 
 export default function Detail() {
   const { league, fetchLeagueData } = useLeagueData();
-  const { fetchGameListData, createGameData } = useGameData();
-  const [open, setOpen] = useState(false);
+  const { fetchGameListData } = useGameData();
+  const { id } = useParams();
   const setLoading = useSetRecoilState(loadingAtom);
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
-  const gamePlayers = useRecoilValue(gamePlayerSelector);
-
-  const { id } = useParams();
 
   const columns: Column<GameResultTotal>[] = [
     { key: 'rank', display: '順位' },
@@ -51,26 +47,6 @@ export default function Detail() {
     };
   }, [id]);
 
-  const submit = async (formdata: GameFormData) => {
-    if (!id) {
-      return;
-    }
-    const req: ReqCreateGame = { ...formdata, leagueID: id };
-
-    setLoading(true);
-    try {
-      await createGameData(req);
-      setOpen(false);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleModalOpen = () => setOpen(true);
-  const handleModalClose = () => setOpen(false);
-
   return (
     <Stack spacing={3}>
       {league && (
@@ -99,43 +75,6 @@ export default function Detail() {
           )}
         </>
       )}
-
-      <Button variant="contained" onClick={handleModalOpen}>
-        成績登録
-      </Button>
-      <Modal open={open}>
-        <Container
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            bgcolor: 'background.paper',
-            p: 2,
-          }}
-          maxWidth="sm"
-        >
-          {league && league.rule ? (
-            <Stack spacing={2}>
-              <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-                <Typography variant="h3">成績登録</Typography>
-                <Button
-                  variant="text"
-                  sx={(theme) => ({
-                    color: theme.palette.error.main,
-                  })}
-                  onClick={handleModalClose}
-                >
-                  ✖︎
-                </Button>
-              </Stack>
-              <GameForm rule={league.rule} gamePlayers={gamePlayers} submit={submit} />
-            </Stack>
-          ) : (
-            <p>読み込みエラー</p>
-          )}
-        </Container>
-      </Modal>
 
       {gameResultTotal && (
         <GeneralTable<GameResultTotal>

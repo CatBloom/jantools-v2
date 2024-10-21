@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { lazy } from 'react';
 import { Home } from './pages/Home';
 import { AppLayout, ContentLayout } from './components';
+const Edit = lazy(() => import('./pages/Edit'));
 const Detail = lazy(() => import('./pages/Detail'));
 
 export const router = createBrowserRouter([
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
           {
             path: 'detail/:id',
             element: <Detail />,
+          },
+          {
+            path: 'edit/:id',
+            element: <Edit />,
           },
           {
             path: '*',
