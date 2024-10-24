@@ -44,7 +44,7 @@ export const GeneralTable = <T,>(props: {
     setSortedRows(sorted);
   };
   return (
-    <TableContainer component={Paper} elevation={5}>
+    <TableContainer component={Paper} elevation={1}>
       <Table>
         <TableHead>
           <TableRow>
