@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { GeneralTable, RuleList, GameTotalRow } from '../components';
-import { Divider, Stack, Typography, Tabs, Tab, Button, Container, Modal } from '@mui/material';
+import { GeneralTable, RuleList, GameTotalRow, ModalContainer } from '../components';
+import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Game, GameResultTotal, GameFormData, ReqCreateGame } from '../types/game';
 import { Column } from '../types/common';
@@ -60,6 +60,7 @@ export default function Detail() {
   }, [id]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+    event.preventDefault();
     setTabValue(newValue);
   };
 
@@ -146,44 +147,10 @@ export default function Detail() {
                 <Button variant="contained" onClick={handleModalOpen}>
                   成績登録
                 </Button>
-                <Modal open={open}>
-                  <Container
-                    sx={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      bgcolor: 'background.paper',
-                      p: 2,
-                    }}
-                    maxWidth="sm"
-                  >
-                    {league && league.rule ? (
-                      <Stack spacing={2}>
-                        <Stack
-                          direction="row"
-                          spacing={1}
-                          alignItems="center"
-                          justifyContent="space-between"
-                        >
-                          <Typography variant="h3">成績登録</Typography>
-                          <Button
-                            variant="text"
-                            sx={(theme) => ({
-                              color: theme.palette.error.main,
-                            })}
-                            onClick={handleModalClose}
-                          >
-                            ✖︎
-                          </Button>
-                        </Stack>
-                        <GameForm rule={league.rule} gamePlayers={gamePlayers} submit={submit} />
-                      </Stack>
-                    ) : (
-                      <p>読み込みエラー</p>
-                    )}
-                  </Container>
-                </Modal>
+                <ModalContainer modalTitle="成績登録" open={open} onClose={handleModalClose}>
+                  <GameForm rule={league.rule} gamePlayers={gamePlayers} submit={submit} />
+                </ModalContainer>
+
                 {gameList && (
                   <GeneralTable<Game>
                     columns={editColumns}
