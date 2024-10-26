@@ -182,7 +182,7 @@ export default function Detail() {
               </Stack>
 
               <Stack>
-                <Button variant="contained" onClick={handleModalOpen}>
+                <Button variant="contained" color="secondary" onClick={handleModalOpen}>
                   成績登録
                 </Button>
 

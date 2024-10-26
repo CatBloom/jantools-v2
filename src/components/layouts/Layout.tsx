@@ -1,6 +1,6 @@
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense } from 'react';
-import { Container, Box } from '@mui/material';
+import { Container, Box, Stack } from '@mui/material';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { Header, Footer } from './index';
 import { useRecoilValue } from 'recoil';
@@ -11,11 +11,13 @@ export const AppLayout = () => {
   return (
     <>
       <Header />
-      <Box sx={{ position: 'relative', minHeight: '80vh' }}>
-        {loading && <LoadingSpinner />}
-        <Outlet />
-      </Box>
-      <Footer />
+      <Stack sx={{ minHeight: '100vh' }}>
+        <Box sx={{ flex: 1, position: 'relative' }}>
+          {loading && <LoadingSpinner />}
+          <Outlet />
+        </Box>
+        <Footer />
+      </Stack>
     </>
   );
 };

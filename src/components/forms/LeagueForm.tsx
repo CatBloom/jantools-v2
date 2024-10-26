@@ -428,7 +428,7 @@ export default function LeagueForm(props: { submit: (formdata: LeagueFormData) =
         {validateErorrMsg}
       </Typography>
 
-      <Button variant="contained" type="submit" disabled={!isValid}>
+      <Button variant="contained" type="submit" color="secondary" disabled={!isValid}>
         送信
       </Button>
     </Stack>
