@@ -93,12 +93,12 @@ export default function Detail() {
   };
 
   const deleteGame = async (gid: string) => {
-    const result = await openConfirmDialog();
-    if (!result) {
+    if (!id) {
       return;
     }
 
-    if (!id) {
+    const result = await openConfirmDialog();
+    if (!result) {
       return;
     }
 
