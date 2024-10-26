@@ -1,4 +1,4 @@
-import { Button, Container, Stack, Typography, Modal } from '@mui/material';
+import { Container, Stack, Typography, Modal, IconButton } from '@mui/material';
 
 export const ModalContainer = (props: {
   modalTitle: string;
@@ -24,15 +24,15 @@ export const ModalContainer = (props: {
         <Stack spacing={2}>
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h3">{modalTitle}</Typography>
-            <Button
-              variant="text"
+            <IconButton
+              size="small"
               sx={(theme) => ({
                 color: theme.palette.error.main,
               })}
               onClick={onClose}
             >
               ✖︎
-            </Button>
+            </IconButton>
           </Stack>
           {children}
         </Stack>

@@ -1,5 +1,6 @@
 import {
   Box,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -10,12 +11,27 @@ import {
 import { Game } from '../../types/game';
 import { dateFormat } from '../../utils/date';
 
-export const GameRow = (props: { row: Game; align?: TableCellProps['align'] }) => {
-  const { row, align } = props;
+export const GameRow = (props: {
+  row: Game;
+  align?: TableCellProps['align'];
+  handleDelete: (id: string) => void;
+}) => {
+  const { row, align, handleDelete } = props;
 
   return (
     <TableRow>
-      <TableCell align={align}>{dateFormat(row.createdAt)}</TableCell>
+      <TableCell align={align}>
+        <IconButton
+          size="small"
+          sx={(theme) => ({
+            color: theme.palette.error.main,
+          })}
+          onClick={() => handleDelete(row.id)}
+        >
+          ✖︎
+        </IconButton>
+        {dateFormat(row.createdAt)}{' '}
+      </TableCell>
       <TableCell colSpan={4}>
         <Box sx={{ margin: 0 }}>
           <Table size="small" aria-label="purchases">

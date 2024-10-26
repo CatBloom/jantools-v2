@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { GeneralTable, RuleList, GameTotalRow, ModalContainer } from '../components';
+import { RuleList, GameTotalRow, ModalContainer } from '../components';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Game, GameResultTotal, GameFormData, ReqCreateGame } from '../types/game';
@@ -8,20 +8,27 @@ import { dateFormat } from '../utils/date';
 import { useLeagueData } from '../hooks/useLeagueData';
 import { useGameData } from '../hooks/useGameData';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { gamePlayerSelector, gameResultTotalSelector } from '../recoil/selectors';
-import { gameListAtom, loadingAtom } from '../recoil/atoms';
+import {
+  gamePlayerSelector,
+  gameResultTotalSelector,
+  gameResultCreateAtDescSelector,
+} from '../recoil/selectors';
+import { loadingAtom } from '../recoil/atoms';
 import { GameRow } from '../components/tables/GameRow';
 import { GameForm } from '../components/forms/GameForm';
+
+import { TableContainer } from '../components/tables/TableContainer';
+import React from 'react';
 
 export default function Detail() {
   const [open, setOpen] = useState(false);
   const { league, fetchLeagueData } = useLeagueData();
-  const { fetchGameListData, createGameData } = useGameData();
+  const { fetchGameListData, createGameData, deleteGameData } = useGameData();
   const { id } = useParams();
   const setLoading = useSetRecoilState(loadingAtom);
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
-  const gameList = useRecoilValue(gameListAtom);
   const gamePlayers = useRecoilValue(gamePlayerSelector);
+  const gameResultCreateAtDesc = useRecoilValue(gameResultCreateAtDescSelector);
 
   const [tabValue, setTabValue] = useState('detail');
 
@@ -84,11 +91,60 @@ export default function Detail() {
     }
   };
 
+  const deleteGame = async (gid: string) => {
+    if (!id) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await deleteGameData(gid, id);
+      setOpen(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+  const [orderBy, setOrderBy] = useState<keyof GameResultTotal | null>(null);
+  const [sortedRows, setSortedRows] = useState<GameResultTotal[] | null>(gameResultTotal);
+
+  // useEffect(() => {
+  //   setSortedRows(gameResultTotal);
+  // }, [gameResultTotal]);
+
+  const handleSort = (column: keyof GameResultTotal) => {
+    const isAsc = order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(column);
+
+    if (!sortedRows) {
+      return;
+    }
+
+    const sorted = [...sortedRows].sort((a, b) => {
+      const aData = a[column];
+      const bData = b[column];
+
+      if (aData < bData) return isAsc ? 1 : -1;
+      if (aData > bData) return isAsc ? -1 : 1;
+      return 0;
+    });
+    setSortedRows(sorted);
+  };
+
   return (
     <Stack spacing={3}>
-      <Tabs value={tabValue} onChange={handleTabChange}>
+      <Tabs
+        value={tabValue}
+        onChange={handleTabChange}
+        textColor="secondary"
+        indicatorColor="secondary"
+      >
         <Tab value="detail" label="詳細"></Tab>
-        <Tab value="edit" label="成績編集"></Tab>
+        <Tab value="edit" label="成績管理"></Tab>
       </Tabs>
       {league && (
         <>
@@ -125,12 +181,19 @@ export default function Detail() {
               </>
 
               {gameResultTotal && (
-                <GeneralTable<GameResultTotal>
-                  rows={gameResultTotal}
+                <TableContainer<GameResultTotal>
                   columns={detailColumns}
                   align="center"
-                  RowComponent={GameTotalRow}
-                />
+                  order={order}
+                  orderBy={orderBy}
+                  handleSort={handleSort}
+                >
+                  {gameResultTotal.map((row, i) => (
+                    <React.Fragment key={i}>
+                      <GameTotalRow row={row} align="center" />
+                    </React.Fragment>
+                  ))}
+                </TableContainer>
               )}
             </Stack>
           )}
@@ -150,13 +213,14 @@ export default function Detail() {
                 <ModalContainer modalTitle="成績登録" open={open} onClose={handleModalClose}>
                   <GameForm rule={league.rule} gamePlayers={gamePlayers} submit={submit} />
                 </ModalContainer>
-
-                {gameList && (
-                  <GeneralTable<Game>
-                    columns={editColumns}
-                    RowComponent={GameRow}
-                    rows={gameList}
-                  ></GeneralTable>
+                {gameResultCreateAtDesc && (
+                  <TableContainer<Game> columns={editColumns} align="center">
+                    {gameResultCreateAtDesc.map((row, i) => (
+                      <React.Fragment key={i}>
+                        <GameRow row={row} align="center" handleDelete={deleteGame} />
+                      </React.Fragment>
+                    ))}
+                  </TableContainer>
                 )}
               </Stack>
             </Stack>
