@@ -6,6 +6,7 @@ const commonTheme = {
   typography: {
     fontFamily: ['Noto Sans JP', 'monospace'].join(','),
     fontSize: 14,
+    h1: { fontSize: '30px', fontWeight: 600 },
     h2: { fontSize: '25px', fontWeight: 500 },
     h3: { fontSize: '20px', fontWeight: 400 },
   },

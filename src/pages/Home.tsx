@@ -1,12 +1,10 @@
-import { Box, Container } from '@mui/material';
-import { Suspense, lazy } from 'react';
-import { LoadingSpinner } from '../components';
+import { Box, Container, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useLeagueData } from '../hooks/useLeagueData';
 import { loadingAtom } from '../recoil/atoms';
 import { useSetRecoilState } from 'recoil';
 import { LeagueFormData, ReqCreateLeague } from '../types/league';
-const LeagueForm = lazy(() => import('../components/forms/LeagueForm'));
+import { LeagueForm } from '../components';
 
 export const Home = () => {
   const setLoading = useSetRecoilState(loadingAtom);
@@ -32,11 +30,7 @@ export const Home = () => {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-      }}
-    >
+    <>
       <Box
         component="img"
         src="https://catbloom-images.s3.ap-northeast-1.amazonaws.com/jantools_top_image.jpg"
@@ -45,11 +39,17 @@ export const Home = () => {
           width: 1,
         }}
       ></Box>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Container maxWidth="md">
+      <Container maxWidth="md">
+        <Stack spacing={3} mt={2}>
+          <Typography variant="h1">雀Tools</Typography>
+          <Typography component="p">
+            麻雀の成績管理アプリです。
+            <br />
+            大会登録を行い、成績を入力することで、全体の成績やプレイヤーごとの成績を簡単に管理できます。
+          </Typography>
           <LeagueForm submit={submit}></LeagueForm>
-        </Container>
-      </Suspense>
-    </Box>
+        </Stack>
+      </Container>
+    </>
   );
 };
