@@ -107,34 +107,6 @@ export default function Detail() {
     }
   };
 
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = useState<keyof GameResultTotal | null>(null);
-  const [sortedRows, setSortedRows] = useState<GameResultTotal[] | null>(gameResultTotal);
-
-  // useEffect(() => {
-  //   setSortedRows(gameResultTotal);
-  // }, [gameResultTotal]);
-
-  const handleSort = (column: keyof GameResultTotal) => {
-    const isAsc = order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(column);
-
-    if (!sortedRows) {
-      return;
-    }
-
-    const sorted = [...sortedRows].sort((a, b) => {
-      const aData = a[column];
-      const bData = b[column];
-
-      if (aData < bData) return isAsc ? 1 : -1;
-      if (aData > bData) return isAsc ? -1 : 1;
-      return 0;
-    });
-    setSortedRows(sorted);
-  };
-
   return (
     <Stack spacing={3}>
       <Tabs
@@ -181,13 +153,7 @@ export default function Detail() {
               </>
 
               {gameResultTotal && (
-                <TableContainer<GameResultTotal>
-                  columns={detailColumns}
-                  align="center"
-                  order={order}
-                  orderBy={orderBy}
-                  handleSort={handleSort}
-                >
+                <TableContainer<GameResultTotal> columns={detailColumns} align="center">
                   {gameResultTotal.map((row, i) => (
                     <React.Fragment key={i}>
                       <GameTotalRow row={row} align="center" />
