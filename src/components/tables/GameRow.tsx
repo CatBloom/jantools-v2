@@ -1,15 +1,8 @@
-import {
-  Box,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableCellProps,
-  TableHead,
-  TableRow,
-} from '@mui/material';
-import { Game } from '../../types/game';
+import { Box, IconButton, TableCell, TableCellProps, TableRow } from '@mui/material';
+import { Game, GameResult } from '../../types/game';
 import { dateFormat } from '../../utils/date';
+import { TableContainer } from './TableContainer';
+import { Column } from '../../types/common';
 
 export const GameRow = (props: {
   row: Game;
@@ -17,6 +10,13 @@ export const GameRow = (props: {
   handleDelete: (id: string) => void;
 }) => {
   const { row, align, handleDelete } = props;
+
+  const resultColumns: Column<GameResult>[] = [
+    { key: 'rank', display: '順位' },
+    { key: 'name', display: '名前' },
+    { key: 'point', display: '点数' },
+    { key: 'calcPoint', display: '順位点' },
+  ];
 
   return (
     <TableRow>
@@ -34,28 +34,16 @@ export const GameRow = (props: {
       </TableCell>
       <TableCell colSpan={4}>
         <Box sx={{ margin: 0 }}>
-          <Table size="small" aria-label="purchases">
-            <TableHead>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  順位
-                </TableCell>
-                <TableCell align="right">名前</TableCell>
-                <TableCell align="right">点数</TableCell>
-                <TableCell align="right">点数</TableCell>
+          <TableContainer<GameResult> columns={resultColumns} align={align} size="small">
+            {row.results.map((resultRow) => (
+              <TableRow key={resultRow.rank}>
+                <TableCell align={align}>{resultRow.rank}</TableCell>
+                <TableCell align={align}>{resultRow.name}</TableCell>
+                <TableCell align={align}>{resultRow.point}</TableCell>
+                <TableCell align={align}>{resultRow.calcPoint}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {row.results.map((resultRow) => (
-                <TableRow key={resultRow.rank}>
-                  <TableCell>{resultRow.rank}</TableCell>
-                  <TableCell align="right">{resultRow.name}</TableCell>
-                  <TableCell align="right">{resultRow.point}</TableCell>
-                  <TableCell align="right">{resultRow.calcPoint}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+            ))}
+          </TableContainer>
         </Box>
       </TableCell>
     </TableRow>

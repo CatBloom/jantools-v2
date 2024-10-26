@@ -42,7 +42,7 @@ export default function Detail() {
   ];
 
   const editColumns: Column<Game>[] = [
-    { key: 'createdAt', display: '対戦日' },
+    { key: 'createdAt', display: '登録日' },
     { key: 'results', display: '試合結果' },
   ];
 
@@ -158,7 +158,11 @@ export default function Detail() {
               </>
 
               {gameResultTotal && (
-                <TableContainer<GameResultTotal> columns={detailColumns} align="center">
+                <TableContainer<GameResultTotal>
+                  columns={detailColumns}
+                  align="center"
+                  elevation={1}
+                >
                   {gameResultTotal.map((row, i) => (
                     <React.Fragment key={i}>
                       <GameTotalRow row={row} align="center" />
@@ -183,7 +187,12 @@ export default function Detail() {
                 </Button>
 
                 {gameResultCreateAtDesc && (
-                  <TableContainer<Game> columns={editColumns} align="center">
+                  <TableContainer<Game>
+                    columns={editColumns}
+                    align="center"
+                    size="small"
+                    elevation={1}
+                  >
                     {gameResultCreateAtDesc.map((row, i) => (
                       <React.Fragment key={i}>
                         <GameRow row={row} align="center" handleDelete={deleteGame} />

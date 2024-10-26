@@ -1,4 +1,4 @@
 export interface Column<T> {
-  key: keyof T;
+  key: Extract<keyof T, string>;
   display: string;
 }
