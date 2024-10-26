@@ -19,18 +19,19 @@ import { GameForm } from '../components/forms/GameForm';
 
 import { TableContainer } from '../components/tables/TableContainer';
 import React from 'react';
+import { useConfirmDialog } from '../hooks/useConfirmDialog';
 
 export default function Detail() {
   const [open, setOpen] = useState(false);
+  const [tabValue, setTabValue] = useState('detail');
   const { league, fetchLeagueData } = useLeagueData();
   const { fetchGameListData, createGameData, deleteGameData } = useGameData();
+  const { confirmOpen, openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
   const { id } = useParams();
   const setLoading = useSetRecoilState(loadingAtom);
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
   const gamePlayers = useRecoilValue(gamePlayerSelector);
   const gameResultCreateAtDesc = useRecoilValue(gameResultCreateAtDescSelector);
-
-  const [tabValue, setTabValue] = useState('detail');
 
   const detailColumns: Column<GameResultTotal>[] = [
     { key: 'rank', display: '順位' },
@@ -92,6 +93,11 @@ export default function Detail() {
   };
 
   const deleteGame = async (gid: string) => {
+    const result = await openConfirmDialog();
+    if (!result) {
+      return;
+    }
+
     if (!id) {
       return;
     }
@@ -99,7 +105,6 @@ export default function Detail() {
     setLoading(true);
     try {
       await deleteGameData(gid, id);
-      setOpen(false);
     } catch (err) {
       console.error(err);
     } finally {
@@ -176,9 +181,7 @@ export default function Detail() {
                 <Button variant="contained" onClick={handleModalOpen}>
                   成績登録
                 </Button>
-                <ModalContainer modalTitle="成績登録" open={open} onClose={handleModalClose}>
-                  <GameForm rule={league.rule} gamePlayers={gamePlayers} submit={submit} />
-                </ModalContainer>
+
                 {gameResultCreateAtDesc && (
                   <TableContainer<Game> columns={editColumns} align="center">
                     {gameResultCreateAtDesc.map((row, i) => (
@@ -191,6 +194,24 @@ export default function Detail() {
               </Stack>
             </Stack>
           )}
+          <ModalContainer modalTitle="成績登録" open={open} onClose={handleModalClose}>
+            <GameForm rule={league.rule} gamePlayers={gamePlayers} submit={submit} />
+          </ModalContainer>
+          <ModalContainer
+            modalTitle="成績削除"
+            open={confirmOpen}
+            onClose={() => closeConfirmDialog()}
+          >
+            <>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => closeConfirmDialog('confirm')}
+              >
+                削除
+              </Button>
+            </>
+          </ModalContainer>
         </>
       )}
     </Stack>
