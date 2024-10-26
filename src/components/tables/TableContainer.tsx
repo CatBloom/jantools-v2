@@ -5,9 +5,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  TableSortLabel,
   Paper,
   TableCellProps,
+  TableOwnProps,
 } from '@mui/material';
 import MUITabelContainer from '@mui/material/TableContainer';
 
@@ -15,33 +15,21 @@ import { Column } from '../../types/common';
 
 export const TableContainer = <T,>(props: {
   columns: Column<T>[];
+  size?: TableOwnProps['size'];
   align?: TableCellProps['align'];
-  order?: 'asc' | 'desc';
-  orderBy?: keyof T | null;
+  elevation?: number;
   children: React.ReactNode;
-  handleSort?: (column: keyof T) => void;
 }) => {
-  const { order, orderBy, columns, align, children, handleSort } = props;
+  const { size, elevation, columns, align, children } = props;
 
   return (
-    <MUITabelContainer component={Paper} elevation={1}>
-      <Table>
+    <MUITabelContainer component={elevation ? Paper : 'div'} elevation={elevation}>
+      <Table size={size}>
         <TableHead>
           <TableRow>
             {columns.map((column) => (
-              <TableCell align={align} key={column.key as string}>
-                {handleSort ? (
-                  <TableSortLabel
-                    sx={{ minWidth: '4rem' }}
-                    active={orderBy === column.key}
-                    direction={orderBy === column.key ? order : 'asc'}
-                    onClick={() => handleSort(column.key)}
-                  >
-                    {column.display}
-                  </TableSortLabel>
-                ) : (
-                  column.display
-                )}
+              <TableCell align={align} key={column.key} sx={{ minWidth: '6rem' }}>
+                {column.display}
               </TableCell>
             ))}
           </TableRow>

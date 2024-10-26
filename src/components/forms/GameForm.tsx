@@ -201,7 +201,7 @@ export const GameForm = (props: {
         <Typography component="p" color="error">
           {validateErorrMsg}
         </Typography>
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" color="secondary">
           送信
         </Button>
       </Stack>
