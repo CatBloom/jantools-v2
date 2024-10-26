@@ -14,10 +14,26 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { LeagueFormData, LeagueRuleFormData, ReqCreateLeague } from '../../types/league';
+import { LeagueFormData } from '../../types/league';
 import { MahjongSoulRule, TenhouRule, MLeagueRule } from './const-rules';
 
-export default function LeagueForm(props: { submit: (league: ReqCreateLeague) => void }) {
+interface FormData extends FormDataRule {
+  name: string;
+  manual: string;
+}
+
+interface FormDataRule {
+  playerCount: string;
+  gameType: string;
+  tanyao: boolean;
+  back: boolean;
+  dora: string;
+  startPoint: string;
+  returnPoint: string;
+  umaArray: string[];
+}
+
+export default function LeagueForm(props: { submit: (formdata: LeagueFormData) => void }) {
   const { submit } = props;
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
   const [disableForm, setDisableForm] = useState(false);
@@ -30,7 +46,7 @@ export default function LeagueForm(props: { submit: (league: ReqCreateLeague) =>
     setValue,
     getValues,
     reset,
-  } = useForm<LeagueFormData>({
+  } = useForm<FormData>({
     mode: 'onChange',
     defaultValues: {
       name: '',
@@ -66,7 +82,7 @@ export default function LeagueForm(props: { submit: (league: ReqCreateLeague) =>
   };
 
   // フォーム送信時のvalidation
-  const validateFormData = (formData: LeagueFormData): boolean => {
+  const validateFormData = (formData: FormData): boolean => {
     const { umaArray, startPoint, returnPoint } = formData;
 
     if (!checkTotalZero(umaArray.map(Number))) {
@@ -87,12 +103,12 @@ export default function LeagueForm(props: { submit: (league: ReqCreateLeague) =>
   };
 
   // 送信時の処理
-  const handleSubmitForm: SubmitHandler<LeagueFormData> = async (formData) => {
+  const handleSubmitForm: SubmitHandler<FormData> = async (formData) => {
     if (!validateFormData(formData)) {
       return;
     }
     // FormDataをAPI用のデータに加工
-    const league: ReqCreateLeague = {
+    const leagueFormData: LeagueFormData = {
       name: formData.name,
       manual: formData.manual,
       rule: {
@@ -106,7 +122,7 @@ export default function LeagueForm(props: { submit: (league: ReqCreateLeague) =>
         uma: formData.umaArray.map(Number),
       },
     };
-    submit(league);
+    submit(leagueFormData);
   };
 
   // ルールプリセット選択時に対応のルールをフォームに入力する
@@ -116,7 +132,7 @@ export default function LeagueForm(props: { submit: (league: ReqCreateLeague) =>
     // ウマ配列を初期化
     setUmaArray(Array(4).fill(''));
 
-    const ruleMap: Record<string, LeagueRuleFormData> = {
+    const ruleMap: Record<string, FormDataRule> = {
       M: MLeagueRule,
       T: TenhouRule,
       J: MahjongSoulRule,
@@ -132,7 +148,7 @@ export default function LeagueForm(props: { submit: (league: ReqCreateLeague) =>
       setValue('manual', manual);
     } else {
       Object.keys(rule).forEach((key) => {
-        setValue(key as keyof LeagueFormData, rule[key as keyof LeagueRuleFormData], {
+        setValue(key as keyof FormData, rule[key as keyof FormDataRule], {
           shouldValidate: true,
         });
       });

@@ -1,6 +1,25 @@
 import { selector } from 'recoil';
-import { GameResultTotal } from '../../types/game';
+import { Game, GameResultTotal } from '../../types/game';
 import { gameListAtom } from '../atoms/gameAtom';
+
+export const gamePlayerSelector = selector<string[]>({
+  key: 'gamePlayerSelector',
+  get: ({ get }) => {
+    const gameList = get(gameListAtom);
+    if (!gameList) {
+      return [];
+    }
+
+    const playerSet = new Set<string>();
+    gameList.forEach((game) => {
+      game.results.forEach((result) => {
+        playerSet.add(result.name);
+      });
+    });
+
+    return Array.from(playerSet);
+  },
+});
 
 export const gameResultTotalSelector = selector<GameResultTotal[] | null>({
   key: 'gameResultTotalSelector',
@@ -30,8 +49,10 @@ export const gameResultTotalSelector = selector<GameResultTotal[] | null>({
       });
     });
 
-    // 平均着順を作成(少数点第2位まで)
     Object.values(nameMap).forEach((name) => {
+      // 合計得点を整形(少数第1位まで)
+      name.totalPoint = Math.floor(name.totalPoint * 10) / 10;
+      // 平均着順を作成(少数点第2位まで)
       name.averageRank = Math.floor((name.sumRank / name.gameCount) * 100) / 100;
     });
 
@@ -45,8 +66,24 @@ export const gameResultTotalSelector = selector<GameResultTotal[] | null>({
     });
 
     // ソートした配列に順位を追加
-    sortedResults.forEach((player, index) => {
-      player.rank = index + 1; // 1位から順にrankを設定
+    sortedResults.forEach((name, i) => {
+      name.rank = i + 1; // 1位から順にrankを設定
+    });
+
+    return sortedResults;
+  },
+});
+
+export const gameResultCreateAtDescSelector = selector<Game[] | null>({
+  key: 'gameResultCreateAtDescSelector',
+  get: ({ get }) => {
+    const gameResults = get(gameListAtom);
+    if (!gameResults) {
+      return null;
+    }
+
+    const sortedResults = [...gameResults].sort((a, b) => {
+      return b.createdAt.localeCompare(a.createdAt);
     });
 
     return sortedResults;

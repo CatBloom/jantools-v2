@@ -14,9 +14,9 @@ export const useLeagueData = () => {
   const errorEmpty = 'error:empty data';
   const errException = 'error: an unexpected error occurred';
 
-  const fetchLeagueData = async (id: string) => {
+  const fetchLeagueData = async (id: string, signal?: AbortSignal) => {
     try {
-      const res = await fetchLeague(id);
+      const res = await fetchLeague(id, signal);
       if (res) {
         setLeague(res);
       } else {
@@ -33,9 +33,9 @@ export const useLeagueData = () => {
     }
   };
 
-  const createLeagueData = async (data: ReqCreateLeague) => {
+  const createLeagueData = async (data: ReqCreateLeague, signal?: AbortSignal) => {
     try {
-      const res = await createLeague(data);
+      const res = await createLeague(data, signal);
       if (res) {
         setLeague(res);
         return res;
@@ -53,9 +53,9 @@ export const useLeagueData = () => {
     }
   };
 
-  const updateLeagueData = async (data: League) => {
+  const updateLeagueData = async (data: League, signal?: AbortSignal) => {
     try {
-      const res = await updateLeague(data);
+      const res = await updateLeague(data, signal);
       if (res) {
         setLeague(res);
       } else {
@@ -72,9 +72,9 @@ export const useLeagueData = () => {
     }
   };
 
-  const daleteLeagueData = async (id: string) => {
+  const daleteLeagueData = async (id: string, signal?: AbortSignal) => {
     try {
-      const res = await deleteLeague(id);
+      const res = await deleteLeague(id, signal);
       if (res) {
         setLeague(null);
       } else {

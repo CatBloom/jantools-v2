@@ -5,3 +5,4 @@ export * from './layouts';
 export * from './lists';
 export * from './tables';
 export * from './LoadingSpinner';
+export * from './modals';
