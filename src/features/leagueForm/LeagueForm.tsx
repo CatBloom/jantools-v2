@@ -33,7 +33,7 @@ interface FormDataRule {
   umaArray: string[];
 }
 
-export default function LeagueForm(props: { submit: (formdata: LeagueFormData) => void }) {
+export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }) => {
   const { submit } = props;
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
   const [disableForm, setDisableForm] = useState(false);
@@ -433,4 +433,4 @@ export default function LeagueForm(props: { submit: (formdata: LeagueFormData) =
       </Button>
     </Stack>
   );
-}
+};

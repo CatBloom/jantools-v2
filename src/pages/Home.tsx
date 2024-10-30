@@ -4,7 +4,7 @@ import { useLeagueData } from '../hooks/useLeagueData';
 import { loadingAtom } from '../recoil/atoms';
 import { useSetRecoilState } from 'recoil';
 import { LeagueFormData, ReqCreateLeague } from '../types/league';
-import { LeagueForm } from '../components';
+import { LeagueForm } from '../features/leagueForm/LeagueForm';
 
 export const Home = () => {
   const setLoading = useSetRecoilState(loadingAtom);

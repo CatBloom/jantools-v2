@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { lazy } from 'react';
 import { Home } from './pages/Home';
-import { AppLayout, ContentLayout } from './components';
+import { AppLayout, ContentLayout } from './features/layout/Layout';
 const Detail = lazy(() => import('./pages/Detail'));
 
 export const router = createBrowserRouter([

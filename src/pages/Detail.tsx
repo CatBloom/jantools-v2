@@ -1,5 +1,10 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
-import { RuleList, GameTotalRow, ModalContainer } from '../components';
+import { ModalContainer, TableContainer } from '../components';
+import { RuleList } from '../features/ruleList/RuleList';
+import { GameTotalRow } from '../features/gameTotalTable/GameTotalRow';
+import { GameRow } from '../features/gameResultTable/GameRow';
+import { GameForm } from '../features/gameForm/GameForm';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Game, GameResultTotal, GameFormData, ReqCreateGame } from '../types/game';
@@ -7,6 +12,7 @@ import { Column } from '../types/common';
 import { dateFormat } from '../utils/date';
 import { useLeagueData } from '../hooks/useLeagueData';
 import { useGameData } from '../hooks/useGameData';
+import { useConfirmDialog } from '../hooks/useConfirmDialog';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   gamePlayerSelector,
@@ -14,12 +20,6 @@ import {
   gameResultCreateAtDescSelector,
 } from '../recoil/selectors';
 import { loadingAtom } from '../recoil/atoms';
-import { GameRow } from '../components/tables/GameRow';
-import { GameForm } from '../components/forms/GameForm';
-
-import { TableContainer } from '../components/tables/TableContainer';
-import React from 'react';
-import { useConfirmDialog } from '../hooks/useConfirmDialog';
 
 export default function Detail() {
   const [open, setOpen] = useState(false);

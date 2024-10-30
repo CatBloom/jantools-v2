@@ -1,9 +1,9 @@
 import { AppBar, Box, Toolbar } from '@mui/material';
-import { MUIThemeSwitch } from '../buttons/MUIThemeSwitch';
+import { MUIThemeSwitch } from '../components';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { themeAtom } from '../../recoil/atoms';
-import logo from '../../assets/titlelogo.png';
+import { themeAtom } from '../recoil/atoms';
+import logo from '../assets/titlelogo.png';
 
 export const Header = () => {
   const [theme, setTheme] = useRecoilState(themeAtom);
