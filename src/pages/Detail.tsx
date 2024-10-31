@@ -1,13 +1,13 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { ModalContainer } from '../components';
-import { RuleList } from '../features/ruleList/RuleList';
+import { RuleList } from '../features/league';
 import { GameForm } from '../features/gameForm/GameForm';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { GameFormData, ReqCreateGame } from '../types/game';
 import { dateFormat } from '../utils/date';
-import { useLeagueData } from '../hooks/useLeagueData';
+import { useLeagueData } from '../features/league/hooks/useLeagueData';
 import { useGameData } from '../hooks/useGameData';
 import { useConfirmDialog } from '../hooks/useConfirmDialog';
 import { useRecoilValue, useSetRecoilState } from 'recoil';

@@ -14,9 +14,9 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { LeagueFormData } from '../../types/league';
-import { MahjongSoulRule, TenhouRule, MLeagueRule } from './const-rules';
-import { FormData, FormDataRule } from './form';
+import { LeagueFormData } from '../../../types/league';
+import { MahjongSoulRule, TenhouRule, MLeagueRule } from '../const-rules';
+import { FormData, FormDataRule } from '../types/form';
 
 export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }) => {
   const { submit } = props;
@@ -162,7 +162,6 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
       spacing={1}
       onSubmit={handleSubmit(handleSubmitForm)}
     >
-      <Typography variant="h2">大会登録</Typography>
       <Controller
         name="name"
         control={control}

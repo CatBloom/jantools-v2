@@ -1,12 +1,7 @@
 import axios from 'axios';
-import { League, ReqCreateLeague } from '../types/league';
+import { League, ReqCreateLeague } from '../../../types/league';
 import { useState } from 'react';
-import {
-  createLeague,
-  fetchLeague,
-  updateLeague,
-  deleteLeague,
-} from '../api/services/leagueService';
+import { createLeague, fetchLeague, updateLeague, deleteLeague } from '../api/leagueService';
 
 export const useLeagueData = () => {
   const [league, setLeague] = useState<League | null>(null);
