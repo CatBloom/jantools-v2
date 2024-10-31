@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-type ConfirmResult = 'confirm' | undefined;
+export type ConfirmResult = 'confirm' | undefined;
 
 export const useConfirmDialog = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);

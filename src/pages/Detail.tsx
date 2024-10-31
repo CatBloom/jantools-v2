@@ -1,24 +1,23 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { ModalContainer } from '../components';
-import { RuleList } from '../features/league';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
-import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import { useGameData } from '../features/game/hooks/useGameData';
 import { useConfirmDialog } from '../hooks/useConfirmDialog';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { gameResultTotalSelector, gameResultCreateAtDescSelector } from '../recoil/selectors';
 import { loadingAtom } from '../recoil/atoms';
-import { GameResultTable, GameTotalTable } from '../features/game';
-import { GameRegisterDialog } from '../features/game/GameRegisterDialog';
+import { GameResultTable, GameTotalTable, GameRegisterDialog } from '../features/game';
+import { RuleList } from '../features/league';
+import { useLeagueData } from '../features/league/hooks/useLeagueData';
+import { useGameData } from '../features/game/hooks/useGameData';
+import { GameDeleteDialog } from '../features/game/GameDeleteDialog';
 
 export default function Detail() {
   const [open, setOpen] = useState(false);
   const [tabValue, setTabValue] = useState('detail');
   const { league, fetchLeagueData } = useLeagueData();
-  const { fetchGameListData, deleteGameData } = useGameData();
+  const { fetchGameListData } = useGameData();
   const { confirmOpen, openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
   const { id } = useParams();
   const setLoading = useSetRecoilState(loadingAtom);
@@ -53,25 +52,6 @@ export default function Detail() {
 
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
-  const deleteGame = async (gid: string) => {
-    if (!id) {
-      return;
-    }
-
-    const result = await openConfirmDialog();
-    if (!result) {
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await deleteGameData(gid, id);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Stack spacing={3}>
@@ -140,7 +120,8 @@ export default function Detail() {
                 {gameResultCreateAtDesc && (
                   <GameResultTable
                     games={gameResultCreateAtDesc}
-                    deleteGame={deleteGame}
+                    leagueID={id}
+                    openConfirmDialog={openConfirmDialog}
                   ></GameResultTable>
                 )}
               </Stack>
@@ -152,21 +133,10 @@ export default function Detail() {
             open={open}
             handleModalClose={handleModalClose}
           ></GameRegisterDialog>
-          <ModalContainer
-            modalTitle="成績削除"
+          <GameDeleteDialog
             open={confirmOpen}
-            onClose={() => closeConfirmDialog()}
-          >
-            <>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => closeConfirmDialog('confirm')}
-              >
-                削除
-              </Button>
-            </>
-          </ModalContainer>
+            handleModalClose={closeConfirmDialog}
+          ></GameDeleteDialog>
         </>
       )}
     </Stack>
