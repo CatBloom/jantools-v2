@@ -1,12 +1,12 @@
 import { useGameData } from './hooks/useGameData';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { loadingAtom } from '../../recoil/atoms';
+import { useRecoilValue } from 'recoil';
 import { gamePlayerSelector } from '../../recoil/selectors';
 import { ReqCreateGame } from '../../types/game';
 import { ModalContainer } from '../../components';
 import { GameForm } from './components/GameForm';
 import { LeagueRule } from '../../types/league';
 import { GameFormData } from './types/form';
+import { useLoading } from '../../hooks/useLoading';
 
 export const GameRegisterDialog = (props: {
   leagueID?: string;
@@ -16,7 +16,7 @@ export const GameRegisterDialog = (props: {
 }) => {
   const { leagueID, rule, open, handleModalClose } = props;
   const { createGameData } = useGameData();
-  const setLoading = useSetRecoilState(loadingAtom);
+  const loading = useLoading();
   const gamePlayers = useRecoilValue(gamePlayerSelector);
 
   const submit = async (formdata: GameFormData) => {
@@ -25,14 +25,14 @@ export const GameRegisterDialog = (props: {
     }
     const req: ReqCreateGame = { ...formdata, leagueID: leagueID };
 
-    setLoading(true);
     try {
+      loading.start();
       await createGameData(req);
       handleModalClose();
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false);
+      loading.finish();
     }
   };
 

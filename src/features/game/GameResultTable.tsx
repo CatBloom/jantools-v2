@@ -5,8 +5,7 @@ import { Game } from '../../types/game';
 import { GameResultRow } from './components/GameResultRow';
 import { ConfirmResult } from '../../hooks/useConfirmDialog';
 import { useGameData } from './hooks/useGameData';
-import { useSetRecoilState } from 'recoil';
-import { loadingAtom } from '../../recoil/atoms';
+import { useLoading } from '../../hooks/useLoading';
 
 export const GameResultTable = (props: {
   games: Game[];
@@ -19,7 +18,7 @@ export const GameResultTable = (props: {
     { key: 'results', display: '試合結果' },
   ];
   const { deleteGameData } = useGameData();
-  const setLoading = useSetRecoilState(loadingAtom);
+  const loading = useLoading();
 
   const deleteGame = async (gid: string) => {
     if (!leagueID) {
@@ -31,13 +30,13 @@ export const GameResultTable = (props: {
       return;
     }
 
-    setLoading(true);
     try {
+      loading.start();
       await deleteGameData(gid, leagueID);
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false);
+      loading.finish();
     }
   };
 

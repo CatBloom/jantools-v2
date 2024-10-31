@@ -4,14 +4,14 @@ import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
 import { useConfirmDialog } from '../hooks/useConfirmDialog';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { gameResultTotalSelector, gameResultCreateAtDescSelector } from '../recoil/selectors';
-import { loadingAtom } from '../recoil/atoms';
 import { GameResultTable, GameTotalTable, GameRegisterDialog } from '../features/game';
 import { RuleList } from '../features/league';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
 import { useGameData } from '../features/game/hooks/useGameData';
 import { GameDeleteDialog } from '../features/game/GameDeleteDialog';
+import { useLoading } from '../hooks/useLoading';
 
 export default function Detail() {
   const [open, setOpen] = useState(false);
@@ -20,19 +20,19 @@ export default function Detail() {
   const { fetchGameListData } = useGameData();
   const { confirmOpen, openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
   const { id } = useParams();
-  const setLoading = useSetRecoilState(loadingAtom);
+  const loading = useLoading();
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
   const gameResultCreateAtDesc = useRecoilValue(gameResultCreateAtDescSelector);
 
   useEffect(() => {
     const abortController = new AbortController();
     const fetchData = async (id: string) => {
-      setLoading(true);
+      loading.start();
       await Promise.all([
         fetchLeagueData(id, abortController.signal),
         fetchGameListData(id, abortController.signal),
       ]);
-      setLoading(false);
+      loading.finish();
     };
 
     if (!id) {
