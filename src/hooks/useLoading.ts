@@ -3,10 +3,10 @@ import { useRecoilState } from 'recoil';
 import { loadingAtom } from '../recoil/atoms';
 
 export const useLoading = () => {
-  const [isLoading, setIsOpen] = useRecoilState(loadingAtom);
+  const [isLoading, setLoading] = useRecoilState(loadingAtom);
 
-  const start = useCallback(() => setIsOpen(true), []);
-  const finish = useCallback(() => setIsOpen(false), []);
+  const start = useCallback(() => setLoading(true), []);
+  const finish = useCallback(() => setLoading(false), []);
 
   return { isLoading, start, finish };
 };
