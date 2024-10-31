@@ -9,7 +9,7 @@ import {
   fetchGame,
   fetchGameList,
   updateGame,
-} from '../../../api/services/';
+} from '../../../api/services/gameService';
 
 export const useGameData = () => {
   const [gameList, setGameList] = useRecoilState(gameListAtom);
