@@ -2,7 +2,7 @@ import React from 'react';
 import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { Game } from '../../types/game';
-import { GameRow } from './GameRow';
+import { GameRow } from './components/GameRow';
 
 export const GameResultTable = (props: { games: Game[]; deleteGame: (id: string) => void }) => {
   const { games, deleteGame } = props;

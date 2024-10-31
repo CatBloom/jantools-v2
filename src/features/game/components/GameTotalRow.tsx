@@ -1,5 +1,5 @@
 import { TableCell, TableCellProps, TableRow } from '@mui/material';
-import { GameResultTotal } from '../../types/game';
+import { GameResultTotal } from '../../../types/game';
 
 export const GameTotalRow = (props: { row: GameResultTotal; align?: TableCellProps['align'] }) => {
   const { row, align } = props;

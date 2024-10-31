@@ -2,7 +2,7 @@ import React from 'react';
 import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { GameResultTotal } from '../../types/game';
-import { GameTotalRow } from './GameTotalRow';
+import { GameTotalRow } from './components/GameTotalRow';
 
 export const GameTotalTable = (props: { gameResultTotal: GameResultTotal[] }) => {
   const { gameResultTotal } = props;
