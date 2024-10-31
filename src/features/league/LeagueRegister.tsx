@@ -14,8 +14,8 @@ export const LeagueRegister = () => {
   const submit = async (formdata: LeagueFormData) => {
     const req: ReqCreateLeague = { ...formdata };
 
-    loading.start();
     try {
+      loading.start();
       const res = await createLeagueData(req);
       if (res) {
         navigate(`/detail/${res.id}`);
