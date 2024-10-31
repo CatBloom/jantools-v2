@@ -2,10 +2,11 @@ import { useGameData } from './hooks/useGameData';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { loadingAtom } from '../../recoil/atoms';
 import { gamePlayerSelector } from '../../recoil/selectors';
-import { GameFormData, ReqCreateGame } from '../../types/game';
+import { ReqCreateGame } from '../../types/game';
 import { ModalContainer } from '../../components';
 import { GameForm } from './components/GameForm';
 import { LeagueRule } from '../../types/league';
+import { GameFormData } from './types/form';
 
 export const GameRegisterDialog = (props: {
   leagueID?: string;
