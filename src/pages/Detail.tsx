@@ -1,14 +1,11 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { ModalContainer, TableContainer } from '../components';
+import { ModalContainer } from '../components';
 import { RuleList } from '../features/ruleList/RuleList';
-import { GameTotalRow } from '../features/gameTotalTable/GameTotalRow';
-import { GameRow } from '../features/gameResultTable/GameRow';
 import { GameForm } from '../features/gameForm/GameForm';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { Game, GameResultTotal, GameFormData, ReqCreateGame } from '../types/game';
-import { Column } from '../types/common';
+import { GameFormData, ReqCreateGame } from '../types/game';
 import { dateFormat } from '../utils/date';
 import { useLeagueData } from '../hooks/useLeagueData';
 import { useGameData } from '../hooks/useGameData';
@@ -20,6 +17,8 @@ import {
   gameResultCreateAtDescSelector,
 } from '../recoil/selectors';
 import { loadingAtom } from '../recoil/atoms';
+import { GameResultTable } from '../features/gameResultTable/GameResultTable';
+import { GameTotalTable } from '../features/gameTotalTable/GameTotalTable';
 
 export default function Detail() {
   const [open, setOpen] = useState(false);
@@ -32,19 +31,6 @@ export default function Detail() {
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
   const gamePlayers = useRecoilValue(gamePlayerSelector);
   const gameResultCreateAtDesc = useRecoilValue(gameResultCreateAtDescSelector);
-
-  const detailColumns: Column<GameResultTotal>[] = [
-    { key: 'rank', display: '順位' },
-    { key: 'name', display: '名前' },
-    { key: 'gameCount', display: '対戦数' },
-    { key: 'totalPoint', display: '合計得点' },
-    { key: 'averageRank', display: '平均着順' },
-  ];
-
-  const editColumns: Column<Game>[] = [
-    { key: 'createdAt', display: '登録日' },
-    { key: 'results', display: '試合結果' },
-  ];
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -158,17 +144,7 @@ export default function Detail() {
               </>
 
               {gameResultTotal && (
-                <TableContainer<GameResultTotal>
-                  columns={detailColumns}
-                  align="center"
-                  elevation={1}
-                >
-                  {gameResultTotal.map((row, i) => (
-                    <React.Fragment key={i}>
-                      <GameTotalRow row={row} align="center" />
-                    </React.Fragment>
-                  ))}
-                </TableContainer>
+                <GameTotalTable gameResultTotal={gameResultTotal}></GameTotalTable>
               )}
             </Stack>
           )}
@@ -187,18 +163,10 @@ export default function Detail() {
                 </Button>
 
                 {gameResultCreateAtDesc && (
-                  <TableContainer<Game>
-                    columns={editColumns}
-                    align="center"
-                    size="small"
-                    elevation={1}
-                  >
-                    {gameResultCreateAtDesc.map((row, i) => (
-                      <React.Fragment key={i}>
-                        <GameRow row={row} align="center" handleDelete={deleteGame} />
-                      </React.Fragment>
-                    ))}
-                  </TableContainer>
+                  <GameResultTable
+                    games={gameResultCreateAtDesc}
+                    deleteGame={deleteGame}
+                  ></GameResultTable>
                 )}
               </Stack>
             </Stack>
