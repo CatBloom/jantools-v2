@@ -1,8 +1,7 @@
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Suspense } from 'react';
 import { Container, Box, Stack } from '@mui/material';
-import { LoadingSpinner } from '../../components/LoadingSpinner';
-import { Header, Footer } from '../../components';
+import { Header, Footer, LoadingSpinner } from '../../components';
 import { useRecoilValue } from 'recoil';
 import { loadingAtom } from '../../recoil/atoms';
 
