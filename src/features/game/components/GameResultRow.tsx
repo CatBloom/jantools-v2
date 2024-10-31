@@ -4,7 +4,7 @@ import { dateFormat } from '../../../utils/date';
 import { TableContainer } from '../../../components';
 import { Column } from '../../../types/common';
 
-export const GameRow = (props: {
+export const GameResultRow = (props: {
   row: Game;
   align?: TableCellProps['align'];
   handleDelete: (id: string) => void;

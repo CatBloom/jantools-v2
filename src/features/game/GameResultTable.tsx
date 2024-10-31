@@ -2,7 +2,7 @@ import React from 'react';
 import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { Game } from '../../types/game';
-import { GameRow } from './components/GameRow';
+import { GameResultRow } from './components/GameResultRow';
 
 export const GameResultTable = (props: { games: Game[]; deleteGame: (id: string) => void }) => {
   const { games, deleteGame } = props;
@@ -15,7 +15,7 @@ export const GameResultTable = (props: { games: Game[]; deleteGame: (id: string)
     <TableContainer<Game> columns={columns} align="center" size="small" elevation={1}>
       {games.map((row, i) => (
         <React.Fragment key={i}>
-          <GameRow row={row} align="center" handleDelete={deleteGame} />
+          <GameResultRow row={row} align="center" handleDelete={deleteGame} />
         </React.Fragment>
       ))}
     </TableContainer>

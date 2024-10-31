@@ -2,34 +2,27 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { ModalContainer } from '../components';
 import { RuleList } from '../features/league';
-import { GameForm } from '../features/gameForm/GameForm';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { GameFormData, ReqCreateGame } from '../types/game';
 import { dateFormat } from '../utils/date';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import { useGameData } from '../hooks/useGameData';
+import { useGameData } from '../features/game/hooks/useGameData';
 import { useConfirmDialog } from '../hooks/useConfirmDialog';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-  gamePlayerSelector,
-  gameResultTotalSelector,
-  gameResultCreateAtDescSelector,
-} from '../recoil/selectors';
+import { gameResultTotalSelector, gameResultCreateAtDescSelector } from '../recoil/selectors';
 import { loadingAtom } from '../recoil/atoms';
-import { GameResultTable } from '../features/gameResultTable/GameResultTable';
-import { GameTotalTable } from '../features/gameTotalTable/GameTotalTable';
+import { GameResultTable, GameTotalTable } from '../features/game';
+import { GameRegisterDialog } from '../features/game/GameRegisterDialog';
 
 export default function Detail() {
   const [open, setOpen] = useState(false);
   const [tabValue, setTabValue] = useState('detail');
   const { league, fetchLeagueData } = useLeagueData();
-  const { fetchGameListData, createGameData, deleteGameData } = useGameData();
+  const { fetchGameListData, deleteGameData } = useGameData();
   const { confirmOpen, openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
   const { id } = useParams();
   const setLoading = useSetRecoilState(loadingAtom);
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
-  const gamePlayers = useRecoilValue(gamePlayerSelector);
   const gameResultCreateAtDesc = useRecoilValue(gameResultCreateAtDescSelector);
 
   useEffect(() => {
@@ -60,24 +53,6 @@ export default function Detail() {
 
   const handleModalOpen = () => setOpen(true);
   const handleModalClose = () => setOpen(false);
-
-  const submit = async (formdata: GameFormData) => {
-    if (!id) {
-      return;
-    }
-    const req: ReqCreateGame = { ...formdata, leagueID: id };
-
-    setLoading(true);
-    try {
-      await createGameData(req);
-      setOpen(false);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const deleteGame = async (gid: string) => {
     if (!id) {
       return;
@@ -171,9 +146,12 @@ export default function Detail() {
               </Stack>
             </Stack>
           )}
-          <ModalContainer modalTitle="成績登録" open={open} onClose={handleModalClose}>
-            <GameForm rule={league.rule} gamePlayers={gamePlayers} submit={submit} />
-          </ModalContainer>
+          <GameRegisterDialog
+            leagueID={id}
+            rule={league.rule}
+            open={open}
+            handleModalClose={handleModalClose}
+          ></GameRegisterDialog>
           <ModalContainer
             modalTitle="成績削除"
             open={confirmOpen}
