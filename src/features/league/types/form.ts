@@ -1,3 +1,5 @@
+import { League } from '../../../types/league';
+
 export interface FormData extends FormDataRule {
   name: string;
   manual: string;
@@ -13,3 +15,6 @@ export interface FormDataRule {
   returnPoint: string;
   umaArray: string[];
 }
+
+// Formから返却される型
+export type LeagueFormData = Omit<League, 'id' | 'createdAt'>;

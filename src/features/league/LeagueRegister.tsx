@@ -1,10 +1,11 @@
 import { Stack, Typography } from '@mui/material';
-import { LeagueFormData, ReqCreateLeague } from '../../types/league';
+import { ReqCreateLeague } from '../../types/league';
 import { useSetRecoilState } from 'recoil';
 import { loadingAtom } from '../../recoil/atoms';
 import { LeagueForm } from './components/LeagueForm';
 import { useLeagueData } from './hooks/useLeagueData';
 import { useNavigate } from 'react-router-dom';
+import { LeagueFormData } from './types/form';
 
 export const LeagueRegister = () => {
   const setLoading = useSetRecoilState(loadingAtom);

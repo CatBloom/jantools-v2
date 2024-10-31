@@ -14,9 +14,8 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { LeagueFormData } from '../../../types/league';
 import { MahjongSoulRule, TenhouRule, MLeagueRule } from '../const-rules';
-import { FormData, FormDataRule } from '../types/form';
+import { FormData, FormDataRule, LeagueFormData } from '../types/form';
 
 export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }) => {
   const { submit } = props;
