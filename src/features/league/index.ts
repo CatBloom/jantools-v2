@@ -1,2 +1,2 @@
 export * from './LeagueRegister';
-export * from './RuleList';
+export * from './LeagueRuleList';

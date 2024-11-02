@@ -7,7 +7,7 @@ import { useConfirmDialog } from '../hooks/useConfirmDialog';
 import { useRecoilValue } from 'recoil';
 import { gameResultTotalSelector, gameResultCreateAtDescSelector } from '../recoil/selectors';
 import { GameResultTable, GameTotalTable, GameRegisterDialog } from '../features/game';
-import { RuleList } from '../features/league';
+import { LeagueRuleList } from '../features/league/';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
 import { useGameData } from '../features/game/hooks/useGameData';
 import { GameDeleteDialog } from '../features/game/GameDeleteDialog';
@@ -93,7 +93,7 @@ export default function Detail() {
                   <Stack spacing={1}>
                     <Typography variant="h3">ルール</Typography>
                     <Divider />
-                    <RuleList rule={league.rule} />
+                    <LeagueRuleList rule={league.rule} />
                   </Stack>
                 )}
               </>

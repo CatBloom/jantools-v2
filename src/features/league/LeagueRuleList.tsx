@@ -1,7 +1,7 @@
 import { List, ListItem, ListItemText } from '@mui/material';
 import { LeagueRule } from '../../types/league';
 
-export const RuleList = (props: { rule: LeagueRule }) => {
+export const LeagueRuleList = (props: { rule: LeagueRule }) => {
   const { rule } = props;
   return (
     <List disablePadding>
