@@ -64,7 +64,7 @@ export default function Detail() {
         <Tab value="detail" label="詳細"></Tab>
         <Tab value="edit" label="成績管理"></Tab>
       </Tabs>
-      {league && (
+      {league && id && (
         <>
           {tabValue === 'detail' && (
             <Stack spacing={3}>

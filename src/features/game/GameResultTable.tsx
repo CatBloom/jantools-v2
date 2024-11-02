@@ -8,11 +8,11 @@ import { useGameData } from './hooks/useGameData';
 import { useLoading } from '../../hooks/useLoading';
 
 export const GameResultTable = (props: {
+  leagueID: string;
   games: Game[];
-  leagueID?: string;
   openConfirmDialog: () => Promise<ConfirmResult>;
 }) => {
-  const { games, leagueID, openConfirmDialog } = props;
+  const { leagueID, games, openConfirmDialog } = props;
   const columns: Column<Game>[] = [
     { key: 'createdAt', display: '登録日' },
     { key: 'results', display: '試合結果' },
@@ -21,10 +21,6 @@ export const GameResultTable = (props: {
   const loading = useLoading();
 
   const deleteGame = async (gid: string) => {
-    if (!leagueID) {
-      return;
-    }
-
     const result = await openConfirmDialog();
     if (!result) {
       return;

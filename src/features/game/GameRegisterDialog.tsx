@@ -9,7 +9,7 @@ import { GameFormData } from './types/form';
 import { useLoading } from '../../hooks/useLoading';
 
 export const GameRegisterDialog = (props: {
-  leagueID?: string;
+  leagueID: string;
   rule: LeagueRule;
   open: boolean;
   handleModalClose: () => void;
@@ -20,9 +20,6 @@ export const GameRegisterDialog = (props: {
   const gamePlayers = useRecoilValue(gamePlayerSelector);
 
   const submit = async (formdata: GameFormData) => {
-    if (!leagueID) {
-      return;
-    }
     const req: ReqCreateGame = { ...formdata, leagueID: leagueID };
 
     try {
