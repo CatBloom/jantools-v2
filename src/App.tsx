@@ -1,8 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { themeAtom } from './recoil/atoms';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { RouterProvider } from 'react-router-dom';
-import { router } from './router';
+import { Router } from './router';
 import { lightTheme, darkTheme } from './theme';
 
 export const App = () => {
@@ -10,7 +9,7 @@ export const App = () => {
   return (
     <ThemeProvider theme={mode === 'dark' ? darkTheme : lightTheme}>
       <CssBaseline />
-      <RouterProvider router={router} />
+      <Router />
     </ThemeProvider>
   );
 };

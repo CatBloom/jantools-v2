@@ -5,8 +5,8 @@ import { loadingAtom } from '../recoil/atoms';
 export const useLoading = () => {
   const [isLoading, setLoading] = useRecoilState(loadingAtom);
 
-  const start = useCallback(() => setLoading(true), []);
-  const finish = useCallback(() => setLoading(false), []);
+  const start = useCallback(() => setLoading(true), [setLoading]);
+  const finish = useCallback(() => setLoading(false), [setLoading]);
 
   return { isLoading, start, finish };
 };

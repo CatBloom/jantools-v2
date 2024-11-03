@@ -40,6 +40,7 @@ export default function Detail() {
     return () => {
       abortController.abort();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
