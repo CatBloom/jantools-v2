@@ -3,21 +3,19 @@ import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { Game } from '../../types/game';
 import { GameResultRow } from './components/GameResultRow';
-import { ConfirmResult } from '../../hooks/useConfirmDialog';
+import { useConfirmDialog } from '../../hooks/useConfirmDialog';
 import { useGameData } from './hooks/useGameData';
 import { useLoading } from '../../hooks/useLoading';
+import { GameDeleteConfirm } from './components/GameDeleteConfirm';
 
-export const GameResultTable = (props: {
-  leagueID: string;
-  games: Game[];
-  openConfirmDialog: () => Promise<ConfirmResult>;
-}) => {
-  const { leagueID, games, openConfirmDialog } = props;
+export const GameResultTable = (props: { leagueID: string; games: Game[] }) => {
+  const { leagueID, games } = props;
   const columns: Column<Game>[] = [
     { key: 'createdAt', display: '登録日' },
     { key: 'results', display: '試合結果' },
   ];
   const { deleteGameData } = useGameData();
+  const { confirmOpen, openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
   const loading = useLoading();
 
   const deleteGame = async (gid: string) => {
@@ -37,12 +35,18 @@ export const GameResultTable = (props: {
   };
 
   return (
-    <TableContainer<Game> columns={columns} align="center" size="small" elevation={1}>
-      {games.map((row, i) => (
-        <React.Fragment key={i}>
-          <GameResultRow row={row} align="center" handleDelete={deleteGame} />
-        </React.Fragment>
-      ))}
-    </TableContainer>
+    <>
+      <TableContainer<Game> columns={columns} align="center" size="small" elevation={1}>
+        {games.map((row, i) => (
+          <React.Fragment key={i}>
+            <GameResultRow row={row} align="center" handleDelete={deleteGame} />
+          </React.Fragment>
+        ))}
+      </TableContainer>
+      <GameDeleteConfirm
+        open={confirmOpen}
+        handleModalClose={closeConfirmDialog}
+      ></GameDeleteConfirm>
+    </>
   );
 };

@@ -3,14 +3,12 @@ import { useEffect, useState } from 'react';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
-import { useConfirmDialog } from '../hooks/useConfirmDialog';
 import { useRecoilValue } from 'recoil';
 import { gameResultTotalSelector, gameResultCreateAtDescSelector } from '../recoil/selectors';
 import { GameResultTable, GameTotalTable, GameRegisterDialog } from '../features/game';
 import { LeagueRuleList } from '../features/league/';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
 import { useGameData } from '../features/game/hooks/useGameData';
-import { GameDeleteDialog } from '../features/game/GameDeleteDialog';
 import { useLoading } from '../hooks/useLoading';
 
 export default function Detail() {
@@ -18,7 +16,6 @@ export default function Detail() {
   const [tabValue, setTabValue] = useState('detail');
   const { league, fetchLeagueData } = useLeagueData();
   const { fetchGameListData } = useGameData();
-  const { confirmOpen, openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
   const { id } = useParams();
   const loading = useLoading();
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
@@ -118,11 +115,7 @@ export default function Detail() {
                 </Button>
 
                 {gameResultCreateAtDesc && (
-                  <GameResultTable
-                    games={gameResultCreateAtDesc}
-                    leagueID={id}
-                    openConfirmDialog={openConfirmDialog}
-                  ></GameResultTable>
+                  <GameResultTable games={gameResultCreateAtDesc} leagueID={id}></GameResultTable>
                 )}
               </Stack>
             </Stack>
@@ -133,10 +126,6 @@ export default function Detail() {
             open={open}
             handleModalClose={handleModalClose}
           ></GameRegisterDialog>
-          <GameDeleteDialog
-            open={confirmOpen}
-            handleModalClose={closeConfirmDialog}
-          ></GameDeleteDialog>
         </>
       )}
     </Stack>

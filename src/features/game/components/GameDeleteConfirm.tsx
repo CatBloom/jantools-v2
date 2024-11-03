@@ -1,8 +1,8 @@
-import { ModalContainer } from '../../components';
+import { ModalContainer } from '../../../components';
 import { Button } from '@mui/material';
-import { ConfirmResult } from '../../hooks/useConfirmDialog';
+import { ConfirmResult } from '../../../hooks/useConfirmDialog';
 
-export const GameDeleteDialog = (props: {
+export const GameDeleteConfirm = (props: {
   open: boolean;
   handleModalClose: (result?: ConfirmResult) => void;
 }) => {
