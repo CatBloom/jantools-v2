@@ -1,6 +1,5 @@
-import { Outlet, ScrollRestoration } from 'react-router-dom';
-import { Suspense } from 'react';
-import { Container, Box, Stack } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+import { Box, Stack } from '@mui/material';
 import { Header, Footer, LoadingSpinner } from '../../components';
 import { useLoading } from '../../hooks/useLoading';
 
@@ -17,16 +16,5 @@ export const AppLayout = () => {
         <Footer />
       </Stack>
     </>
-  );
-};
-
-export const ContentLayout = () => {
-  return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <ScrollRestoration />
-      <Container sx={{ mt: '2rem' }} maxWidth="md">
-        <Outlet />
-      </Container>
-    </Suspense>
   );
 };
