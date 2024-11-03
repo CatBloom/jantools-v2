@@ -1,18 +1,11 @@
 import { AppBar, Box, Toolbar } from '@mui/material';
 import { MUIThemeSwitch } from '../components';
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { themeAtom } from '../recoil/atoms';
 import logo from '../assets/titlelogo.png';
+import { useTheme } from '../hooks/useTheme';
 
 export const Header = () => {
-  const [theme, setTheme] = useRecoilState(themeAtom);
-
-  const switchHandler = (event: { target: { checked: boolean } }) => {
-    const newTheme = event.target.checked ? 'dark' : 'light';
-    setTheme(newTheme);
-    sessionStorage.setItem('theme', newTheme);
-  };
+  const { theme, switchTheme } = useTheme();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -32,7 +25,7 @@ export const Header = () => {
           <MUIThemeSwitch
             sx={{ m: 1, ml: 'auto' }}
             checked={theme === 'dark'}
-            onChange={switchHandler}
+            onChange={switchTheme}
           />
         </Toolbar>
       </AppBar>
