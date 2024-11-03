@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { themeAtom } from './recoil/atoms';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { Router } from './router';
+import { Router } from './Router';
 import { lightTheme, darkTheme } from './theme';
 
 export const App = () => {
