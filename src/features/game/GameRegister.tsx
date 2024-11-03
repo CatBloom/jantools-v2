@@ -8,7 +8,7 @@ import { LeagueRule } from '../../types/league';
 import { GameFormData } from './types/form';
 import { useLoading } from '../../hooks/useLoading';
 
-export const GameRegisterDialog = (props: {
+export const GameRegister = (props: {
   leagueID: string;
   rule: LeagueRule;
   open: boolean;

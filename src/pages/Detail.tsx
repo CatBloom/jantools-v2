@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
 import { useRecoilValue } from 'recoil';
 import { gameResultTotalSelector, gameResultCreateAtDescSelector } from '../recoil/selectors';
-import { GameResultTable, GameTotalTable, GameRegisterDialog } from '../features/game';
+import { GameResultTable, GameTotalTable, GameRegister } from '../features/game';
 import { LeagueRuleList } from '../features/league/';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
 import { useGameData } from '../features/game/hooks/useGameData';
@@ -120,12 +120,12 @@ export default function Detail() {
               </Stack>
             </Stack>
           )}
-          <GameRegisterDialog
+          <GameRegister
             leagueID={id}
             rule={league.rule}
             open={open}
             handleModalClose={handleModalClose}
-          ></GameRegisterDialog>
+          ></GameRegister>
         </>
       )}
     </Stack>
