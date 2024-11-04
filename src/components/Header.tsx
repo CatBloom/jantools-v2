@@ -1,5 +1,5 @@
 import { AppBar, Box, Toolbar } from '@mui/material';
-import { MUIThemeSwitch } from '../components';
+import { ThemeSwitch } from '../components';
 import { Link } from 'react-router-dom';
 import logo from '../assets/titlelogo.png';
 import { useTheme } from '../hooks/useTheme';
@@ -22,7 +22,7 @@ export const Header = () => {
               }}
             ></Box>
           </Link>
-          <MUIThemeSwitch
+          <ThemeSwitch
             sx={{ m: 1, ml: 'auto' }}
             checked={theme === 'dark'}
             onChange={switchTheme}

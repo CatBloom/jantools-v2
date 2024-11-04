@@ -1,6 +1,6 @@
 import { styled, Switch } from '@mui/material';
 
-export const MUIThemeSwitch = styled(Switch)(({ theme }) => ({
+export const ThemeSwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
   padding: 7,
