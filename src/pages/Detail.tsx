@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
@@ -9,13 +8,13 @@ import { GameResultTable, GameTotalTable, GameRegister } from '../features/game'
 import { LeagueRuleList } from '../features/league/';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
 import { useGameData } from '../features/game/hooks/useGameData';
-import { useLoading } from '../hooks/useLoading';
+import { useTab, useDisclosure, useLoading } from '../hooks';
 
 export default function Detail() {
-  const [open, setOpen] = useState(false);
-  const [tabValue, setTabValue] = useState('detail');
+  const { isOpen, open, close } = useDisclosure(false);
   const { league, fetchLeagueData } = useLeagueData();
   const { fetchGameListData } = useGameData();
+  const { tabValue, switchTab } = useTab('detail');
   const { id } = useParams();
   const loading = useLoading();
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
@@ -43,22 +42,9 @@ export default function Detail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
-    event.preventDefault();
-    setTabValue(newValue);
-  };
-
-  const handleModalOpen = () => setOpen(true);
-  const handleModalClose = () => setOpen(false);
-
   return (
     <Stack spacing={3}>
-      <Tabs
-        value={tabValue}
-        onChange={handleTabChange}
-        textColor="secondary"
-        indicatorColor="secondary"
-      >
+      <Tabs value={tabValue} onChange={switchTab} textColor="secondary" indicatorColor="secondary">
         <Tab value="detail" label="詳細"></Tab>
         <Tab value="edit" label="成績管理"></Tab>
       </Tabs>
@@ -111,7 +97,7 @@ export default function Detail() {
               </Stack>
 
               <Stack>
-                <Button variant="contained" color="secondary" onClick={handleModalOpen}>
+                <Button variant="contained" color="secondary" onClick={open}>
                   成績登録
                 </Button>
 
@@ -124,8 +110,8 @@ export default function Detail() {
           <GameRegister
             leagueID={id}
             rule={league.rule}
-            open={open}
-            handleModalClose={handleModalClose}
+            open={isOpen}
+            handleModalClose={close}
           ></GameRegister>
         </>
       )}
