@@ -11,10 +11,10 @@ import { useLoading } from '../../hooks/useLoading';
 export const GameRegister = (props: {
   leagueID: string;
   rule: LeagueRule;
-  open: boolean;
-  handleModalClose: () => void;
+  isOpen: boolean;
+  close: () => void;
 }) => {
-  const { leagueID, rule, open, handleModalClose } = props;
+  const { leagueID, rule, isOpen, close } = props;
   const { createGameData } = useGameData();
   const loading = useLoading();
   const gamePlayers = useRecoilValue(gamePlayerSelector);
@@ -25,7 +25,7 @@ export const GameRegister = (props: {
     try {
       loading.start();
       await createGameData(req);
-      handleModalClose();
+      close();
     } catch (err) {
       console.error(err);
     } finally {
@@ -34,7 +34,7 @@ export const GameRegister = (props: {
   };
 
   return (
-    <ModalContainer modalTitle="成績登録" open={open} onClose={handleModalClose}>
+    <ModalContainer modalTitle="成績登録" isOpen={isOpen} close={close}>
       <GameForm rule={rule} gamePlayers={gamePlayers} submit={submit} />
     </ModalContainer>
   );

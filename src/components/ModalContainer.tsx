@@ -2,14 +2,14 @@ import { Container, Stack, Typography, Modal, IconButton } from '@mui/material';
 
 export const ModalContainer = (props: {
   modalTitle: string;
-  open: boolean;
-  onClose: () => void;
+  isOpen: boolean;
+  close: () => void;
   children: React.ReactNode;
 }) => {
-  const { modalTitle, open, children, onClose } = props;
+  const { modalTitle, isOpen, children, close } = props;
 
   return (
-    <Modal open={open}>
+    <Modal open={isOpen}>
       <Container
         sx={{
           position: 'absolute',
@@ -29,7 +29,7 @@ export const ModalContainer = (props: {
               sx={(theme) => ({
                 color: theme.palette.error.main,
               })}
-              onClick={onClose}
+              onClick={close}
             >
               ✖︎
             </IconButton>

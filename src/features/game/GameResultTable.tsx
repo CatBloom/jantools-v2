@@ -43,7 +43,7 @@ export const GameResultTable = (props: { leagueID: string; games: Game[] }) => {
           </React.Fragment>
         ))}
       </TableContainer>
-      <GameDeleteConfirm open={isOpen} handleModalClose={close}></GameDeleteConfirm>
+      <GameDeleteConfirm isOpen={isOpen} close={close}></GameDeleteConfirm>
     </>
   );
 };

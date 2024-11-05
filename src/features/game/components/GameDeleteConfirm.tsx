@@ -1,16 +1,16 @@
 import { ModalContainer } from '../../../components';
 import { Button } from '@mui/material';
-import { ConfirmResult } from '../../../hooks/useConfirmDialog';
+import { ConfirmResult } from '../../../hooks/useConfirm';
 
 export const GameDeleteConfirm = (props: {
-  open: boolean;
-  handleModalClose: (result?: ConfirmResult) => void;
+  isOpen: boolean;
+  close: (result?: ConfirmResult) => void;
 }) => {
-  const { open, handleModalClose } = props;
+  const { isOpen, close } = props;
 
   return (
-    <ModalContainer modalTitle="成績削除" open={open} onClose={() => handleModalClose()}>
-      <Button variant="contained" color="error" onClick={() => handleModalClose('confirm')}>
+    <ModalContainer modalTitle="成績削除" isOpen={isOpen} close={() => close()}>
+      <Button variant="contained" color="error" onClick={() => close('confirm')}>
         削除
       </Button>
     </ModalContainer>

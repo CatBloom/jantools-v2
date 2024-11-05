@@ -110,8 +110,8 @@ export default function Detail() {
           <GameRegister
             leagueID={id}
             rule={league.rule}
-            open={isOpen}
-            handleModalClose={close}
+            isOpen={isOpen}
+            close={close}
           ></GameRegister>
         </>
       )}
