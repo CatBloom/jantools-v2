@@ -1,37 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 export type ConfirmResult = 'confirm' | undefined;
 
-export const useConfirmDialog = () => {
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const [resolve, setResolve] = useState<(value?: ConfirmResult) => void>();
+export const useConfirm = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const resolveRef = useRef<(value?: ConfirmResult) => void>();
 
   useEffect(() => {
     return () => {
-      if (resolve) {
-        resolve();
+      if (resolveRef.current) {
+        resolveRef.current();
       }
     };
-  }, [resolve]);
+  }, []);
 
-  const openConfirmDialog = () => {
-    setConfirmOpen(true);
-    return new Promise<ConfirmResult>((res) => {
-      setResolve(() => res);
+  const open = useCallback(() => {
+    setIsOpen(true);
+    return new Promise<ConfirmResult>((resolve) => {
+      resolveRef.current = resolve;
     });
-  };
+  }, []);
 
-  const closeConfirmDialog = (result?: ConfirmResult) => {
-    setConfirmOpen(false);
-    setResolve(undefined);
-    if (resolve) {
-      resolve(result);
+  const close = useCallback((result?: ConfirmResult) => {
+    setIsOpen(false);
+    if (resolveRef.current) {
+      resolveRef.current(result);
+      resolveRef.current = undefined;
     }
-  };
+  }, []);
 
-  return {
-    confirmOpen,
-    openConfirmDialog,
-    closeConfirmDialog,
-  };
+  return { isOpen, open, close };
 };

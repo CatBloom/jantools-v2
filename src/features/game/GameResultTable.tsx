@@ -3,7 +3,7 @@ import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { Game } from '../../types/game';
 import { GameResultRow } from './components/GameResultRow';
-import { useConfirmDialog } from '../../hooks/useConfirmDialog';
+import { useConfirm } from '../../hooks';
 import { useGameData } from './hooks/useGameData';
 import { useLoading } from '../../hooks/useLoading';
 import { GameDeleteConfirm } from './components/GameDeleteConfirm';
@@ -15,11 +15,11 @@ export const GameResultTable = (props: { leagueID: string; games: Game[] }) => {
     { key: 'results', display: '試合結果' },
   ];
   const { deleteGameData } = useGameData();
-  const { confirmOpen, openConfirmDialog, closeConfirmDialog } = useConfirmDialog();
+  const { isOpen, open, close } = useConfirm();
   const loading = useLoading();
 
   const deleteGame = async (gid: string) => {
-    const result = await openConfirmDialog();
+    const result = await open();
     if (!result) {
       return;
     }
@@ -43,10 +43,7 @@ export const GameResultTable = (props: { leagueID: string; games: Game[] }) => {
           </React.Fragment>
         ))}
       </TableContainer>
-      <GameDeleteConfirm
-        open={confirmOpen}
-        handleModalClose={closeConfirmDialog}
-      ></GameDeleteConfirm>
+      <GameDeleteConfirm open={isOpen} handleModalClose={close}></GameDeleteConfirm>
     </>
   );
 };
