@@ -1,4 +1,3 @@
-import React from 'react';
 import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { GameResultTotal } from '../../types/game';
@@ -17,9 +16,7 @@ export const GameTotalTable = (props: { gameResultTotal: GameResultTotal[] }) =>
   return (
     <TableContainer<GameResultTotal> columns={columns} align="center" elevation={1}>
       {gameResultTotal.map((row, i) => (
-        <React.Fragment key={i}>
-          <GameTotalRow row={row} align="center" />
-        </React.Fragment>
+        <GameTotalRow key={i} row={row} align="center" />
       ))}
     </TableContainer>
   );

@@ -6,7 +6,7 @@ import { ModalContainer } from '../../components';
 import { GameForm } from './components/GameForm';
 import { LeagueRule } from '../../types/league';
 import { GameFormData } from './types/form';
-import { useLoading } from '../../hooks/useLoading';
+import { useLoading } from '../../hooks';
 
 export const GameRegister = (props: {
   leagueID: string;

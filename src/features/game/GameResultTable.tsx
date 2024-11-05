@@ -1,11 +1,9 @@
-import React from 'react';
 import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { Game } from '../../types/game';
-import { GameResultRow } from './components/GameResultRow';
-import { useConfirm } from '../../hooks';
+import { useConfirm, useLoading } from '../../hooks';
 import { useGameData } from './hooks/useGameData';
-import { useLoading } from '../../hooks/useLoading';
+import { GameResultRow } from './components/GameResultRow';
 import { GameDeleteConfirm } from './components/GameDeleteConfirm';
 
 export const GameResultTable = (props: { leagueID: string; games: Game[] }) => {
@@ -38,9 +36,7 @@ export const GameResultTable = (props: { leagueID: string; games: Game[] }) => {
     <>
       <TableContainer<Game> columns={columns} align="center" size="small" elevation={1}>
         {games.map((row, i) => (
-          <React.Fragment key={i}>
-            <GameResultRow row={row} align="center" handleDelete={deleteGame} />
-          </React.Fragment>
+          <GameResultRow key={i} row={row} align="center" handleDelete={deleteGame} />
         ))}
       </TableContainer>
       <GameDeleteConfirm isOpen={isOpen} close={close}></GameDeleteConfirm>
