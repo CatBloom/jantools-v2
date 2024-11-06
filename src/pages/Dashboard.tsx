@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GameResultTable } from '../features/game';
 import { gameResultSelector } from '../recoil/selectors';
@@ -24,6 +24,14 @@ export default function Dashboard() {
             <Typography minWidth="15rem" variant="h2">
               {name}
             </Typography>
+            <Button
+              variant="contained"
+              onClick={() => {
+                navigate(`/detail/${id}`);
+              }}
+            >
+              詳細ページに戻る
+            </Button>
           </Stack>
           <GameResultTable leagueID={id} games={gameResults}></GameResultTable>
         </Stack>
