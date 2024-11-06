@@ -3,7 +3,7 @@ import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
 import { useRecoilValue } from 'recoil';
-import { gameResultTotalSelector, gameResultCreateAtDescSelector } from '../recoil/selectors';
+import { gameResultTotalSelector, gameResultSelector } from '../recoil/selectors';
 import { GameResultTable, GameTotalTable, GameRegister } from '../features/game';
 import { LeagueRuleList } from '../features/league/';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
@@ -18,7 +18,7 @@ export default function Detail() {
   const { id } = useParams();
   const loading = useLoading();
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
-  const gameResultCreateAtDesc = useRecoilValue(gameResultCreateAtDescSelector);
+  const gameResults = useRecoilValue(gameResultSelector());
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -62,9 +62,7 @@ export default function Detail() {
                   <Typography minWidth="15rem" variant="h2">
                     {league.name}
                   </Typography>
-                  {league.createdAt && (
-                    <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
-                  )}
+                  <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
                 </Stack>
                 {league.manual && (
                   <Stack spacing={1}>
@@ -73,17 +71,15 @@ export default function Detail() {
                     <Typography component="p">{league.manual}</Typography>
                   </Stack>
                 )}
-                {league.rule && (
-                  <Stack spacing={1}>
-                    <Typography variant="h3">ルール</Typography>
-                    <Divider />
-                    <LeagueRuleList rule={league.rule} />
-                  </Stack>
-                )}
+                <Stack spacing={1}>
+                  <Typography variant="h3">ルール</Typography>
+                  <Divider />
+                  <LeagueRuleList rule={league.rule} />
+                </Stack>
               </>
 
               {gameResultTotal && (
-                <GameTotalTable gameResultTotal={gameResultTotal}></GameTotalTable>
+                <GameTotalTable leagueID={id} gameResultTotal={gameResultTotal}></GameTotalTable>
               )}
             </Stack>
           )}
@@ -101,8 +97,8 @@ export default function Detail() {
                   成績登録
                 </Button>
 
-                {gameResultCreateAtDesc && (
-                  <GameResultTable games={gameResultCreateAtDesc} leagueID={id}></GameResultTable>
+                {gameResults && (
+                  <GameResultTable games={gameResults} leagueID={id}></GameResultTable>
                 )}
               </Stack>
             </Stack>

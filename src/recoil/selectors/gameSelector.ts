@@ -74,18 +74,23 @@ export const gameResultTotalSelector = selector<GameResultTotal[] | null>({
   },
 });
 
-export const gameResultCreateAtDescSelector = selector<Game[] | null>({
-  key: 'gameResultCreateAtDescSelector',
-  get: ({ get }) => {
-    const gameResults = get(gameListAtom);
-    if (!gameResults) {
-      return null;
-    }
+export const gameResultSelector = (name?: string) =>
+  selector<Game[] | null>({
+    key: `gameResultSelector${name ? '_' + name : ''}`,
+    get: ({ get }) => {
+      const gameResults = get(gameListAtom);
+      if (!gameResults) {
+        return null;
+      }
 
-    const sortedResults = [...gameResults].sort((a, b) => {
-      return b.createdAt.localeCompare(a.createdAt);
-    });
+      const filteredResults = name
+        ? gameResults.filter((game) => game.results.some((result) => result.name === name))
+        : gameResults;
 
-    return sortedResults;
-  },
-});
+      const sortedResults = [...filteredResults].sort((a, b) => {
+        return b.createdAt.localeCompare(a.createdAt);
+      });
+
+      return sortedResults;
+    },
+  });
