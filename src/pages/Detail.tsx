@@ -18,7 +18,7 @@ export default function Detail() {
   useSyncLeagueData(id);
   useSyncGameListData(id);
   const { league } = useLeagueData();
-  const gameResults = useRecoilValue(gameResultSelector());
+  const gameResults = useRecoilValue(gameResultSelector(undefined));
   const gameResultTotal = useRecoilValue(gameResultTotalSelector);
 
   return (

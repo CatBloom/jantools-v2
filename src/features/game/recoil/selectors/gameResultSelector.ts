@@ -1,11 +1,12 @@
-import { selector } from 'recoil';
+import { selectorFamily } from 'recoil';
 import { gameListAtom } from '../atoms/gameListAtom';
 import { Game } from '../../../../types/game';
 
-export const gameResultSelector = (name?: string) =>
-  selector<Game[] | null>({
-    key: `gameResultSelector${name ? '_' + name : ''}`,
-    get: ({ get }) => {
+export const gameResultSelector = selectorFamily<Game[] | null, string | undefined>({
+  key: 'gameResultSelector',
+  get:
+    (name) =>
+    ({ get }) => {
       const gameResults = get(gameListAtom);
       if (!gameResults) {
         return null;
@@ -21,4 +22,4 @@ export const gameResultSelector = (name?: string) =>
 
       return sortedResults;
     },
-  });
+});

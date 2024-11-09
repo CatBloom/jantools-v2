@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { gameListAtom } from '../recoil/atoms/gameListAtom';
 import { gameListSelector } from '../recoil/selectors';
 
 export const useSyncGameListData = (lid?: string) => {
-  const [gameList, setGameList] = useRecoilState(gameListAtom);
+  const setGameList = useSetRecoilState(gameListAtom);
   const gameData = useRecoilValue(gameListSelector(lid));
 
   useEffect(() => {
-    if (gameData && gameData !== gameList) {
+    if (gameData) {
       setGameList(gameData);
     }
-  }, [gameList, gameData, setGameList]);
+  }, [gameData, setGameList]);
 };
