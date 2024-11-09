@@ -8,10 +8,7 @@ import { useTab, useDisclosure } from '../hooks';
 import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
 import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import {
-  gameResultSelector,
-  gameResultTotalSelector,
-} from '../features/game/recoil/selectors/gameSelector';
+import { gameResultSelector, gameResultTotalSelector } from '../features/game/recoil/selectors';
 
 export default function Detail() {
   const { isOpen, open, close } = useDisclosure(false);

@@ -1,35 +1,6 @@
-import { selector, selectorFamily } from 'recoil';
-import { fetchGameList } from '../../../../api/services/gameService';
+import { selector } from 'recoil';
 import { gameListAtom } from '../atoms/gameListAtom';
-import { Game, GameResultTotal } from '../../../../types/game';
-
-export const gameListSelector = selectorFamily({
-  key: 'gameListSelector',
-  get: (leagueId?: string) => async () => {
-    if (!leagueId) return null;
-    const res = await fetchGameList(leagueId);
-    return res;
-  },
-});
-
-export const gamePlayerSelector = selector<string[]>({
-  key: 'gamePlayerSelector',
-  get: ({ get }) => {
-    const gameList = get(gameListAtom);
-    if (!gameList) {
-      return [];
-    }
-
-    const playerSet = new Set<string>();
-    gameList.forEach((game) => {
-      game.results.forEach((result) => {
-        playerSet.add(result.name);
-      });
-    });
-
-    return Array.from(playerSet);
-  },
-});
+import { GameResultTotal } from '../../../../types/game';
 
 export const gameResultTotalSelector = selector<GameResultTotal[] | null>({
   key: 'gameResultTotalSelector',
@@ -83,24 +54,3 @@ export const gameResultTotalSelector = selector<GameResultTotal[] | null>({
     return sortedResults;
   },
 });
-
-export const gameResultSelector = (name?: string) =>
-  selector<Game[] | null>({
-    key: `gameResultSelector${name ? '_' + name : ''}`,
-    get: ({ get }) => {
-      const gameResults = get(gameListAtom);
-      if (!gameResults) {
-        return null;
-      }
-
-      const filteredResults = name
-        ? gameResults.filter((game) => game.results.some((result) => result.name === name))
-        : gameResults;
-
-      const sortedResults = [...filteredResults].sort((a, b) => {
-        return b.createdAt.localeCompare(a.createdAt);
-      });
-
-      return sortedResults;
-    },
-  });

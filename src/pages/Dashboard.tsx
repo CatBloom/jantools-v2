@@ -3,7 +3,7 @@ import { Button, Stack, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GameResultTable } from '../features/game';
 import { useRecoilValue } from 'recoil';
-import { gameResultSelector } from '../features/game/recoil/selectors/gameSelector';
+import { gameResultSelector } from '../features/game/recoil/selectors';
 
 export default function Dashboard() {
   const { id, name } = useParams();

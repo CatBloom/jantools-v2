@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { gameListAtom } from '../recoil/atoms/gameListAtom';
-import { gameListSelector } from '../recoil/selectors/gameSelector';
+import { gameListSelector } from '../recoil/selectors';
 
 export const useSyncGameListData = (lid?: string) => {
   const [gameList, setGameList] = useRecoilState(gameListAtom);
@@ -12,6 +12,4 @@ export const useSyncGameListData = (lid?: string) => {
       setGameList(gameData);
     }
   }, [gameList, gameData, setGameList]);
-
-  return { gameList, setGameList };
 };
