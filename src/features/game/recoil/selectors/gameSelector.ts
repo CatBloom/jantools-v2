@@ -1,7 +1,7 @@
 import { selector, selectorFamily } from 'recoil';
-import { Game, GameResultTotal } from '../../types/game';
-import { fetchGameList } from '../../api/services/gameService';
-import { gameListAtom } from '../atoms';
+import { fetchGameList } from '../../../../api/services/gameService';
+import { gameListAtom } from '../atoms/gameListAtom';
+import { Game, GameResultTotal } from '../../../../types/game';
 
 export const gameListSelector = selectorFamily({
   key: 'gameListSelector',

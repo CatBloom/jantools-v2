@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { leagueAtom } from '../../../recoil/atoms/leagueAtom';
-import { leagueSelector } from '../../../recoil/selectors/leagueSelector';
+import { leagueAtom } from '../recoil/atoms/leagueAtom';
+import { leagueSelector } from '../recoil/selectors/leagueSelector';
 
 export const useSyncLeagueData = (id?: string) => {
   const [league, setLeague] = useRecoilState(leagueAtom);

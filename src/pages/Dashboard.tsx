@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GameResultTable } from '../features/game';
-import { gameResultSelector } from '../recoil/selectors';
 import { useRecoilValue } from 'recoil';
+import { gameResultSelector } from '../features/game/recoil/selectors/gameSelector';
 
 export default function Dashboard() {
   const { id, name } = useParams();
@@ -25,7 +25,7 @@ export default function Dashboard() {
               {name}
             </Typography>
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={() => {
                 navigate(`/detail/${id}`);
               }}

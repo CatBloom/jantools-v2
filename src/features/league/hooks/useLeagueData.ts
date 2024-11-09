@@ -3,7 +3,7 @@ import { League, ReqCreateLeague } from '../../../types/league';
 import { useState } from 'react';
 import { createLeague, updateLeague, deleteLeague } from '../../../api/services/leagueService';
 import { useRecoilState } from 'recoil';
-import { leagueAtom } from '../../../recoil/atoms/leagueAtom';
+import { leagueAtom } from '../recoil/atoms/leagueAtom';
 
 export const useLeagueData = () => {
   const [league, setLeague] = useRecoilState(leagueAtom);

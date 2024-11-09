@@ -1,6 +1,6 @@
 import { selectorFamily, useSetRecoilState } from 'recoil';
-import { fetchLeague } from '../../api/services/leagueService';
 import { leagueAtom } from '../atoms/leagueAtom';
+import { fetchLeague } from '../../../../api/services/leagueService';
 
 export const leagueSelector = selectorFamily({
   key: 'leagueSelector',

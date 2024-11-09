@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { Game, ReqCreateGame } from '../../../types/game';
 import { useRecoilState } from 'recoil';
-import { gameListAtom } from '../../../recoil/atoms';
 import { useState } from 'react';
 import { createGame, deleteGame, updateGame } from '../../../api/services/gameService';
+import { gameListAtom } from '../recoil/atoms/gameListAtom';
 
 export const useGameData = () => {
   const [gameList, setGameList] = useRecoilState(gameListAtom);

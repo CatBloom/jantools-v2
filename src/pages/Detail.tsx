@@ -2,13 +2,16 @@ import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
 import { useRecoilValue } from 'recoil';
-import { gameResultSelector, gameResultTotalSelector } from '../recoil/selectors';
 import { GameResultTable, GameTotalTable, GameRegister } from '../features/game';
 import { LeagueRuleList } from '../features/league/';
 import { useTab, useDisclosure } from '../hooks';
 import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
 import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
+import {
+  gameResultSelector,
+  gameResultTotalSelector,
+} from '../features/game/recoil/selectors/gameSelector';
 
 export default function Detail() {
   const { isOpen, open, close } = useDisclosure(false);
