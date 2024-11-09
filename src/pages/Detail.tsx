@@ -1,46 +1,25 @@
-import { useEffect } from 'react';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
 import { useRecoilValue } from 'recoil';
-import { gameResultTotalSelector, gameResultSelector } from '../recoil/selectors';
+import { gameResultSelector, gameResultTotalSelector } from '../recoil/selectors';
 import { GameResultTable, GameTotalTable, GameRegister } from '../features/game';
 import { LeagueRuleList } from '../features/league/';
+import { useTab, useDisclosure } from '../hooks';
+import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
+import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import { useGameData } from '../features/game/hooks/useGameData';
-import { useTab, useDisclosure, useLoading } from '../hooks';
 
 export default function Detail() {
   const { isOpen, open, close } = useDisclosure(false);
-  const { league, fetchLeagueData } = useLeagueData();
-  const { fetchGameListData } = useGameData();
   const { tabValue, switchTab } = useTab('detail');
   const { id } = useParams();
-  const loading = useLoading();
-  const gameResultTotal = useRecoilValue(gameResultTotalSelector);
+
+  useSyncLeagueData(id);
+  useSyncGameListData(id);
+  const { league } = useLeagueData();
   const gameResults = useRecoilValue(gameResultSelector());
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    const fetchData = async (id: string) => {
-      loading.start();
-      await Promise.all([
-        fetchLeagueData(id, abortController.signal),
-        fetchGameListData(id, abortController.signal),
-      ]);
-      loading.finish();
-    };
-
-    if (!id) {
-      return;
-    }
-    fetchData(id);
-
-    return () => {
-      abortController.abort();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  const gameResultTotal = useRecoilValue(gameResultTotalSelector);
 
   return (
     <Stack spacing={3}>

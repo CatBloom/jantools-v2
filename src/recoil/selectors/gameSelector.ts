@@ -1,6 +1,16 @@
-import { selector } from 'recoil';
+import { selector, selectorFamily } from 'recoil';
 import { Game, GameResultTotal } from '../../types/game';
-import { gameListAtom } from '../atoms/gameAtom';
+import { fetchGameList } from '../../api/services/gameService';
+import { gameListAtom } from '../atoms';
+
+export const gameListSelector = selectorFamily({
+  key: 'gameListSelector',
+  get: (leagueId?: string) => async () => {
+    if (!leagueId) return null;
+    const res = await fetchGameList(leagueId);
+    return res;
+  },
+});
 
 export const gamePlayerSelector = selector<string[]>({
   key: 'gamePlayerSelector',
