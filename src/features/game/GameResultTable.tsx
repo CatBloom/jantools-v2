@@ -6,8 +6,12 @@ import { useGameData } from './hooks/useGameData';
 import { GameResultRow } from './components/GameResultRow';
 import { GameDeleteConfirm } from './components/GameDeleteConfirm';
 
-export const GameResultTable = (props: { leagueID: string; games: Game[] }) => {
-  const { leagueID, games } = props;
+export const GameResultTable = (props: {
+  leagueID: string;
+  games: Game[];
+  isDeleted?: boolean;
+}) => {
+  const { leagueID, games, isDeleted } = props;
   const columns: Column<Game>[] = [
     { key: 'createdAt', display: '登録日' },
     { key: 'results', display: '試合結果' },
@@ -35,9 +39,13 @@ export const GameResultTable = (props: { leagueID: string; games: Game[] }) => {
   return (
     <>
       <TableContainer<Game> columns={columns} align="center" size="small" elevation={1}>
-        {games.map((row, i) => (
-          <GameResultRow key={i} row={row} align="center" handleDelete={deleteGame} />
-        ))}
+        {games.map((row, i) =>
+          isDeleted ? (
+            <GameResultRow key={i} row={row} align="center" handleDelete={deleteGame} />
+          ) : (
+            <GameResultRow key={i} row={row} align="center" />
+          )
+        )}
       </TableContainer>
       <GameDeleteConfirm isOpen={isOpen} close={close}></GameDeleteConfirm>
     </>

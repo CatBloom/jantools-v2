@@ -77,7 +77,7 @@ export default function Detail() {
                 </Button>
 
                 {gameResults && (
-                  <GameResultTable games={gameResults} leagueID={id}></GameResultTable>
+                  <GameResultTable games={gameResults} leagueID={id} isDeleted></GameResultTable>
                 )}
               </Stack>
             </Stack>

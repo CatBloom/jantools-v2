@@ -7,7 +7,7 @@ import { Column } from '../../../types/common';
 export const GameResultRow = (props: {
   row: Game;
   align?: TableCellProps['align'];
-  handleDelete: (id: string) => void;
+  handleDelete?: (id: string) => void;
 }) => {
   const { row, align, handleDelete } = props;
 
@@ -21,15 +21,17 @@ export const GameResultRow = (props: {
   return (
     <TableRow>
       <TableCell align={align}>
-        <IconButton
-          size="small"
-          sx={(theme) => ({
-            color: theme.palette.error.main,
-          })}
-          onClick={() => handleDelete(row.id)}
-        >
-          ✖︎
-        </IconButton>
+        {handleDelete && (
+          <IconButton
+            size="small"
+            sx={(theme) => ({
+              color: theme.palette.error.main,
+            })}
+            onClick={() => handleDelete(row.id)}
+          >
+            ✖︎
+          </IconButton>
+        )}
         {dateFormat(row.createdAt)}{' '}
       </TableCell>
       <TableCell colSpan={4}>
