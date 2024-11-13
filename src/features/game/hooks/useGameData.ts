@@ -1,15 +1,42 @@
 import axios from 'axios';
 import { Game, ReqCreateGame } from '../../../types/game';
-import { useRecoilState } from 'recoil';
 import { useState } from 'react';
-import { createGame, deleteGame, updateGame } from '../../../api/services/gameService';
-import { gameListAtom } from '../recoil/atoms/gameListAtom';
+import {
+  createGame,
+  deleteGame,
+  fetchGameList,
+  updateGame,
+} from '../../../api/services/gameService';
+import { useAtom } from 'jotai';
+import { gameListAtom } from '../jotai/gameListAtom';
 
 export const useGameData = () => {
-  const [gameList, setGameList] = useRecoilState(gameListAtom);
+  const [gameList, setGameList] = useAtom(gameListAtom);
   const [error, setError] = useState<string>('');
   const errorEmpty = 'error:empty data';
   const errException = 'error: an unexpected error occurred';
+
+  const fetchGameListData = async (lid?: string, signal?: AbortSignal) => {
+    if (!lid) {
+      return;
+    }
+    try {
+      const res = await fetchGameList(lid, signal);
+      if (res) {
+        setGameList(res);
+      } else {
+        throw new Error(errorEmpty);
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.message) {
+        setError(err.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(errException);
+      }
+    }
+  };
 
   const createGameData = async (game: ReqCreateGame) => {
     try {
@@ -73,6 +100,7 @@ export const useGameData = () => {
   return {
     gameList,
     error,
+    fetchGameListData,
     createGameData,
     updateGameData,
     deleteGameData,
