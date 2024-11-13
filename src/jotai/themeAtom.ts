@@ -1,3 +1,3 @@
-import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
-export const themeAtom = atom(sessionStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
+export const themeAtom = atomWithStorage('theme', 'light');
