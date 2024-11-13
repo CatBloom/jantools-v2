@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { loadingAtom } from '../recoil/atoms';
+import { loadingAtom } from '../jotai';
 import { useAtom } from 'jotai';
 
 export const useLoading = () => {
