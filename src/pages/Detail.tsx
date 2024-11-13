@@ -1,44 +1,23 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
-import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
 import { GameResultTable, GameTotalTable, GameRegister } from '../features/game';
 import { LeagueRuleList } from '../features/league/';
-import { useTab, useDisclosure, useLoading } from '../hooks';
+import { useTab, useDisclosure, useSetParams } from '../hooks';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import { useGameData } from '../features/game/hooks/useGameData';
 import { useAtom } from 'jotai';
 import { gameResultTotalAtom, gameResultsAtom } from '../features/game/jotai';
+
+import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
+import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
 
 export default function Detail() {
   const { isOpen, open, close } = useDisclosure(false);
   const { tabValue, switchTab } = useTab('detail');
-  const { id } = useParams();
-  const { start, finish } = useLoading();
-  const { league, fetchLeagueData } = useLeagueData();
-  const { fetchGameListData } = useGameData();
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    const fetchData = async (id: string) => {
-      start();
-      await Promise.all([
-        fetchLeagueData(id, abortController.signal),
-        fetchGameListData(id, abortController.signal),
-      ]);
-      finish();
-    };
-
-    if (!id) return;
-
-    fetchData(id);
-
-    return () => {
-      abortController.abort();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
+  const { id } = useSetParams();
+  useSyncLeagueData();
+  useSyncGameListData();
+  const { league } = useLeagueData();
   const [gameResults] = useAtom(useMemo(() => gameResultsAtom(), []));
   const [gameResultTotal] = useAtom(gameResultTotalAtom);
 
