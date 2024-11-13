@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-import { useRecoilState } from 'recoil';
 import { loadingAtom } from '../recoil/atoms';
+import { useAtom } from 'jotai';
 
 export const useLoading = () => {
-  const [isLoading, setLoading] = useRecoilState(loadingAtom);
+  const [isLoading, setLoading] = useAtom(loadingAtom);
 
   const start = useCallback(() => setLoading(true), [setLoading]);
   const finish = useCallback(() => setLoading(false), [setLoading]);
