@@ -4,7 +4,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { paramWithIDAtom, prevParamWithIDAtom } from '../jotai/paramsAtom';
 import { useLocation } from 'react-router-dom';
 
-export const useSetParams = () => {
+export const useSetIDParam = () => {
   const { id } = useParams();
   const loaction = useLocation();
   const [paramWithID, setParamWithID] = useAtom(paramWithIDAtom);

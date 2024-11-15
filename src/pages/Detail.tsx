@@ -1,23 +1,23 @@
 import { useMemo } from 'react';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
 import { GameResultTable, GameTotalTable, GameRegister } from '../features/game';
 import { LeagueRuleList } from '../features/league/';
-import { useTab, useDisclosure, useSetParams } from '../hooks';
+import { useTab, useDisclosure } from '../hooks';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
 import { useAtom } from 'jotai';
 import { gameResultTotalAtom, gameResultsAtom } from '../features/game/jotai';
-
 import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
 import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
 
 export default function Detail() {
   const { isOpen, open, close } = useDisclosure(false);
   const { tabValue, switchTab } = useTab('detail');
-  const { id } = useSetParams();
+  const { id } = useParams();
+  const { league } = useLeagueData();
   useSyncLeagueData();
   useSyncGameListData();
-  const { league } = useLeagueData();
   const [gameResults] = useAtom(useMemo(() => gameResultsAtom(), []));
   const [gameResultTotal] = useAtom(gameResultTotalAtom);
 
