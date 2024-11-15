@@ -1,14 +1,18 @@
 import { useAtom, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import { gameListFetcher, gameListAtom } from '../jotai';
+import { paramWithIDAtom, prevParamWithIDAtom } from '../../../jotai/paramsAtom';
 
 export const useSyncGameListData = () => {
   const setGameList = useSetAtom(gameListAtom);
-  const [featchGameList] = useAtom(gameListFetcher);
+  const [fetchGameList] = useAtom(gameListFetcher);
+  const [currID] = useAtom(paramWithIDAtom);
+  const [prevID] = useAtom(prevParamWithIDAtom);
 
   useEffect(() => {
-    if (featchGameList) {
-      setGameList(featchGameList);
+    if (!currID) return;
+    if (currID !== prevID) {
+      setGameList(fetchGameList);
     }
-  }, [featchGameList, setGameList]);
+  }, [currID, prevID, fetchGameList, setGameList]);
 };

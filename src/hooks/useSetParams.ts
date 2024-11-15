@@ -1,15 +1,21 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSetAtom } from 'jotai';
-import { paramWithIDAtom } from '../jotai/paramsAtom';
+import { useAtom, useSetAtom } from 'jotai';
+import { paramWithIDAtom, prevParamWithIDAtom } from '../jotai/paramsAtom';
+import { useLocation } from 'react-router-dom';
 
 export const useSetParams = () => {
   const { id } = useParams();
-  const setParamWithID = useSetAtom(paramWithIDAtom);
+  const loaction = useLocation();
+  const [paramWithID, setParamWithID] = useAtom(paramWithIDAtom);
+  const setPrevID = useSetAtom(prevParamWithIDAtom);
 
+  // 現在と前回のIDを保管。location変更時にトリガーする
   useEffect(() => {
-    if (id) setParamWithID(id);
-  }, [id, setParamWithID]);
+    setPrevID(paramWithID);
+    setParamWithID(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaction.pathname]);
 
   return { id };
 };
