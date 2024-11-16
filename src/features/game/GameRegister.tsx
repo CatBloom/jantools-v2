@@ -5,7 +5,7 @@ import { GameForm } from './components/GameForm';
 import { LeagueRule } from '../../types/league';
 import { GameFormData } from './types/form';
 import { useLoading } from '../../hooks';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { gamePlayerAtom } from './jotai';
 
 export const GameRegister = (props: {
@@ -17,7 +17,7 @@ export const GameRegister = (props: {
   const { leagueID, rule, isOpen, close } = props;
   const { createGameData } = useGameData();
   const loading = useLoading();
-  const [gamePlayers] = useAtom(gamePlayerAtom);
+  const gamePlayers = useAtomValue(gamePlayerAtom);
 
   const submit = async (formdata: GameFormData) => {
     const req: ReqCreateGame = { ...formdata, leagueID: leagueID };

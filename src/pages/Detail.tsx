@@ -6,7 +6,7 @@ import { GameResultTable, GameTotalTable, GameRegister } from '../features/game'
 import { LeagueRuleList } from '../features/league/';
 import { useTab, useDisclosure } from '../hooks';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { gameResultTotalAtom, gameResultsAtom } from '../features/game/jotai';
 import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
 import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
@@ -18,8 +18,8 @@ export default function Detail() {
   const { league } = useLeagueData();
   useSyncLeagueData();
   useSyncGameListData();
-  const [gameResults] = useAtom(useMemo(() => gameResultsAtom(), []));
-  const [gameResultTotal] = useAtom(gameResultTotalAtom);
+  const gameResults = useAtomValue(useMemo(() => gameResultsAtom(), []));
+  const gameResultTotal = useAtomValue(gameResultTotalAtom);
 
   return (
     <Stack spacing={3}>

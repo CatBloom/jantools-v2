@@ -1,14 +1,18 @@
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import { leagueAtom, leagueFetcher } from '../jotai';
+import { paramWithIDAtom, prevParamWithIDAtom } from '../../../jotai/paramsAtom';
 
 export const useSyncLeagueData = () => {
   const setLeague = useSetAtom(leagueAtom);
-  const [featchGameList] = useAtom(leagueFetcher);
+  const featchLeague = useAtomValue(leagueFetcher);
+  const currID = useAtomValue(paramWithIDAtom);
+  const prevID = useAtomValue(prevParamWithIDAtom);
 
   useEffect(() => {
-    if (featchGameList) {
-      setLeague(featchGameList);
+    if (!currID) return;
+    if (currID !== prevID) {
+      setLeague(featchLeague);
     }
-  }, [featchGameList, setLeague]);
+  }, [currID, prevID, featchLeague, setLeague]);
 };
