@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { Game, ReqCreateGame } from '../../../types/game';
-import { useRecoilState } from 'recoil';
 import { useState } from 'react';
 import { createGame, deleteGame, updateGame } from '../../../api/services/gameService';
-import { gameListAtom } from '../recoil/atoms/gameListAtom';
+import { useAtom } from 'jotai';
+import { gameListAtom } from '../jotai/gameListAtom';
 
 export const useGameData = () => {
-  const [gameList, setGameList] = useRecoilState(gameListAtom);
+  const [gameList, setGameList] = useAtom(gameListAtom);
   const [error, setError] = useState<string>('');
   const errorEmpty = 'error:empty data';
   const errException = 'error: an unexpected error occurred';

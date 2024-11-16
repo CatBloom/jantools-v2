@@ -1,25 +1,25 @@
+import { useMemo } from 'react';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
-import { useRecoilValue } from 'recoil';
 import { GameResultTable, GameTotalTable, GameRegister } from '../features/game';
 import { LeagueRuleList } from '../features/league/';
 import { useTab, useDisclosure } from '../hooks';
-import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
-import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import { gameResultSelector, gameResultTotalSelector } from '../features/game/recoil/selectors';
+import { useAtomValue } from 'jotai';
+import { gameResultTotalAtom, gameResultsAtom } from '../features/game/jotai';
+import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
+import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
 
 export default function Detail() {
   const { isOpen, open, close } = useDisclosure(false);
   const { tabValue, switchTab } = useTab('detail');
   const { id } = useParams();
-
-  useSyncLeagueData(id);
-  useSyncGameListData(id);
   const { league } = useLeagueData();
-  const gameResults = useRecoilValue(gameResultSelector(undefined));
-  const gameResultTotal = useRecoilValue(gameResultTotalSelector);
+  useSyncLeagueData();
+  useSyncGameListData();
+  const gameResults = useAtomValue(useMemo(() => gameResultsAtom(), []));
+  const gameResultTotal = useAtomValue(gameResultTotalAtom);
 
   return (
     <Stack spacing={3}>

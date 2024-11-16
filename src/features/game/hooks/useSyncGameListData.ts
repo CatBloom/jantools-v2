@@ -1,15 +1,18 @@
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { gameListAtom } from '../recoil/atoms/gameListAtom';
-import { gameListSelector } from '../recoil/selectors';
+import { gameListFetcher, gameListAtom } from '../jotai';
+import { paramWithIDAtom, prevParamWithIDAtom } from '../../../jotai/paramsAtom';
 
-export const useSyncGameListData = (lid?: string) => {
-  const setGameList = useSetRecoilState(gameListAtom);
-  const gameData = useRecoilValue(gameListSelector(lid));
+export const useSyncGameListData = () => {
+  const setGameList = useSetAtom(gameListAtom);
+  const fetchGameList = useAtomValue(gameListFetcher);
+  const currID = useAtomValue(paramWithIDAtom);
+  const prevID = useAtomValue(prevParamWithIDAtom);
 
   useEffect(() => {
-    if (gameData) {
-      setGameList(gameData);
+    if (!currID) return;
+    if (currID !== prevID) {
+      setGameList(fetchGameList);
     }
-  }, [gameData, setGameList]);
+  }, [currID, prevID, fetchGameList, setGameList]);
 };

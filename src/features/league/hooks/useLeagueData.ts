@@ -2,11 +2,11 @@ import axios from 'axios';
 import { League, ReqCreateLeague } from '../../../types/league';
 import { useState } from 'react';
 import { createLeague, updateLeague, deleteLeague } from '../../../api/services/leagueService';
-import { useRecoilState } from 'recoil';
-import { leagueAtom } from '../recoil/atoms/leagueAtom';
+import { useAtom } from 'jotai';
+import { leagueAtom } from '../jotai/leagueAtom';
 
 export const useLeagueData = () => {
-  const [league, setLeague] = useRecoilState(leagueAtom);
+  const [league, setLeague] = useAtom(leagueAtom);
   const [error, setError] = useState<string>('');
   const errorEmpty = 'error:empty data';
   const errException = 'error: an unexpected error occurred';

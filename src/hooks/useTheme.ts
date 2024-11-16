@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-import { useRecoilState } from 'recoil';
-import { themeAtom } from '../recoil/atoms';
+import { themeAtom } from '../jotai';
+import { useAtom } from 'jotai';
 
 export const useTheme = () => {
-  const [theme, setTheme] = useRecoilState(themeAtom);
+  const [theme, setTheme] = useAtom(themeAtom);
 
   const setLight = useCallback(() => setTheme('light'), [setTheme]);
   const setDark = useCallback(() => setTheme('dark'), [setTheme]);

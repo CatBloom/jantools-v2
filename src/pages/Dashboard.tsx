@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { GameResultTable } from '../features/game';
-import { useRecoilValue } from 'recoil';
-import { gameResultSelector } from '../features/game/recoil/selectors';
+import { useAtomValue } from 'jotai';
+import { gameResultsAtom } from '../features/game/jotai';
 
 export default function Dashboard() {
   const { id, name } = useParams();
   const navigate = useNavigate();
-  const gameResults = useRecoilValue(gameResultSelector(name));
+  const gameResults = useAtomValue(useMemo(() => gameResultsAtom(name), [name]));
 
   useEffect(() => {
     if (!gameResults) {
