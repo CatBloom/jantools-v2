@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { GameResultTable } from '../features/game';
 import { useAtomValue } from 'jotai';
 import { gameResultsAtom } from '../features/game/jotai';
+import { GameLineChart } from '../features/game/GameLineChart';
 
 export default function Dashboard() {
   const { id, name } = useParams();
@@ -32,6 +33,9 @@ export default function Dashboard() {
             >
               詳細ページに戻る
             </Button>
+          </Stack>
+          <Stack direction="row" flexWrap="wrap" sx={{ width: '100%' }}>
+            <GameLineChart></GameLineChart>
           </Stack>
           <GameResultTable leagueID={id} games={gameResults}></GameResultTable>
         </Stack>
