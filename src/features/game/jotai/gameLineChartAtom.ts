@@ -2,30 +2,44 @@ import { atom } from 'jotai';
 import { gameListAtom } from './gameListAtom';
 import { dateFormat } from '../../../utils/date';
 
-export const gameLineChartAtom = (name?: string) =>
-  atom((get) => {
-    const gameList = get(gameListAtom);
-    if (!gameList || !name) return [];
+interface GameLineData {
+  rank: number | null;
+  createdAt: string;
+}
 
-    const filteredResults = gameList.filter((game) =>
-      game.results.some((result) => result.name === name)
-    );
+export const gameLineChartAtom = atom((get) => {
+  const gameList = get(gameListAtom);
+  if (!gameList) return [];
 
-    const sortedResults = filteredResults.sort((a, b) => {
-      return b.createdAt.localeCompare(a.createdAt);
-    });
+  const names = Array.from(
+    new Set(gameList.flatMap((game) => game.results.map((result) => result.name)))
+  );
 
-    const results = sortedResults
+  // 表示は最新から10件に限定する
+  const displayCount = 10;
+  return names.map((name) => {
+    const results: GameLineData[] = gameList
+      .filter((game) => game.results.some((result) => result.name === name))
       .map((game) => {
         const result = game.results.find((r) => r.name === name);
         if (result) {
           return {
             rank: result.rank,
-            createAt: dateFormat(game.createdAt),
+            createdAt: dateFormat(game.createdAt),
           };
         }
       })
-      .filter((item): item is { rank: number; createAt: string } => !!item);
+      .filter((item) => !!item)
+      .sort((a, b) => {
+        return b.createdAt.localeCompare(a.createdAt);
+      })
+      .slice(0, displayCount)
+      .reverse();
 
-    return results.slice(0, 10);
+    // 10件のデータがない場合は、ダミーデータを追加
+    while (results.length < displayCount) {
+      results.push({ rank: null, createdAt: results.length.toString() });
+    }
+    return { name: name, results: results };
   });
+});

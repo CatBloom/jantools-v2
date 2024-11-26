@@ -1,28 +1,24 @@
-import { useEffect, useMemo } from 'react';
 import { Button, Stack, Typography } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
-import { GameResultTable } from '../features/game';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
-import { gameResultsAtom } from '../features/game/jotai';
-import { GameLineChart } from '../features/game/GameLineChart';
+import { gameListAtom } from '../features/game/jotai';
+import { GameResultTable, GameLineChart, GameStatsList, GamePieChart } from '../features/game';
 
-export default function Dashboard() {
+export const Dashboard = () => {
   const { id, name } = useParams();
   const navigate = useNavigate();
-  const gameResults = useAtomValue(useMemo(() => gameResultsAtom(name), [name]));
+  const gameList = useAtomValue(gameListAtom);
 
-  useEffect(() => {
-    if (!gameResults) {
-      navigate(`/detail/${id}`);
-    }
-  }, [gameResults, id, name, navigate]);
+  if (!gameList) {
+    return <Navigate to={`/detail/${id}`} replace />;
+  }
 
   return (
     <Stack spacing={3}>
-      {id && gameResults && (
+      {id && name && (
         <Stack spacing={3}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap">
-            <Typography minWidth="15rem" variant="h2">
+            <Typography flexGrow="1" variant="h2">
               {name}
             </Typography>
             <Button
@@ -34,12 +30,18 @@ export default function Dashboard() {
               詳細ページに戻る
             </Button>
           </Stack>
-          <Stack direction="row" flexWrap="wrap" sx={{ width: '100%' }}>
-            <GameLineChart></GameLineChart>
+          <Stack direction="row" flexWrap="wrap" width="100%">
+            <Stack flexBasis="400px" flexGrow="1">
+              <GameStatsList name={name} />
+              <GameLineChart name={name} />
+            </Stack>
+            <Stack flexBasis="300px" flexGrow="1">
+              <GamePieChart name={name} />
+            </Stack>
           </Stack>
-          <GameResultTable leagueID={id} games={gameResults}></GameResultTable>
+          <GameResultTable leagueID={id} name={name}></GameResultTable>
         </Stack>
       )}
     </Stack>
   );
-}
+};

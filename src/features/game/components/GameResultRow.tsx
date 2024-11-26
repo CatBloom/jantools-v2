@@ -7,9 +7,10 @@ import { Column } from '../../../types/common';
 export const GameResultRow = (props: {
   row: Game;
   align?: TableCellProps['align'];
+  clickRow?: (row: GameResult) => void;
   handleDelete?: (id: string) => void;
 }) => {
-  const { row, align, handleDelete } = props;
+  const { row, align, clickRow, handleDelete } = props;
 
   const resultColumns: Column<GameResult>[] = [
     { key: 'rank', display: '順位' },
@@ -38,7 +39,11 @@ export const GameResultRow = (props: {
         <Box sx={{ margin: 0 }}>
           <TableContainer<GameResult> columns={resultColumns} align={align} size="small">
             {row.results.map((resultRow) => (
-              <TableRow key={resultRow.rank}>
+              <TableRow
+                key={resultRow.name}
+                hover={!!clickRow}
+                onClick={clickRow ? () => clickRow(resultRow) : undefined}
+              >
                 <TableCell align={align}>{resultRow.rank}</TableCell>
                 <TableCell align={align}>{resultRow.name}</TableCell>
                 <TableCell align={align}>{resultRow.point}</TableCell>

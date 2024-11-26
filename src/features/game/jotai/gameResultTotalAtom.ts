@@ -2,9 +2,9 @@ import { atom } from 'jotai';
 import { GameResultTotal } from '../../../types/game';
 import { gameListAtom } from './gameListAtom';
 
-export const gameResultTotalAtom = atom<GameResultTotal[] | null>((get) => {
+export const gameResultTotalAtom = atom<GameResultTotal[]>((get) => {
   const gameResults = get(gameListAtom);
-  if (!gameResults) return null;
+  if (!gameResults) return [];
 
   const nameMap: { [name: string]: GameResultTotal & { sumRank: number } } = {};
   gameResults.forEach((game) => {

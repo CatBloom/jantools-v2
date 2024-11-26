@@ -1,43 +1,36 @@
-import { Box } from '@mui/material';
 import { LineChart } from '@mui/x-charts';
-import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { gameLineChartAtom } from './jotai/gameLineChartAtom';
-import { useParams } from 'react-router-dom';
 
-export const GameLineChart = () => {
-  const { name } = useParams();
-  const results = useAtomValue(useMemo(() => gameLineChartAtom(name), [name]));
+export const GameLineChart = (props: { name: string }) => {
+  const { name } = props;
 
-  const formatValue = (value: number | null) => {
-    return value !== null ? `${value}位` : '';
-  };
+  const results = useAtomValue(gameLineChartAtom)
+    .filter((result) => result.name === name)
+    .flatMap((result) => result.results);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <LineChart
-        height={200}
-        series={[
-          {
-            curve: 'linear',
-            data: results.map((v) => v.rank),
-            valueFormatter: formatValue,
-          },
-        ]}
-        xAxis={[
-          {
-            scaleType: 'point',
-            data: results.map((v) => v.createAt),
-            valueFormatter: (v: string) => {
-              return v.slice(0, 4) + '\n' + v.slice(5);
-            },
-          },
-        ]}
-        yAxis={[{ min: 1, max: 4, valueFormatter: formatValue, reverse: true }]}
-        bottomAxis={null}
-        leftAxis={null}
-        axisHighlight={{ x: 'none' }}
-      ></LineChart>
-    </Box>
+    <LineChart
+      height={200}
+      margin={{ left: 10 }}
+      series={[
+        {
+          curve: 'linear',
+          data: results.map((v) => v.rank),
+          valueFormatter: (value: number | null) => `${value}位`,
+        },
+      ]}
+      xAxis={[
+        {
+          scaleType: 'point',
+          data: results.map((v) => v.createdAt).slice(0, 10),
+        },
+      ]}
+      yAxis={[{ min: 0.9, max: 4.1, reverse: true }]}
+      bottomAxis={null}
+      leftAxis={null}
+      axisHighlight={{ x: 'none' }}
+      tooltip={{ trigger: 'item' }}
+    ></LineChart>
   );
 };

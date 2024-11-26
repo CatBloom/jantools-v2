@@ -3,9 +3,13 @@ import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { GameResultTotal } from '../../types/game';
 import { GameTotalRow } from './components/GameTotalRow';
+import { useAtomValue } from 'jotai';
+import { gameResultTotalAtom } from './jotai';
 
-export const GameTotalTable = (props: { leagueID: string; gameResultTotal: GameResultTotal[] }) => {
-  const { leagueID, gameResultTotal } = props;
+export const GameTotalTable = (props: { leagueID: string }) => {
+  const { leagueID } = props;
+
+  const gameResultTotal = useAtomValue(gameResultTotalAtom);
   const columns: Column<GameResultTotal>[] = [
     { key: 'rank', display: '順位' },
     { key: 'name', display: '名前' },
