@@ -12,7 +12,6 @@ export const useTheme = () => {
     (event: { target: { checked: boolean } }) => {
       const newTheme = event.target.checked ? 'dark' : 'light';
       setTheme(newTheme);
-      sessionStorage.setItem('theme', newTheme);
     },
     [setTheme]
   );

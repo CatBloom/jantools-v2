@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { dateFormat } from '../utils/date';
@@ -6,20 +5,16 @@ import { GameResultTable, GameTotalTable, GameRegister } from '../features/game'
 import { LeagueRuleList } from '../features/league/';
 import { useTab, useDisclosure } from '../hooks';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import { useAtomValue } from 'jotai';
-import { gameResultTotalAtom, gameResultsAtom } from '../features/game/jotai';
 import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
 import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
 
-export default function Detail() {
+export const Detail = () => {
   const { isOpen, open, close } = useDisclosure(false);
   const { tabValue, switchTab } = useTab('detail');
   const { id } = useParams();
   const { league } = useLeagueData();
   useSyncLeagueData();
   useSyncGameListData();
-  const gameResults = useAtomValue(useMemo(() => gameResultsAtom(), []));
-  const gameResultTotal = useAtomValue(gameResultTotalAtom);
 
   return (
     <Stack spacing={3}>
@@ -38,7 +33,7 @@ export default function Detail() {
                   alignItems="center"
                   flexWrap="wrap"
                 >
-                  <Typography minWidth="15rem" variant="h2">
+                  <Typography flexGrow="1" variant="h2">
                     {league.name}
                   </Typography>
                   <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
@@ -57,9 +52,7 @@ export default function Detail() {
                 </Stack>
               </>
 
-              {gameResultTotal && (
-                <GameTotalTable leagueID={id} gameResultTotal={gameResultTotal}></GameTotalTable>
-              )}
+              <GameTotalTable leagueID={id}></GameTotalTable>
             </Stack>
           )}
 
@@ -75,10 +68,7 @@ export default function Detail() {
                 <Button variant="contained" color="secondary" onClick={open}>
                   成績登録
                 </Button>
-
-                {gameResults && (
-                  <GameResultTable games={gameResults} leagueID={id} isDeleted></GameResultTable>
-                )}
+                <GameResultTable leagueID={id} isDeleted></GameResultTable>
               </Stack>
             </Stack>
           )}
@@ -92,4 +82,4 @@ export default function Detail() {
       )}
     </Stack>
   );
-}
+};
