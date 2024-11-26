@@ -42,6 +42,19 @@ export const darkTheme = createTheme({
       default: 'rgb(60, 60, 60)',
     },
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        outlined: {
+          color: '#ffffff',
+          borderColor: '#ffffff',
+          '&:hover': {
+            borderColor: commonTheme.palette.secondary.main,
+          },
+        },
+      },
+    },
+  },
 });
 
 // ライトテーマの設定
