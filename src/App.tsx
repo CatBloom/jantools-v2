@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { router } from './Router';
+import { router } from './router';
 import { lightTheme, darkTheme } from './theme';
 import { useTheme } from './hooks/useTheme';
 import { RouterProvider } from 'react-router';
