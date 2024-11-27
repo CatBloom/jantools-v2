@@ -1,4 +1,4 @@
-import { Outlet, ScrollRestoration } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router';
 import { Suspense } from 'react';
 import { Container } from '@mui/material';
 import { LoadingSpinner } from '../../components';

@@ -1,5 +1,5 @@
 import { Button, Stack, Typography } from '@mui/material';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
 import { gameListAtom } from '../features/game/jotai';
 import { GameResultTable, GameLineChart, GameStatsList, GamePieChart } from '../features/game';

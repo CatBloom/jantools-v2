@@ -2,7 +2,7 @@ import { Stack, Typography } from '@mui/material';
 import { ReqCreateLeague } from '../../types/league';
 import { LeagueForm } from './components/LeagueForm';
 import { useLeagueData } from './hooks/useLeagueData';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { LeagueFormData } from './types/form';
 import { useLoading } from '../../hooks/useLoading';
 

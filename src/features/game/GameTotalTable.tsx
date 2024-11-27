@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { GameResultTotal } from '../../types/game';

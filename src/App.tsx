@@ -1,14 +1,15 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { Router } from './Router';
+import { router } from './router';
 import { lightTheme, darkTheme } from './theme';
 import { useTheme } from './hooks/useTheme';
+import { RouterProvider } from 'react-router';
 
 export const App = () => {
   const { theme } = useTheme();
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <CssBaseline />
-      <Router />
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 };
