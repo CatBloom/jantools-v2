@@ -1,5 +1,5 @@
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { dateFormat } from '../utils/date';
 import { GameResultTable, GameTotalTable, GameRegister } from '../features/game';
 import { LeagueRuleList } from '../features/league/';

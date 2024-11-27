@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router';
 import { useAtom, useSetAtom } from 'jotai';
 import { paramWithIDAtom, prevParamWithIDAtom } from '../jotai/paramsAtom';
-import { useLocation } from 'react-router-dom';
 
 export const useSetIDParam = () => {
   const { id } = useParams();

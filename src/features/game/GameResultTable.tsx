@@ -7,7 +7,7 @@ import { GameResultRow } from './components/GameResultRow';
 import { GameDeleteConfirm } from './components/GameDeleteConfirm';
 import { useAtomValue } from 'jotai';
 import { gameResultsAtom } from './jotai';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const GameResultTable = (props: {
   leagueID: string;
