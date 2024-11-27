@@ -14,6 +14,8 @@ export const router = createBrowserRouter([
       },
       {
         element: <ContentLayout />,
+        // SSR機能なため、正しく動作しない可能性がある
+        // warning:No `HydrateFallback` element provided to render during initial hydration Error Component Stack を回避
         hydrateFallbackElement: <LoadingSpinner />,
         children: [
           {
