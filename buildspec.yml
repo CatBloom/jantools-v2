@@ -2,12 +2,17 @@ version: 0.2
 
 phases:
   install:
+    on-failure: ABORT
+    runtime-versions:
+      nodejs: 20
     commands:
       - yarn install
   build:
+    on-failure: ABORT
     commands:
       - yarn build
   post_build:
+    on-failure: ABORT
     commands:
       - aws s3 sync dist/ s3://${S3_BUCKET_NAME} --delete
       - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
