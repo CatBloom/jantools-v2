@@ -1,6 +1,6 @@
-import { useAtomValue } from 'jotai';
-import { gameResultTotalAtom } from './jotai';
 import { List, ListItem, ListItemText } from '@mui/material';
+import { useAtomValue } from 'jotai';
+import { gameResultTotalAtom } from './jotai/gameResultTotalAtom';
 
 export const GameStatsList = (props: { name: string }) => {
   const { name } = props;

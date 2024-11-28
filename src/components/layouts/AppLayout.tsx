@@ -1,7 +1,10 @@
 import { Outlet } from 'react-router';
 import { Box, Stack } from '@mui/material';
-import { Header, Footer, LoadingSpinner } from '../../components';
-import { useLoading, useSetIDParam } from '../../hooks';
+import { Header } from '../Header';
+import { Footer } from '../Footer';
+import { LoadingSpinner } from '../LoadingSpinner';
+import { useLoading } from '../../hooks/useLoading';
+import { useSetIDParam } from '../../hooks/useSetIDParam';
 
 export const AppLayout = () => {
   const { isLoading } = useLoading();

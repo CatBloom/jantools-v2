@@ -1,6 +1,7 @@
-import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
-import { leagueAtom, leagueFetcher } from '../jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { leagueAtom } from '../jotai/leagueAtom';
+import { leagueFetcher } from '../jotai/leagueFetcher';
 import { paramWithIDAtom, prevParamWithIDAtom } from '../../../jotai/paramsAtom';
 
 export const useSyncLeagueData = () => {

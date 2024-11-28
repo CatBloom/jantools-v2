@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router';
-import { TableContainer } from '../../components';
 import { Column } from '../../types/common';
 import { GameResultTotal } from '../../types/game';
 import { GameTotalRow } from './components/GameTotalRow';
+import { TableContainer } from '../../components/TableContainer';
 import { useAtomValue } from 'jotai';
-import { gameResultTotalAtom } from './jotai';
+import { gameResultTotalAtom } from './jotai/gameResultTotalAtom';
 
 export const GameTotalTable = (props: { leagueID: string }) => {
   const { leagueID } = props;

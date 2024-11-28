@@ -1,13 +1,15 @@
-import { TableContainer } from '../../components';
+import { useNavigate } from 'react-router';
 import { Column } from '../../types/common';
 import { Game, GameResult } from '../../types/game';
-import { useConfirm, useLoading } from '../../hooks';
 import { useGameData } from './hooks/useGameData';
 import { GameResultRow } from './components/GameResultRow';
 import { GameDeleteConfirm } from './components/GameDeleteConfirm';
+import { TableContainer } from '../../components/TableContainer';
+
 import { useAtomValue } from 'jotai';
-import { gameResultsAtom } from './jotai';
-import { useNavigate } from 'react-router';
+import { gameResultsAtom } from './jotai/gameResultsAtom';
+import { useConfirm } from '../../hooks/useConfirm';
+import { useLoading } from '../../hooks/useLoading';
 
 export const GameResultTable = (props: {
   leagueID: string;
