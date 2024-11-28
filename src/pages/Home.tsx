@@ -1,5 +1,5 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
-import { LeagueRegister } from '../features/league';
+import { LeagueRegister } from '../features/league/LeagueRegister';
 
 export const Home = () => {
   return (

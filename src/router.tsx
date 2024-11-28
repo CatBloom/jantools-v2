@@ -1,7 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router';
 import { Home } from './pages/Home';
-import { AppLayout, ContentLayout } from './components/layouts';
-import { LoadingSpinner } from './components';
+import { AppLayout } from './components/layouts/AppLayout';
+import { ContentLayout } from './components/layouts/ContentLayout';
+import { LoadingSpinner } from './components/LoadingSpinner';
 
 export const router = createBrowserRouter([
   {

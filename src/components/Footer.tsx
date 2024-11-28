@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { IconGithub } from './icons';
+import { IconGithub } from './icons/IconGithub';
 
 export const Footer = () => {
   return (

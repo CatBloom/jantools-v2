@@ -1,6 +1,6 @@
 import { PieChart } from '@mui/x-charts';
-import { gamePieChartAtom } from './jotai/gamePieChartAtom';
 import { useAtomValue } from 'jotai';
+import { gamePieChartAtom } from './jotai/gamePieChartAtom';
 
 export const GamePieChart = (props: { name: string }) => {
   const { name } = props;

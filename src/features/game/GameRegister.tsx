@@ -1,12 +1,12 @@
-import { useGameData } from './hooks/useGameData';
-import { ReqCreateGame } from '../../types/game';
-import { ModalContainer } from '../../components';
 import { GameForm } from './components/GameForm';
+import { ModalContainer } from '../../components/ModalContainer';
 import { LeagueRule } from '../../types/league';
+import { ReqCreateGame } from '../../types/game';
 import { GameFormData } from './types/form';
-import { useLoading } from '../../hooks';
+import { useGameData } from './hooks/useGameData';
+import { useLoading } from '../../hooks/useLoading';
 import { useAtomValue } from 'jotai';
-import { gamePlayerAtom } from './jotai';
+import { gamePlayerAtom } from './jotai/gamePlayerAtom';
 
 export const GameRegister = (props: {
   leagueID: string;

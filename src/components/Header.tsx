@@ -1,5 +1,5 @@
 import { AppBar, Box, Toolbar } from '@mui/material';
-import { ThemeSwitch } from '../components';
+import { ThemeSwitch } from '../components/ThemeSwitch';
 import { Link } from 'react-router';
 import logo from '../assets/titlelogo.png';
 import { useTheme } from '../hooks/useTheme';

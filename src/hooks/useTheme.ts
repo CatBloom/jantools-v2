@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { themeAtom } from '../jotai';
 import { useAtom } from 'jotai';
+import { themeAtom } from '../jotai/themeAtom';
 
 export const useTheme = () => {
   const [theme, setTheme] = useAtom(themeAtom);

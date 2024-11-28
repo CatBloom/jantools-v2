@@ -1,8 +1,11 @@
 import { Button, Stack, Typography } from '@mui/material';
 import { Navigate, useNavigate, useParams } from 'react-router';
 import { useAtomValue } from 'jotai';
-import { gameListAtom } from '../features/game/jotai';
-import { GameResultTable, GameLineChart, GameStatsList, GamePieChart } from '../features/game';
+import { gameListAtom } from '../features/game/jotai/gameListAtom';
+import { GameStatsList } from '../features/game/GameStatsList';
+import { GameLineChart } from '../features/game/GameLineChart';
+import { GamePieChart } from '../features/game/GamePieChart';
+import { GameResultTable } from '../features/game/GameResultTable';
 
 export const Dashboard = () => {
   const { id, name } = useParams();
