@@ -6,7 +6,7 @@ export const Home = () => {
     <>
       <Box
         component="img"
-        src="https://catbloom-images.s3.ap-northeast-1.amazonaws.com/jantools_top_image.jpg"
+        src="https://static.catbloom.net/jantools_top_image.webp"
         alt="Logo"
         sx={{
           width: 1,
