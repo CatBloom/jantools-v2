@@ -1,7 +1,17 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
 import { LeagueRegister } from '../features/league/LeagueRegister';
+import { useNavigate } from 'react-router';
+import { useFavorite } from '../features/favorite/hooks/useFavorite';
 
 export const Home = () => {
+  const navigate = useNavigate();
+  const { addFavorite } = useFavorite();
+
+  const success = (id: string, name: string) => {
+    addFavorite({ id: id, name: name });
+    navigate(`/detail/${id}`);
+  };
+
   return (
     <>
       <Box
@@ -20,7 +30,7 @@ export const Home = () => {
             <br />
             大会登録を行い、成績を入力することで、全体の成績やプレイヤーごとの成績を簡単に管理できます。
           </Typography>
-          <LeagueRegister></LeagueRegister>
+          <LeagueRegister success={success}></LeagueRegister>
         </Stack>
       </Container>
     </>
