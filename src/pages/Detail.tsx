@@ -9,6 +9,7 @@ import { LeagueRuleList } from '../features/league/LeagueRuleList';
 import { GameTotalTable } from '../features/game/GameTotalTable';
 import { GameResultTable } from '../features/game/GameResultTable';
 import { GameRegister } from '../features/game/GameRegister';
+import { FavoriteToggle } from '../features/favorite/FavoriteToggle';
 import { dateFormat } from '../utils/date';
 
 export const Detail = () => {
@@ -19,70 +20,72 @@ export const Detail = () => {
   useSyncLeagueData();
   useSyncGameListData();
 
+  if (!league || !id) return null;
+
   return (
     <Stack spacing={3}>
-      <Tabs value={tabValue} onChange={switchTab} textColor="secondary" indicatorColor="secondary">
-        <Tab value="detail" label="詳細"></Tab>
-        <Tab value="edit" label="成績管理"></Tab>
-      </Tabs>
-      {league && id && (
-        <>
-          {tabValue === 'detail' && (
-            <Stack spacing={3}>
-              <>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  flexWrap="wrap"
-                >
-                  <Typography flexGrow="1" variant="h2">
-                    {league.name}
-                  </Typography>
-                  <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
-                </Stack>
-                {league.manual && (
-                  <Stack spacing={1}>
-                    <Typography variant="h3">詳細</Typography>
-                    <Divider />
-                    <Typography component="p">{league.manual}</Typography>
-                  </Stack>
-                )}
-                <Stack spacing={1}>
-                  <Typography variant="h3">ルール</Typography>
-                  <Divider />
-                  <LeagueRuleList rule={league.rule} />
-                </Stack>
-              </>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+        <Tabs
+          value={tabValue}
+          onChange={switchTab}
+          textColor="secondary"
+          indicatorColor="secondary"
+        >
+          <Tab value="detail" label="詳細"></Tab>
+          <Tab value="edit" label="成績管理"></Tab>
+        </Tabs>
+        <FavoriteToggle favorite={{ id: league.id, name: league.name }} />
+      </Stack>
 
-              <GameTotalTable leagueID={id}></GameTotalTable>
+      {tabValue === 'detail' && (
+        <Stack spacing={3}>
+          <>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              flexWrap="wrap"
+            >
+              <Typography flexGrow="1" variant="h2">
+                {league.name}
+              </Typography>
+              <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
             </Stack>
-          )}
-
-          {tabValue === 'edit' && (
-            <Stack spacing={3}>
-              <Stack direction="row">
-                <Typography minWidth="15rem" variant="h2">
-                  成績管理
-                </Typography>
+            {league.manual && (
+              <Stack spacing={1}>
+                <Typography variant="h3">詳細</Typography>
+                <Divider />
+                <Typography component="p">{league.manual}</Typography>
               </Stack>
-
-              <Stack>
-                <Button variant="contained" color="secondary" onClick={open}>
-                  成績登録
-                </Button>
-                <GameResultTable leagueID={id} isDeleted></GameResultTable>
-              </Stack>
+            )}
+            <Stack spacing={1}>
+              <Typography variant="h3">ルール</Typography>
+              <Divider />
+              <LeagueRuleList rule={league.rule} />
             </Stack>
-          )}
-          <GameRegister
-            leagueID={id}
-            rule={league.rule}
-            isOpen={isOpen}
-            close={close}
-          ></GameRegister>
-        </>
+          </>
+
+          <GameTotalTable leagueID={id}></GameTotalTable>
+        </Stack>
       )}
+
+      {tabValue === 'edit' && (
+        <Stack spacing={3}>
+          <Stack direction="row">
+            <Typography minWidth="15rem" variant="h2">
+              成績管理
+            </Typography>
+          </Stack>
+
+          <Stack>
+            <Button variant="contained" color="secondary" onClick={open}>
+              成績登録
+            </Button>
+            <GameResultTable leagueID={id} isDeleted></GameResultTable>
+          </Stack>
+        </Stack>
+      )}
+      <GameRegister leagueID={id} rule={league.rule} isOpen={isOpen} close={close}></GameRegister>
     </Stack>
   );
 };

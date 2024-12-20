@@ -1,20 +1,19 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useAtom } from 'jotai';
 import { themeAtom } from '../jotai/themeAtom';
+import { darkTheme, lightTheme } from '../theme';
 
 export const useTheme = () => {
-  const [theme, setTheme] = useAtom(themeAtom);
-
-  const setLight = useCallback(() => setTheme('light'), [setTheme]);
-  const setDark = useCallback(() => setTheme('dark'), [setTheme]);
+  const [currentTheme, setCurrentTheme] = useAtom(themeAtom);
+  const theme = useMemo(() => (currentTheme === 'dark' ? darkTheme : lightTheme), [currentTheme]);
 
   const switchTheme = useCallback(
-    (event: { target: { checked: boolean } }) => {
+    (event: React.ChangeEvent<HTMLInputElement>) => {
       const newTheme = event.target.checked ? 'dark' : 'light';
-      setTheme(newTheme);
+      setCurrentTheme(newTheme);
     },
-    [setTheme]
+    [setCurrentTheme]
   );
 
-  return { theme, setLight, setDark, switchTheme };
+  return { theme, currentTheme, switchTheme };
 };
