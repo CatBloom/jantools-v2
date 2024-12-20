@@ -16,6 +16,7 @@
     "@mui/material": "^6.0.2",
     "@mui/x-charts": "^7.22.2",
     "axios": "^1.7.7",
+    "axios-retry": "^4.5.0",
     "jotai": "^2.10.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
