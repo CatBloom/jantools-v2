@@ -5,11 +5,12 @@ import { useGameData } from './hooks/useGameData';
 import { GameResultRow } from './components/GameResultRow';
 import { GameDeleteConfirm } from './components/GameDeleteConfirm';
 import { TableContainer } from '../../components/TableContainer';
-
+import { TablePagination } from '@mui/material';
 import { useAtomValue } from 'jotai';
 import { gameResultsAtom } from './jotai/gameResultsAtom';
 import { useConfirm } from '../../hooks/useConfirm';
 import { useLoading } from '../../hooks/useLoading';
+import { usePagination } from '../../hooks/usePagination';
 
 export const GameResultTable = (props: {
   leagueID: string;
@@ -31,6 +32,7 @@ export const GameResultTable = (props: {
   const { deleteGameData } = useGameData();
   const { isOpen, open, close } = useConfirm();
   const loading = useLoading();
+  const { page, rowsPerPage, setPage, handleChangePage } = usePagination();
 
   const deleteGame = async (gid: string) => {
     const result = await open();
@@ -50,12 +52,14 @@ export const GameResultTable = (props: {
 
   const navigate = useNavigate();
   const clickRow = (row: GameResult) => {
+    setPage(0); // Paginationをリセット
     navigate(`/dashboard/${leagueID}/${row.name}`);
   };
+
   return (
     <>
       <TableContainer<Game> columns={columns} align="center" size="small" elevation={1}>
-        {gameResults.map((row, i) => (
+        {gameResults.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => (
           <GameResultRow
             key={i}
             row={row}
@@ -64,6 +68,13 @@ export const GameResultTable = (props: {
             handleDelete={isDeleted ? deleteGame : undefined}
           />
         ))}
+        <TablePagination
+          count={gameResults.length}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[rowsPerPage]}
+          page={page}
+          onPageChange={handleChangePage}
+        />
       </TableContainer>
       <GameDeleteConfirm isOpen={isOpen} close={close}></GameDeleteConfirm>
     </>
