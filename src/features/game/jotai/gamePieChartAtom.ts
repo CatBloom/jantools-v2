@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { gameListAtom } from './gameListAtom';
+import { gameListFetcher } from './gameListFetcher';
 
 interface GamePieData {
   id: number;
@@ -7,8 +7,8 @@ interface GamePieData {
   value: number;
 }
 
-export const gamePieChartAtom = atom((get) => {
-  const gameList = get(gameListAtom);
+export const gamePieChartAtom = atom(async (get) => {
+  const gameList = await get(gameListFetcher);
   if (!gameList) return [];
 
   const names = Array.from(

@@ -1,9 +1,9 @@
 import { atom } from 'jotai';
 import { GameResultTotal } from '../../../types/game';
-import { gameListAtom } from './gameListAtom';
+import { gameListFetcher } from './gameListFetcher';
 
-export const gameResultTotalAtom = atom<GameResultTotal[]>((get) => {
-  const gameResults = get(gameListAtom);
+export const gameResultTotalAtom = atom(async (get) => {
+  const gameResults = await get(gameListFetcher);
   if (!gameResults) return [];
 
   const nameMap: { [name: string]: GameResultTotal & { sumRank: number } } = {};

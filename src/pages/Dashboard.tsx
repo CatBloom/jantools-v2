@@ -1,16 +1,15 @@
 import { Button, Stack, Typography } from '@mui/material';
 import { Navigate, useNavigate, useParams } from 'react-router';
-import { useAtomValue } from 'jotai';
-import { gameListAtom } from '../features/game/jotai/gameListAtom';
 import { GameStatsList } from '../features/game/GameStatsList';
 import { GameLineChart } from '../features/game/GameLineChart';
 import { GamePieChart } from '../features/game/GamePieChart';
 import { GameResultTable } from '../features/game/GameResultTable';
+import { useGameData } from '../features/game/hooks/useGameData';
 
 export const Dashboard = () => {
   const { id, name } = useParams();
   const navigate = useNavigate();
-  const gameList = useAtomValue(gameListAtom);
+  const { gameList } = useGameData();
 
   if (!gameList) {
     return <Navigate to={`/detail/${id}`} replace />;

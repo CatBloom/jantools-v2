@@ -1,9 +1,8 @@
 import { atom } from 'jotai';
-import { Game } from '../../../types/game';
-import { gameListAtom } from './gameListAtom';
+import { gameListFetcher } from './gameListFetcher';
 
-export const gameResultsAtom = atom<Game[]>((get) => {
-  const gameList = get(gameListAtom);
+export const gameResultsAtom = atom(async (get) => {
+  const gameList = await get(gameListFetcher);
   if (!gameList) return [];
 
   return [...gameList].sort((a, b) => {

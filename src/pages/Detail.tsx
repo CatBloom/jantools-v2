@@ -1,8 +1,6 @@
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router';
 import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import { useSyncGameListData } from '../features/game/hooks/useSyncGameListData';
-import { useSyncLeagueData } from '../features/league/hooks/useSyncLeagueData';
 import { useDisclosure } from '../hooks/useDisclosure';
 import { useTab } from '../hooks/useTab';
 import { LeagueRuleList } from '../features/league/LeagueRuleList';
@@ -17,8 +15,6 @@ export const Detail = () => {
   const { tabValue, switchTab } = useTab('detail');
   const { id } = useParams();
   const { league } = useLeagueData();
-  useSyncLeagueData();
-  useSyncGameListData();
 
   if (!league || !id) return null;
 

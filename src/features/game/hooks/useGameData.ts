@@ -3,10 +3,10 @@ import { Game, ReqCreateGame } from '../../../types/game';
 import { useState } from 'react';
 import { createGame, deleteGame, updateGame } from '../../../api/services/gameService';
 import { useAtom } from 'jotai';
-import { gameListAtom } from '../jotai/gameListAtom';
+import { gameListFetcher } from '../jotai/gameListFetcher';
 
 export const useGameData = () => {
-  const [gameList, setGameList] = useAtom(gameListAtom);
+  const [gameList, refreshGameList] = useAtom(gameListFetcher);
   const [error, setError] = useState<string>('');
   const errorEmpty = 'error:empty data';
   const errException = 'error: an unexpected error occurred';
@@ -15,7 +15,7 @@ export const useGameData = () => {
     try {
       const res = await createGame(game);
       if (res) {
-        setGameList((prev) => (prev ? [...prev, res] : [res]));
+        refreshGameList();
       } else {
         throw new Error(errorEmpty);
       }
@@ -34,9 +34,7 @@ export const useGameData = () => {
     try {
       const res = await updateGame(game);
       if (res) {
-        setGameList((prev) =>
-          prev ? prev.map((game) => (game.id === res.id ? res : game)) : [res]
-        );
+        refreshGameList();
       } else {
         throw new Error(errorEmpty);
       }
@@ -55,7 +53,7 @@ export const useGameData = () => {
     try {
       const res = await deleteGame(id, lid);
       if (res) {
-        setGameList((prev) => (prev ? prev.filter((game) => game.id !== res.id) : []));
+        refreshGameList();
       } else {
         throw new Error(errorEmpty);
       }
