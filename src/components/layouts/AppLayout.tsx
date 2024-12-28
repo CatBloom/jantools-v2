@@ -4,7 +4,7 @@ import { Header } from '../Header';
 import { Footer } from '../Footer';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { useLoading } from '../../hooks/useLoading';
-import { useSetIDParam } from '../../hooks/useSetIDParam';
+import { useSetIDParam } from '../../jotai/paramsAtom';
 
 export const AppLayout = () => {
   const { isLoading } = useLoading();
