@@ -1,10 +1,10 @@
 import { List, ListItem, ListItemText } from '@mui/material';
-import { useAtomValue } from 'jotai';
-import { gameResultTotalAtom } from './jotai/gameResultTotalAtom';
+import { useGameData } from './hooks/useGameData';
 
 export const GameStatsList = (props: { name: string }) => {
   const { name } = props;
-  const results = useAtomValue(gameResultTotalAtom).find((result) => result.name === name);
+  const { resultTotalData } = useGameData();
+  const results = resultTotalData.find((result) => result.name === name);
   return (
     <List disablePadding>
       <ListItem disablePadding sx={{ flexWrap: 'wrap' }}>

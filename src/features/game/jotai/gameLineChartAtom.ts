@@ -1,14 +1,14 @@
 import { atom } from 'jotai';
-import { gameListAtom } from './gameListAtom';
 import { dateFormat } from '../../../utils/date';
+import { gameListFetcher } from './gameListFetcher';
 
 interface GameLineData {
   rank: number | null;
   createdAt: string;
 }
 
-export const gameLineChartAtom = atom((get) => {
-  const gameList = get(gameListAtom);
+export const gameLineChartAtom = atom(async (get) => {
+  const gameList = await get(gameListFetcher);
   if (!gameList) return [];
 
   const names = Array.from(

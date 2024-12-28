@@ -1,11 +1,10 @@
 import { LineChart } from '@mui/x-charts';
-import { useAtomValue } from 'jotai';
-import { gameLineChartAtom } from './jotai/gameLineChartAtom';
+import { useGameData } from './hooks/useGameData';
 
 export const GameLineChart = (props: { name: string }) => {
   const { name } = props;
-
-  const results = useAtomValue(gameLineChartAtom)
+  const { lineChartData } = useGameData();
+  const results = lineChartData
     .filter((result) => result.name === name)
     .flatMap((result) => result.results);
 

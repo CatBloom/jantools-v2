@@ -3,13 +3,12 @@ import { Column } from '../../types/common';
 import { GameResultTotal } from '../../types/game';
 import { GameTotalRow } from './components/GameTotalRow';
 import { TableContainer } from '../../components/TableContainer';
-import { useAtomValue } from 'jotai';
-import { gameResultTotalAtom } from './jotai/gameResultTotalAtom';
+import { useGameData } from './hooks/useGameData';
 
 export const GameTotalTable = (props: { leagueID: string }) => {
   const { leagueID } = props;
 
-  const gameResultTotal = useAtomValue(gameResultTotalAtom);
+  const { resultTotalData } = useGameData();
   const columns: Column<GameResultTotal>[] = [
     { key: 'rank', display: '順位' },
     { key: 'name', display: '名前' },
@@ -25,7 +24,7 @@ export const GameTotalTable = (props: { leagueID: string }) => {
 
   return (
     <TableContainer<GameResultTotal> columns={columns} align="center" elevation={1}>
-      {gameResultTotal.map((row, i) => (
+      {resultTotalData.map((row, i) => (
         <GameTotalRow key={i} row={row} align="center" clickRow={clickRow} />
       ))}
     </TableContainer>

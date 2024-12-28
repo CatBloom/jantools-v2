@@ -2,11 +2,22 @@ import axios from 'axios';
 import { Game, ReqCreateGame } from '../../../types/game';
 import { useState } from 'react';
 import { createGame, deleteGame, updateGame } from '../../../api/services/gameService';
-import { useAtom } from 'jotai';
-import { gameListAtom } from '../jotai/gameListAtom';
+import { useAtom, useAtomValue } from 'jotai';
+import { gameLineChartAtom } from '../jotai/gameLineChartAtom';
+import { gamePieChartAtom } from '../jotai/gamePieChartAtom';
+import { gamePlayerAtom } from '../jotai/gamePlayerAtom';
+import { gameResultTotalAtom } from '../jotai/gameResultTotalAtom';
+import { gameResultDescAtom } from '../jotai/gameResultDescAtom';
+import { gameListFetcher } from '../jotai/gameListFetcher';
 
 export const useGameData = () => {
-  const [gameList, setGameList] = useAtom(gameListAtom);
+  const [gameListData, refreshGameListData] = useAtom(gameListFetcher);
+  const resultDescData = useAtomValue(gameResultDescAtom);
+  const lineChartData = useAtomValue(gameLineChartAtom);
+  const pieChartData = useAtomValue(gamePieChartAtom);
+  const playersData = useAtomValue(gamePlayerAtom);
+  const resultTotalData = useAtomValue(gameResultTotalAtom);
+
   const [error, setError] = useState<string>('');
   const errorEmpty = 'error:empty data';
   const errException = 'error: an unexpected error occurred';
@@ -15,7 +26,7 @@ export const useGameData = () => {
     try {
       const res = await createGame(game);
       if (res) {
-        setGameList((prev) => (prev ? [...prev, res] : [res]));
+        refreshGameListData();
       } else {
         throw new Error(errorEmpty);
       }
@@ -34,9 +45,7 @@ export const useGameData = () => {
     try {
       const res = await updateGame(game);
       if (res) {
-        setGameList((prev) =>
-          prev ? prev.map((game) => (game.id === res.id ? res : game)) : [res]
-        );
+        refreshGameListData();
       } else {
         throw new Error(errorEmpty);
       }
@@ -55,7 +64,7 @@ export const useGameData = () => {
     try {
       const res = await deleteGame(id, lid);
       if (res) {
-        setGameList((prev) => (prev ? prev.filter((game) => game.id !== res.id) : []));
+        refreshGameListData();
       } else {
         throw new Error(errorEmpty);
       }
@@ -71,10 +80,15 @@ export const useGameData = () => {
   };
 
   return {
-    gameList,
+    gameListData,
     error,
     createGameData,
     updateGameData,
     deleteGameData,
+    resultDescData,
+    lineChartData,
+    pieChartData,
+    playersData,
+    resultTotalData,
   };
 };

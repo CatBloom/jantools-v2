@@ -5,9 +5,7 @@ import { useGameData } from './hooks/useGameData';
 import { GameResultRow } from './components/GameResultRow';
 import { GameDeleteConfirm } from './components/GameDeleteConfirm';
 import { TableContainer } from '../../components/TableContainer';
-import { TablePagination } from '@mui/material';
-import { useAtomValue } from 'jotai';
-import { gameResultsAtom } from './jotai/gameResultsAtom';
+import { TablePagination, TableRow } from '@mui/material';
 import { useConfirm } from '../../hooks/useConfirm';
 import { useLoading } from '../../hooks/useLoading';
 import { usePagination } from '../../hooks/usePagination';
@@ -19,11 +17,11 @@ export const GameResultTable = (props: {
 }) => {
   const { leagueID, name, isDeleted } = props;
 
-  const gameResultsAtomValue = useAtomValue(gameResultsAtom);
+  const { resultDescData } = useGameData();
   // nameがある場合は、参加したゲームの結果のみ表示する
   const gameResults = name
-    ? gameResultsAtomValue.filter((game) => game.results.some((result) => result.name === name))
-    : gameResultsAtomValue;
+    ? resultDescData.filter((game) => game.results.some((result) => result.name === name))
+    : resultDescData;
 
   const columns: Column<Game>[] = [
     { key: 'createdAt', display: '登録日' },
@@ -68,13 +66,15 @@ export const GameResultTable = (props: {
             handleDelete={isDeleted ? deleteGame : undefined}
           />
         ))}
-        <TablePagination
-          count={gameResults.length}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[rowsPerPage]}
-          page={page}
-          onPageChange={handleChangePage}
-        />
+        <TableRow>
+          <TablePagination
+            count={gameResults.length}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={[rowsPerPage]}
+            page={page}
+            onPageChange={handleChangePage}
+          />
+        </TableRow>
       </TableContainer>
       <GameDeleteConfirm isOpen={isOpen} close={close}></GameDeleteConfirm>
     </>
