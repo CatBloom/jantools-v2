@@ -1,10 +1,10 @@
 import { PieChart } from '@mui/x-charts';
-import { useAtomValue } from 'jotai';
-import { gamePieChartAtom } from './jotai/gamePieChartAtom';
+import { useGameData } from './hooks/useGameData';
 
 export const GamePieChart = (props: { name: string }) => {
   const { name } = props;
-  const results = useAtomValue(gamePieChartAtom)
+  const { pieChartData } = useGameData();
+  const results = pieChartData
     .filter((result) => result.name === name)
     .flatMap((game) => game.results);
 

@@ -5,8 +5,6 @@ import { ReqCreateGame } from '../../types/game';
 import { GameFormData } from './types/form';
 import { useGameData } from './hooks/useGameData';
 import { useLoading } from '../../hooks/useLoading';
-import { useAtomValue } from 'jotai';
-import { gamePlayerAtom } from './jotai/gamePlayerAtom';
 
 export const GameRegister = (props: {
   leagueID: string;
@@ -15,9 +13,8 @@ export const GameRegister = (props: {
   close: () => void;
 }) => {
   const { leagueID, rule, isOpen, close } = props;
-  const { createGameData } = useGameData();
+  const { createGameData, playersData } = useGameData();
   const loading = useLoading();
-  const gamePlayers = useAtomValue(gamePlayerAtom);
 
   const submit = async (formdata: GameFormData) => {
     const req: ReqCreateGame = { ...formdata, leagueID: leagueID };
@@ -35,7 +32,7 @@ export const GameRegister = (props: {
 
   return (
     <ModalContainer modalTitle="成績登録" isOpen={isOpen} close={close}>
-      <GameForm rule={rule} gamePlayers={gamePlayers} submit={submit} />
+      <GameForm rule={rule} gamePlayers={playersData} submit={submit} />
     </ModalContainer>
   );
 };

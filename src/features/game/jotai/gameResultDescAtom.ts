@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import { gameListFetcher } from './gameListFetcher';
 
-export const gameResultsAtom = atom(async (get) => {
+export const gameResultDescAtom = atom(async (get) => {
   const gameList = await get(gameListFetcher);
   if (!gameList) return [];
 

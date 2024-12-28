@@ -9,9 +9,9 @@ import { useGameData } from '../features/game/hooks/useGameData';
 export const Dashboard = () => {
   const { id, name } = useParams();
   const navigate = useNavigate();
-  const { gameList } = useGameData();
+  const { gameListData } = useGameData();
 
-  if (!gameList) {
+  if (!gameListData) {
     return <Navigate to={`/detail/${id}`} replace />;
   }
 
