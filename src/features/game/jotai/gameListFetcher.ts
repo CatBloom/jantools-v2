@@ -1,5 +1,5 @@
 import { atomWithRefresh } from 'jotai/utils';
-import { fetchGameList } from '../../../api/services/gameService';
+import { fetchGameList } from '../api/gameService';
 import { paramWithIDAtom } from '../../../jotai/paramsAtom';
 
 export const gameListFetcher = atomWithRefresh(async (get, { signal }) => {

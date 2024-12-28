@@ -1,5 +1,5 @@
 import { atomWithRefresh } from 'jotai/utils';
-import { fetchLeague } from '../../../api/services/leagueService';
+import { fetchLeague } from '../api/leagueService';
 import { paramWithIDAtom } from '../../../jotai/paramsAtom';
 
 export const leagueFetcher = atomWithRefresh(async (get, { signal }) => {

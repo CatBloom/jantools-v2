@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Game, ReqCreateGame } from '../../../types/game';
 import { useState } from 'react';
-import { createGame, deleteGame, updateGame } from '../../../api/services/gameService';
+import { createGame, deleteGame, updateGame } from '../api/gameService';
 import { useAtom, useAtomValue } from 'jotai';
 import { gameLineChartAtom } from '../jotai/gameLineChartAtom';
 import { gamePieChartAtom } from '../jotai/gamePieChartAtom';
