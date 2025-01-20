@@ -61,7 +61,7 @@ export const Detail = () => {
             </Stack>
           </>
 
-          <GameTotalTable leagueID={id}></GameTotalTable>
+          <GameTotalTable id={id}></GameTotalTable>
         </Stack>
       )}
 
@@ -77,11 +77,11 @@ export const Detail = () => {
             <Button variant="contained" color="secondary" onClick={open}>
               成績登録
             </Button>
-            <GameResultTable leagueID={id} isDeleted></GameResultTable>
+            <GameResultTable id={id} isDeleted></GameResultTable>
           </Stack>
         </Stack>
       )}
-      <GameRegister leagueID={id} rule={league.rule} isOpen={isOpen} close={close}></GameRegister>
+      <GameRegister rule={league.rule} isOpen={isOpen} close={close}></GameRegister>
     </Stack>
   );
 };
