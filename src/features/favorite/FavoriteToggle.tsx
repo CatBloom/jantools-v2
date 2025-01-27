@@ -15,7 +15,7 @@ export const FavoriteToggle = (props: { favorite: Favorite }) => {
         if (isFavorite) {
           removeFavorite(favorite.id);
         } else {
-          addFavorite(favorite);
+          addFavorite(favorite.id, favorite.name);
         }
       }}
     >
