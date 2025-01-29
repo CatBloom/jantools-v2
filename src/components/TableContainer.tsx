@@ -10,8 +10,7 @@ import {
   TableOwnProps,
 } from '@mui/material';
 import MUITabelContainer from '@mui/material/TableContainer';
-
-import { Column } from '../types/common';
+import { Column } from '@/types/common';
 
 export const TableContainer = <T,>(props: {
   columns: Column<T>[];

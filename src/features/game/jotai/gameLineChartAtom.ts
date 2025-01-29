@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
-import { dateFormat } from '../../../utils/date';
-import { gameListFetcher } from './gameListFetcher';
+import { dateFormat } from '@/utils/date';
+import { gameListFetcher } from '../api/gameListFetcher';
 
 interface GameLineData {
   rank: number | null;

@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemText } from '@mui/material';
-import { LeagueRule } from '../../types/league';
+import { LeagueRule } from '@/types/league';
 
 export const LeagueRuleList = (props: { rule: LeagueRule }) => {
   const { rule } = props;

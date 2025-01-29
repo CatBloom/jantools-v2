@@ -1,14 +1,14 @@
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { Favorite } from '../types/Favorite';
+import { Favorite } from '@/types/favorite';
 
 const favoriteListAtom = atomWithStorage<Favorite[]>('favoriteList', []);
 
 export const useFavorite = () => {
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
 
-  const addFavorite = (favorite: Favorite) => {
-    setFavoriteList((prev) => [...prev, { id: favorite.id, name: favorite.name }]);
+  const addFavorite = (id: string, name: string) => {
+    setFavoriteList((prev) => [...prev, { id: id, name: name }]);
   };
 
   const removeFavorite = (id: string) => {

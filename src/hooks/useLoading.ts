@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
-import { useAtom } from 'jotai';
-import { loadingAtom } from '../jotai/loadingAtom';
+import { atom, useAtom } from 'jotai';
+
+const loadingAtom = atom(false);
 
 export const useLoading = () => {
   const [isLoading, setLoading] = useAtom(loadingAtom);

@@ -1,14 +1,14 @@
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router';
-import { useLeagueData } from '../features/league/hooks/useLeagueData';
-import { useDisclosure } from '../hooks/useDisclosure';
-import { useTab } from '../hooks/useTab';
-import { LeagueRuleList } from '../features/league/LeagueRuleList';
-import { GameTotalTable } from '../features/game/GameTotalTable';
-import { GameResultTable } from '../features/game/GameResultTable';
-import { GameRegister } from '../features/game/GameRegister';
-import { FavoriteToggle } from '../features/favorite/FavoriteToggle';
-import { dateFormat } from '../utils/date';
+import { useDisclosure } from '@/hooks/useDisclosure';
+import { useTab } from '@/hooks/useTab';
+import { LeagueRuleList } from '@/features/league/LeagueRuleList';
+import { useLeagueData } from '@/features/league/hooks/useLeagueData';
+import { GameTotalTable } from '@/features/game/GameTotalTable';
+import { GameResultTable } from '@/features/game/GameResultTable';
+import { GameRegister } from '@/features/game/GameRegister';
+import { FavoriteToggle } from '@/features/favorite/FavoriteToggle';
+import { dateFormat } from '@/utils/date';
 
 export const Detail = () => {
   const { isOpen, open, close } = useDisclosure(false);
@@ -61,7 +61,7 @@ export const Detail = () => {
             </Stack>
           </>
 
-          <GameTotalTable leagueID={id}></GameTotalTable>
+          <GameTotalTable id={id}></GameTotalTable>
         </Stack>
       )}
 
@@ -77,11 +77,11 @@ export const Detail = () => {
             <Button variant="contained" color="secondary" onClick={open}>
               成績登録
             </Button>
-            <GameResultTable leagueID={id} isDeleted></GameResultTable>
+            <GameResultTable id={id} isDeleted></GameResultTable>
           </Stack>
         </Stack>
       )}
-      <GameRegister leagueID={id} rule={league.rule} isOpen={isOpen} close={close}></GameRegister>
+      <GameRegister rule={league.rule} isOpen={isOpen} close={close}></GameRegister>
     </Stack>
   );
 };

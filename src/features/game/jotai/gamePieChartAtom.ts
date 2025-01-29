@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { gameListFetcher } from './gameListFetcher';
+import { gameListFetcher } from '../api/gameListFetcher';
 
 interface GamePieData {
   id: number;

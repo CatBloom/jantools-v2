@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
-import { ConfirmResult } from '../../../hooks/useConfirm';
-import { ModalContainer } from '../../../components/ModalContainer';
+import { ConfirmResult } from '@/hooks/useConfirm';
+import { ModalContainer } from '@/components/ModalContainer';
 
 export const GameDeleteConfirm = (props: {
   isOpen: boolean;

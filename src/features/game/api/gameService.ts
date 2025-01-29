@@ -1,5 +1,5 @@
-import { Game, ReqCreateGame, ResDeleteGame } from '../../types/game';
-import { apiClient } from '../apiClient';
+import { Game, ReqCreateGame, ResDeleteGame } from '@/types/game';
+import { apiClient } from '@/lib/apiClient';
 
 export const fetchGameList = async (lid: string, signal?: AbortSignal): Promise<Game[]> => {
   const params = { leagueId: lid };

@@ -1,8 +1,8 @@
 import { Box, IconButton, TableCell, TableCellProps, TableRow } from '@mui/material';
-import { TableContainer } from '../../../components/TableContainer';
-import { Column } from '../../../types/common';
-import { Game, GameResult } from '../../../types/game';
-import { dateFormat } from '../../../utils/date';
+import { TableContainer } from '@/components/TableContainer';
+import { Column } from '@/types/common';
+import { Game, GameResult } from '@/types/game';
+import { dateFormat } from '@/utils/date';
 
 export const GameResultRow = (props: {
   row: Game;

@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router';
-import { Column } from '../../types/common';
-import { GameResultTotal } from '../../types/game';
+import { Column } from '@/types/common';
+import { GameResultTotal } from '@/types/game';
+import { TableContainer } from '@/components/TableContainer';
 import { GameTotalRow } from './components/GameTotalRow';
-import { TableContainer } from '../../components/TableContainer';
 import { useGameData } from './hooks/useGameData';
 
-export const GameTotalTable = (props: { leagueID: string }) => {
-  const { leagueID } = props;
+export const GameTotalTable = (props: { id: string }) => {
+  const { id } = props;
 
   const { resultTotalData } = useGameData();
   const columns: Column<GameResultTotal>[] = [
@@ -19,7 +19,7 @@ export const GameTotalTable = (props: { leagueID: string }) => {
 
   const navigate = useNavigate();
   const clickRow = (row: GameResultTotal) => {
-    navigate(`/dashboard/${leagueID}/${row.name}`);
+    navigate(`/dashboard/${id}/${row.name}`);
   };
 
   return (

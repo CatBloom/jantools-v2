@@ -1,7 +1,9 @@
 import { useCallback, useMemo } from 'react';
 import { useAtom } from 'jotai';
-import { themeAtom } from '../jotai/themeAtom';
-import { darkTheme, lightTheme } from '../theme';
+import { atomWithStorage } from 'jotai/utils';
+import { darkTheme, lightTheme } from '@/theme';
+
+const themeAtom = atomWithStorage('theme', 'light');
 
 export const useTheme = () => {
   const [currentTheme, setCurrentTheme] = useAtom(themeAtom);

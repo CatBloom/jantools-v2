@@ -1,38 +1,18 @@
+import { ModalContainer } from '@/components/ModalContainer';
+import { LeagueRule } from '@/types/league';
 import { GameForm } from './components/GameForm';
-import { ModalContainer } from '../../components/ModalContainer';
-import { LeagueRule } from '../../types/league';
-import { ReqCreateGame } from '../../types/game';
-import { GameFormData } from './types/form';
 import { useGameData } from './hooks/useGameData';
-import { useLoading } from '../../hooks/useLoading';
+import { useGame } from './hooks/useGame';
 
-export const GameRegister = (props: {
-  leagueID: string;
-  rule: LeagueRule;
-  isOpen: boolean;
-  close: () => void;
-}) => {
-  const { leagueID, rule, isOpen, close } = props;
-  const { createGameData, playersData } = useGameData();
-  const loading = useLoading();
+export const GameRegister = (props: { rule: LeagueRule; isOpen: boolean; close: () => void }) => {
+  const { rule, isOpen, close } = props;
 
-  const submit = async (formdata: GameFormData) => {
-    const req: ReqCreateGame = { ...formdata, leagueID: leagueID };
-
-    try {
-      loading.start();
-      await createGameData(req);
-      close();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      loading.finish();
-    }
-  };
+  const { playersData } = useGameData();
+  const { create } = useGame();
 
   return (
     <ModalContainer modalTitle="成績登録" isOpen={isOpen} close={close}>
-      <GameForm rule={rule} gamePlayers={playersData} submit={submit} />
+      <GameForm rule={rule} gamePlayers={playersData} submit={create} />
     </ModalContainer>
   );
 };
