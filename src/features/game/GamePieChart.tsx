@@ -10,7 +10,6 @@ export const GamePieChart = (props: { name: string }) => {
 
   return (
     <PieChart
-      colors={['#C96868', '#DEAA79', '#B1C29E', '#7EACB5']}
       series={[
         {
           arcLabel: (item) => `${item.value}%`,
