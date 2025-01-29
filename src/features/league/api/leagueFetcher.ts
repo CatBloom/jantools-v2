@@ -1,6 +1,6 @@
 import { atomWithRefresh } from 'jotai/utils';
-import { fetchLeague } from '../api/leagueService';
-import { readonlyParamWithIDAtom } from '../../../state/paramsState';
+import { readonlyParamWithIDAtom } from '@/state/paramsState';
+import { fetchLeague } from './leagueService';
 
 export const leagueFetcher = atomWithRefresh(async (get, { signal }) => {
   const leagueID = get(readonlyParamWithIDAtom);

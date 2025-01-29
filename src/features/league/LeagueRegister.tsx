@@ -1,8 +1,8 @@
 import { Stack, Typography } from '@mui/material';
+import { useNavigate } from 'react-router';
+import { LeagueFormData } from '@/types/league';
 import { LeagueForm } from './components/LeagueForm';
 import { useLeague } from './hooks/useLeague';
-import { LeagueFormData } from './types/form';
-import { useNavigate } from 'react-router';
 
 export const LeagueRegister = (props: { addFavorite: (id: string, name: string) => void }) => {
   const { addFavorite } = props;

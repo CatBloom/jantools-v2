@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import {
   Stack,
   TextField,
@@ -13,9 +14,8 @@ import {
   Collapse,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { LeagueFormData } from '@/types/league';
 import { MahjongSoulRule, TenhouRule, MLeagueRule } from '../const-rules';
-import { LeagueFormData } from '../types/form';
 
 interface FormData extends FormDataRule {
   name: string;

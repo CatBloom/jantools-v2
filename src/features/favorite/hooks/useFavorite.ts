@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { Favorite } from '../types/Favorite';
+import { Favorite } from '@/types/favorite';
 
 const favoriteListAtom = atomWithStorage<Favorite[]>('favoriteList', []);
 

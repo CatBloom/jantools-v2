@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router';
-import { Column } from '../../types/common';
-import { GameResultTotal } from '../../types/game';
+import { Column } from '@/types/common';
+import { GameResultTotal } from '@/types/game';
+import { TableContainer } from '@/components/TableContainer';
 import { GameTotalRow } from './components/GameTotalRow';
-import { TableContainer } from '../../components/TableContainer';
 import { useGameData } from './hooks/useGameData';
 
 export const GameTotalTable = (props: { id: string }) => {

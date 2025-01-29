@@ -1,10 +1,10 @@
 import { Button, Stack, Typography } from '@mui/material';
 import { Navigate, useNavigate, useParams } from 'react-router';
-import { GameStatsList } from '../features/game/GameStatsList';
-import { GameLineChart } from '../features/game/GameLineChart';
-import { GamePieChart } from '../features/game/GamePieChart';
-import { GameResultTable } from '../features/game/GameResultTable';
-import { useGameData } from '../features/game/hooks/useGameData';
+import { GameStatsList } from '@/features/game/GameStatsList';
+import { GameLineChart } from '@/features/game/GameLineChart';
+import { GamePieChart } from '@/features/game/GamePieChart';
+import { GameResultTable } from '@/features/game/GameResultTable';
+import { useGameData } from '@/features/game/hooks/useGameData';
 
 export const Dashboard = () => {
   const { id, name } = useParams();

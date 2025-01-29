@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router';
-import { Column } from '../../types/common';
-import { Game, GameResult } from '../../types/game';
+import { TablePagination, TableRow } from '@mui/material';
+import { Column } from '@/types/common';
+import { Game, GameResult } from '@/types/game';
+import { TableContainer } from '@/components/TableContainer';
+import { useConfirm } from '@/hooks/useConfirm';
+import { usePagination } from '@/hooks/usePagination';
 import { useGameData } from './hooks/useGameData';
+import { useGame } from './hooks/useGame';
 import { GameResultRow } from './components/GameResultRow';
 import { GameDeleteConfirm } from './components/GameDeleteConfirm';
-import { TableContainer } from '../../components/TableContainer';
-import { TablePagination, TableRow } from '@mui/material';
-import { useConfirm } from '../../hooks/useConfirm';
-import { usePagination } from '../../hooks/usePagination';
-import { useGame } from './hooks/useGame';
 
 export const GameResultTable = (props: { id: string; name?: string; isDeleted?: boolean }) => {
   const { id, name, isDeleted } = props;

@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { ReqCreateGame } from '../../../types/game';
-import { createGame, deleteGame } from '../api/gameService';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { gameListFetcher } from '../jotai/gameListFetcher';
-import { GameFormData } from '../types/form';
-import { useLoading } from '../../../hooks/useLoading';
-import { readonlyParamWithIDAtom } from '../../../state/paramsState';
+import { GameFormData, ReqCreateGame } from '@/types/game';
+import { useLoading } from '@/hooks/useLoading';
+import { readonlyParamWithIDAtom } from '@/state/paramsState';
+import { gameListFetcher } from '../api/gameListFetcher';
+import { createGame, deleteGame } from '../api/gameService';
 
 export const useGame = () => {
   const refreshGameListData = useSetAtom(gameListFetcher);

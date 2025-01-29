@@ -1,5 +1,5 @@
-import { apiClient } from '../../../apiClient';
-import { League, ReqCreateLeague, ResDeleteLeague } from '../../../types/league';
+import { apiClient } from '@/lib/apiClient';
+import { League, ReqCreateLeague, ResDeleteLeague } from '@/types/league';
 
 export const fetchLeague = async (id: string, signal?: AbortSignal): Promise<League> => {
   const params = { id: id };

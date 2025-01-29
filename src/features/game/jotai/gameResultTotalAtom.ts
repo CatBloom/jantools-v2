@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
-import { GameResultTotal } from '../../../types/game';
-import { gameListFetcher } from './gameListFetcher';
+import { GameResultTotal } from '@/types/game';
+import { gameListFetcher } from '../api/gameListFetcher';
 
 export const gameResultTotalAtom = atom(async (get) => {
   const gameResults = await get(gameListFetcher);

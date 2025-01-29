@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useLoading } from '../../../hooks/useLoading';
-import { ReqCreateLeague } from '../../../types/league';
+import { useLoading } from '@/hooks/useLoading';
+import { ReqCreateLeague, LeagueFormData } from '@/types/league';
 import { createLeague } from '../api/leagueService';
-import { LeagueFormData } from '../types/form';
 
 export const useLeague = () => {
   const loading = useLoading();

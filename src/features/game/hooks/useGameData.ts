@@ -4,7 +4,7 @@ import { gamePieChartAtom } from '../jotai/gamePieChartAtom';
 import { gamePlayerAtom } from '../jotai/gamePlayerAtom';
 import { gameResultTotalAtom } from '../jotai/gameResultTotalAtom';
 import { gameResultDescAtom } from '../jotai/gameResultDescAtom';
-import { gameListFetcher } from '../jotai/gameListFetcher';
+import { gameListFetcher } from '../api/gameListFetcher';
 
 export const useGameData = () => {
   const gameListData = useAtomValue(gameListFetcher);

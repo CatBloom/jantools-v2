@@ -1,6 +1,6 @@
+import { ModalContainer } from '@/components/ModalContainer';
+import { LeagueRule } from '@/types/league';
 import { GameForm } from './components/GameForm';
-import { ModalContainer } from '../../components/ModalContainer';
-import { LeagueRule } from '../../types/league';
 import { useGameData } from './hooks/useGameData';
 import { useGame } from './hooks/useGame';
 

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { LeagueRule } from '../../../types/league';
 import { Stack, TextField, Button, Autocomplete, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { GameFormData } from '../types/form';
+import { LeagueRule } from '@/types/league';
+import { GameFormData } from '@/types/game';
 
 interface FormData {
   gameArray: FormDataGameResult[];

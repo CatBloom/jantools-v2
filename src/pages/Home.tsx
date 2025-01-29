@@ -1,6 +1,6 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
-import { LeagueRegister } from '../features/league/LeagueRegister';
-import { useFavorite } from '../features/favorite/hooks/useFavorite';
+import { LeagueRegister } from '@/features/league/LeagueRegister';
+import { useFavorite } from '@/features/favorite/hooks/useFavorite';
 
 export const Home = () => {
   const { addFavorite } = useFavorite();

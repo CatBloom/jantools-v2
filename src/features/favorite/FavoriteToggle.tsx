@@ -1,6 +1,6 @@
 import { IconButton } from '@mui/material';
-import { IconSecondaryStar, IconStar } from '../../components/icons/IconSrar';
-import { Favorite } from './types/Favorite';
+import { IconSecondaryStar, IconStar } from '@/components/icons/IconSrar';
+import { Favorite } from '@/types/favorite';
 import { useFavorite } from './hooks/useFavorite';
 
 export const FavoriteToggle = (props: { favorite: Favorite }) => {

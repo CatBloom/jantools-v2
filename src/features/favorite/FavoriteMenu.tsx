@@ -1,10 +1,10 @@
-import { Button, Menu, MenuItem, Typography } from '@mui/material';
-import { useFavorite } from './hooks/useFavorite';
-import { IconStar } from '../../components/icons/IconSrar';
-import { useMenu } from '../../hooks/useMenu';
-import { useTheme } from '../../hooks/useTheme';
 import { Link } from 'react-router';
-import { IconArrowDown } from '../../components/icons/IconArrow';
+import { Button, Menu, MenuItem, Typography } from '@mui/material';
+import { IconStar } from '@/components/icons/IconSrar';
+import { IconArrowDown } from '@/components/icons/IconArrow';
+import { useMenu } from '@/hooks/useMenu';
+import { useTheme } from '@/hooks/useTheme';
+import { useFavorite } from './hooks/useFavorite';
 
 export const FavoriteMenu = () => {
   const { favoriteList } = useFavorite();

@@ -1,8 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router';
-import { Home } from './pages/Home';
-import { AppLayout } from './components/layouts/AppLayout';
-import { ContentLayout } from './components/layouts/ContentLayout';
-import { LoadingSpinner } from './components/LoadingSpinner';
+import { Home } from '@/pages/Home';
+import { AppLayout } from '@/components/layouts/AppLayout';
+import { ContentLayout } from '@/components/layouts/ContentLayout';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const router = createBrowserRouter([
   {
@@ -22,14 +22,14 @@ export const router = createBrowserRouter([
           {
             path: 'detail/:id',
             lazy: async () => {
-              const { Detail } = await import('./pages/Detail');
+              const { Detail } = await import('@/pages/Detail');
               return { Component: Detail };
             },
           },
           {
             path: 'dashboard/:id/:name',
             lazy: async () => {
-              const { Dashboard } = await import('./pages/Dashboard');
+              const { Dashboard } = await import('@/pages/Dashboard');
               return { Component: Dashboard };
             },
           },
