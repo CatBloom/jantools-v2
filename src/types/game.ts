@@ -23,3 +23,6 @@ export interface GameResultTotal {
   totalPoint: number;
   averageRank: number;
 }
+
+// Formから返却される型
+export type GameFormData = Omit<Game, 'id' | 'createdAt' | 'leagueID'>;
