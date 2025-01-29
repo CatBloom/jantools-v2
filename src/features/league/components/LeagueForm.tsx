@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { LeagueFormData } from '@/types/league';
-import { MahjongSoulRule, TenhouRule, MLeagueRule } from '../const-rules';
+import { MahjongSoulRule, TenhouRule, MLeagueRule } from '../consts/rules';
 
 interface FormData extends FormDataRule {
   name: string;
