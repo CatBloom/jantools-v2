@@ -5,6 +5,7 @@ interface GamePieData {
   id: number;
   label: string;
   value: number;
+  color: string;
 }
 
 export const gamePieChartAtom = atom(async (get) => {
@@ -32,10 +33,14 @@ export const gamePieChartAtom = atom(async (get) => {
 
     // トータル対戦数を取得
     const total = resultsByName.length;
+    // 順位に対応する円グラフの色を格納
+    // 順位は常に1〜4の範囲であるため、配列の長さは4に固定
+    const colors = ['#C96868', '#DEAA79', '#B1C29E', '#7EACB5'];
     const pieData: GamePieData[] = rankCountArray.map((entry) => ({
       id: entry.rank,
       label: entry.rank.toString() + '位',
       value: Math.floor((entry.count / total) * 1000) / 10, // 少数点第2位まで
+      color: colors[entry.rank - 1],
     }));
 
     return { name: name, results: pieData.sort((a, b) => a.id - b.id) };
