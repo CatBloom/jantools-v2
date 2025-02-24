@@ -47,7 +47,12 @@ export const GameForm = (props: {
     },
     point: {
       required: '必須項目です',
-      minLength: { value: 4, message: '4桁以上で入力してください。' },
+      validate: (value: string) => {
+        if (value === '0') return true; // "0"はスルー
+        if (/^\d{3,}$/.test(value)) return true; // 100以上の正の数を許可
+        if (/^-\d{3,}$/.test(value)) return true; // -100以下の負の数を許可
+        return '0 または、3桁以上の数値を入力してください。';
+      },
     },
   };
 
@@ -85,12 +90,12 @@ export const GameForm = (props: {
   };
 
   const handleAutoCalcPoint = (i: number, value: string) => {
-    const pointValue = Number(value);
-    if (pointValue === 0) {
+    if (value === '') {
       setValue(`gameArray.${i}.point`, '');
       setValue(`gameArray.${i}.calcPoint`, '');
       return;
     }
+    const pointValue = Number(value);
     const calcPoint = calculatePoint(pointValue, i);
     setValue(`gameArray.${i}.point`, String(pointValue));
     setValue(`gameArray.${i}.calcPoint`, String(calcPoint));
