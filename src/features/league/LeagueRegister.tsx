@@ -10,8 +10,8 @@ export const LeagueRegister = (props: { addFavorite: (id: string, name: string) 
   const { create } = useLeague();
   const navigate = useNavigate();
 
-  const submit = async (formdata: LeagueFormData) => {
-    const res = await create(formdata);
+  const submit = async (formData: LeagueFormData) => {
+    const res = await create(formData);
     if (res) {
       addFavorite(res.id, res.name);
       navigate(`/detail/${res.id}`);
