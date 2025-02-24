@@ -1,14 +1,12 @@
-import axios from 'axios';
-import { useState } from 'react';
 import { useLoading } from '@/hooks/useLoading';
+import { useNotice } from '@/hooks/useNotice';
 import { ReqCreateLeague, LeagueFormData } from '@/types/league';
 import { createLeague } from '../api/leagueService';
 
 export const useLeague = () => {
   const loading = useLoading();
-  const [error, setError] = useState<string>('');
+  const { set } = useNotice();
   const errorEmpty = 'error:empty data';
-  const errException = 'error: an unexpected error occurred';
 
   const create = async (formdata: LeagueFormData) => {
     const req: ReqCreateLeague = { ...formdata };
@@ -21,17 +19,14 @@ export const useLeague = () => {
         throw new Error(errorEmpty);
       }
     } catch (err) {
-      if (axios.isAxiosError(err) && err.message) {
-        setError(err.message);
-      } else if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError(errException);
+      if (err instanceof Error) {
+        console.error(err.message);
       }
+      set({ severity: 'error' });
     } finally {
       loading.finish();
     }
   };
 
-  return { create, error };
+  return { create };
 };
