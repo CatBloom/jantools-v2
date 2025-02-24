@@ -49,10 +49,8 @@ export const useGame = () => {
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message);
-        set({ severity: 'error' });
-      } else {
-        set({ severity: 'error' });
       }
+      set({ severity: 'error' });
     } finally {
       loading.finish();
     }
