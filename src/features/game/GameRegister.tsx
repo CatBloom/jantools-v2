@@ -11,8 +11,8 @@ export const GameRegister = (props: { rule: LeagueRule; isOpen: boolean; close: 
   const { playersData } = useGameData();
   const { create } = useGame();
 
-  const submit = (formdata: GameFormData) => {
-    create(formdata);
+  const submit = (formData: GameFormData) => {
+    create(formData);
     close();
   };
 
