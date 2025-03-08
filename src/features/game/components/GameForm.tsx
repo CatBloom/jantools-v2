@@ -84,22 +84,26 @@ export const GameForm = (props: {
     const players = gameArray.map((v) => v.name);
     const uniquePlayers = new Set(players);
     const ranks = gameArray.map((v) => Number(v.rank));
+    const points = gameArray.map((v) => Number(v.point));
 
-    if (!isArraySorted(ranks)) {
-      setValidateErrorMsg('順位が不正です。');
+    // ランクは昇順で入力
+    if (!isArraySorted(ranks, true)) {
+      setValidateErrorMsg('順位に不正があります。');
       return false;
     }
-
+    // 点数は降順で入力
+    if (!isArraySorted(points, false)) {
+      setValidateErrorMsg('点数に不正があります。');
+      return false;
+    }
     if (uniquePlayers.size !== players.length) {
       setValidateErrorMsg('プレイヤーが重複しています。');
       return false;
     }
-
     if (totalPoint !== startPoint * playerCount) {
       setValidateErrorMsg('合計点数が不一致です。');
       return false;
     }
-
     if (totalCalcPoint !== 0) {
       setValidateErrorMsg('合計順位点が不一致です。');
       return false;
@@ -108,10 +112,16 @@ export const GameForm = (props: {
   };
 
   // 配列が正しい順番か判別する
-  const isArraySorted = <T extends number | string>(arr: T[]): boolean => {
-    return arr.every((value, index, array) => {
-      return index === 0 || array[index - 1] <= value;
-    });
+  const isArraySorted = <T extends number | string>(arr: T[], asc: boolean): boolean => {
+    if (asc) {
+      return arr.every((value, index, array) => {
+        return index === 0 || array[index - 1] <= value;
+      });
+    } else {
+      return arr.every((value, index, array) => {
+        return index === 0 || array[index - 1] >= value;
+      });
+    }
   };
 
   const calculatePoint = (point: number, i: number) => {
