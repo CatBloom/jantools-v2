@@ -1,5 +1,15 @@
 import { useState } from 'react';
-import { Stack, TextField, Button, Autocomplete, Typography } from '@mui/material';
+import {
+  Stack,
+  TextField,
+  Button,
+  Autocomplete,
+  Typography,
+  FormControl,
+  FormControlLabel,
+  Checkbox,
+  MenuItem,
+} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { LeagueRule } from '@/types/league';
@@ -23,6 +33,7 @@ export const GameForm = (props: {
 }) => {
   const { rule, gamePlayers, submit } = props;
 
+  const [autoCalc, setAutoCalc] = useState(true);
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
   const {
     control,
@@ -30,6 +41,7 @@ export const GameForm = (props: {
     formState: { errors },
     setValue,
     getValues,
+    reset,
   } = useForm<FormData>({
     defaultValues: {
       gameArray: Array.from({ length: rule.playerCount }, (_, i) => ({
@@ -42,12 +54,23 @@ export const GameForm = (props: {
   });
 
   const validation = {
+    rank: {
+      required: '必須項目です',
+    },
     name: {
       required: '必須項目です。',
     },
     point: {
       required: '必須項目です',
-      minLength: { value: 4, message: '4桁以上で入力してください。' },
+      validate: (value: string) => {
+        if (value === '0') return true; // "0"はスルー
+        if (/^\d{3,}$/.test(value)) return true; // 100以上の正の数を許可
+        if (/^-\d{3,}$/.test(value)) return true; // -100以下の負の数を許可
+        return '0 または、3桁以上の数値を入力してください。';
+      },
+    },
+    calcPoint: {
+      required: '必須項目です',
     },
   };
 
@@ -55,29 +78,58 @@ export const GameForm = (props: {
     const { gameArray } = formData;
     const { startPoint, playerCount } = rule;
     const totalPoint = gameArray.map((v) => Number(v.point)).reduce((prev, curr) => prev + curr, 0);
+    const totalCalcPoint = gameArray
+      .map((v) => Number(v.calcPoint) * 10) // calcPointは少数の可能性があるため、浮動小数点対策
+      .reduce((prev, curr) => prev + curr, 0);
     const players = gameArray.map((v) => v.name);
     const uniquePlayers = new Set(players);
+    const ranks = gameArray.map((v) => Number(v.rank));
+    const points = gameArray.map((v) => Number(v.point));
 
+    // ランクは昇順で入力
+    if (!isArraySorted(ranks, true)) {
+      setValidateErrorMsg('順位に不正があります。');
+      return false;
+    }
+    // 点数は降順で入力
+    if (!isArraySorted(points, false)) {
+      setValidateErrorMsg('点数に不正があります。');
+      return false;
+    }
     if (uniquePlayers.size !== players.length) {
       setValidateErrorMsg('プレイヤーが重複しています。');
       return false;
     }
-
     if (totalPoint !== startPoint * playerCount) {
       setValidateErrorMsg('合計点数が不一致です。');
       return false;
     }
-
+    if (totalCalcPoint !== 0) {
+      setValidateErrorMsg('合計順位点が不一致です。');
+      return false;
+    }
     return true;
+  };
+
+  // 配列が正しい順番か判別する
+  const isArraySorted = <T extends number | string>(arr: T[], asc: boolean): boolean => {
+    if (asc) {
+      return arr.every((value, index, array) => {
+        return index === 0 || array[index - 1] <= value;
+      });
+    } else {
+      return arr.every((value, index, array) => {
+        return index === 0 || array[index - 1] >= value;
+      });
+    }
   };
 
   const calculatePoint = (point: number, i: number) => {
     const { returnPoint, startPoint, playerCount, uma } = rule;
-
-    const topPrize = (returnPoint - startPoint) * playerCount;
     const calcPoint = point - returnPoint + uma[i] * 1000;
     // 1位の場合はTOP賞を加算
     if (i === 0) {
+      const topPrize = (returnPoint - startPoint) * playerCount;
       return Math.floor(((calcPoint + topPrize) / 1000) * 10) / 10;
     } else {
       return Math.floor((calcPoint / 1000) * 10) / 10;
@@ -85,15 +137,22 @@ export const GameForm = (props: {
   };
 
   const handleAutoCalcPoint = (i: number, value: string) => {
-    const pointValue = Number(value);
-    if (pointValue === 0) {
+    if (!autoCalc) return;
+    if (value === '') {
       setValue(`gameArray.${i}.point`, '');
       setValue(`gameArray.${i}.calcPoint`, '');
       return;
     }
+    const pointValue = Number(value);
     const calcPoint = calculatePoint(pointValue, i);
     setValue(`gameArray.${i}.point`, String(pointValue));
     setValue(`gameArray.${i}.calcPoint`, String(calcPoint));
+  };
+
+  const handleAutoCalcCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    setAutoCalc(isChecked);
+    reset();
   };
 
   // 送信時の処理
@@ -123,6 +182,12 @@ export const GameForm = (props: {
         sx={{ width: '100%' }}
         onSubmit={handleSubmit(handleSubmitForm)}
       >
+        <FormControl onChange={handleAutoCalcCheck} sx={{ width: '7rem' }}>
+          <FormControlLabel
+            control={<Checkbox defaultChecked color="secondary" />}
+            label="自動計算"
+          />
+        </FormControl>
         {getValues('gameArray').map((_, i) => (
           <Stack spacing={1} key={i}>
             <Grid container spacing={1}>
@@ -131,7 +196,21 @@ export const GameForm = (props: {
                   name={`gameArray.${i}.rank`}
                   control={control}
                   render={({ field }) => (
-                    <TextField {...field} required label="順位" type="number" disabled />
+                    <TextField
+                      {...field}
+                      select
+                      required
+                      label="順位"
+                      type="number"
+                      disabled={autoCalc}
+                      sx={{ minWidth: '4rem' }}
+                    >
+                      {getValues('gameArray').map((_, i) => (
+                        <MenuItem key={i} value={i + 1}>
+                          {i + 1}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   )}
                 />
               </Grid>
@@ -191,7 +270,13 @@ export const GameForm = (props: {
                   name={`gameArray.${i}.calcPoint`}
                   control={control}
                   render={({ field }) => (
-                    <TextField {...field} required label="順位点" disabled type="number" />
+                    <TextField
+                      {...field}
+                      required
+                      label="順位点"
+                      disabled={autoCalc}
+                      type="number"
+                    />
                   )}
                 />
               </Grid>
