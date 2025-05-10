@@ -9,12 +9,15 @@ import { GameResultTable } from '@/features/game/GameResultTable';
 import { GameRegister } from '@/features/game/GameRegister';
 import { FavoriteToggle } from '@/features/favorite/FavoriteToggle';
 import { dateFormat } from '@/utils/date';
+import { AuthRequest } from '@/features/auth/AuthRequest';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export const Detail = () => {
   const { isOpen, open, close } = useDisclosure(false);
   const { tabValue, switchTab } = useTab('detail');
   const { id } = useParams();
   const { league } = useLeagueData();
+  const { isAuth } = useAuth();
 
   if (!league || !id) return null;
 
@@ -29,38 +32,31 @@ export const Detail = () => {
         >
           <Tab value="detail" label="詳細"></Tab>
           <Tab value="edit" label="成績管理"></Tab>
+          <Tab value="setting" label="設定"></Tab>
         </Tabs>
         <FavoriteToggle favorite={{ id: league.id, name: league.name }} />
       </Stack>
 
       {tabValue === 'detail' && (
         <Stack spacing={3}>
-          <>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              flexWrap="wrap"
-            >
-              <Typography flexGrow="1" variant="h2">
-                {league.name}
-              </Typography>
-              <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
-            </Stack>
-            {league.manual && (
-              <Stack spacing={1}>
-                <Typography variant="h3">詳細</Typography>
-                <Divider />
-                <Typography component="p">{league.manual}</Typography>
-              </Stack>
-            )}
+          <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+            <Typography flexGrow="1" variant="h2">
+              {league.name}
+            </Typography>
+            <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
+          </Stack>
+          {league.manual && (
             <Stack spacing={1}>
-              <Typography variant="h3">ルール</Typography>
+              <Typography variant="h3">詳細</Typography>
               <Divider />
-              <LeagueRuleList rule={league.rule} />
+              <Typography component="p">{league.manual}</Typography>
             </Stack>
-          </>
-
+          )}
+          <Stack spacing={1}>
+            <Typography variant="h3">ルール</Typography>
+            <Divider />
+            <LeagueRuleList rule={league.rule} />
+          </Stack>
           <GameTotalTable id={id}></GameTotalTable>
         </Stack>
       )}
@@ -74,11 +70,28 @@ export const Detail = () => {
           </Stack>
 
           <Stack>
-            <Button variant="contained" color="secondary" onClick={open}>
-              成績登録
-            </Button>
+            {isAuth && (
+              <Button variant="contained" color="secondary" onClick={open}>
+                成績登録
+              </Button>
+            )}
             <GameResultTable id={id} isDeleted></GameResultTable>
           </Stack>
+        </Stack>
+      )}
+
+      {tabValue === 'setting' && (
+        <Stack spacing={3}>
+          <Stack direction="row">
+            <Typography minWidth="15rem" variant="h2">
+              設定
+            </Typography>
+          </Stack>
+
+          <Typography minWidth="15rem" variant="subtitle1" component="label">
+            編集権限リクエスト
+          </Typography>
+          <AuthRequest />
         </Stack>
       )}
       <GameRegister rule={league.rule} isOpen={isOpen} close={close}></GameRegister>
