@@ -9,9 +9,16 @@ export const apiClient = axios.create({
   },
 });
 
+// リトライを除外するpath
+const excludedPaths = ['/auth'];
 axiosRetry(apiClient, {
   retries: 10,
-  retryCondition: () => true,
+  retryCondition: (error) => {
+    const config = error.config;
+    if (!config) return false;
+    const isExcludedPath = excludedPaths.some((path) => config.url?.includes(path));
+    return !isExcludedPath;
+  },
   retryDelay: (retryCount) => {
     return Math.min(retryCount * 2000, 10000);
   },
