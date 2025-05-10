@@ -16,10 +16,12 @@ import {
 import Grid from '@mui/material/Grid2';
 import { LeagueFormData } from '@/types/league';
 import { MahjongSoulRule, TenhouRule, MLeagueRule } from '../consts/rules';
+import { PasswordInput } from '@/components/PasswordInput';
 
 interface FormData extends FormDataRule {
   name: string;
   manual: string;
+  password: string;
 }
 
 interface FormDataRule {
@@ -51,6 +53,7 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
     defaultValues: {
       name: '',
       manual: '',
+      password: '',
       playerCount: '4',
       gameType: '半荘戦',
       tanyao: true,
@@ -67,6 +70,11 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
     name: {
       required: '必須項目です。',
       minLength: { value: 3, message: '3文字以上で入力してください。' },
+    },
+    password: {
+      required: '必須項目です。',
+      minLength: { value: 4, message: '4文字以上で入力してください。' },
+      maxLength: { value: 11, message: '12文字未満で入力してください。' },
     },
     startPoint: {
       required: '必須項目です',
@@ -111,6 +119,7 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
     const leagueFormData: LeagueFormData = {
       name: formData.name,
       manual: formData.manual,
+      password: formData.password,
       rule: {
         playerCount: Number(formData.playerCount),
         gameType: formData.gameType,
@@ -198,6 +207,29 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
         control={control}
         render={({ field }) => <TextField {...field} fullWidth label="説明" multiline rows={4} />}
       ></Controller>
+
+      <Stack>
+        <Controller
+          name="password"
+          control={control}
+          rules={validation.password}
+          render={({ field }) => (
+            <Stack direction="row" flexWrap="nowrap" spacing={3} alignItems="center">
+              <PasswordInput
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                error={errors.password !== undefined}
+                helperText={errors.password?.message}
+              />
+              <Typography component="p">
+                成績編集者を制限するためのパスワードです。
+                <br />
+                共同編集をする場合は、共有できるパスワードを設定して下さい。
+              </Typography>
+            </Stack>
+          )}
+        />
+      </Stack>
 
       <FormControl>
         <FormLabel>ルール</FormLabel>
