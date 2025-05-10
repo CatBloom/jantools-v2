@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   frontend:
     container_name: jantools-v2
@@ -7,6 +6,7 @@ services:
       dockerfile: Dockerfile
     working_dir: /app
     tty: true
+    command: sh -c "yarn install && yarn dev --host"
     volumes:
       - .:/app
     ports:
