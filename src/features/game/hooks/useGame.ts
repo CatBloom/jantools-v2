@@ -3,22 +3,28 @@ import { GameFormData, ReqCreateGame } from '@/types/game';
 import { useLoading } from '@/hooks/useLoading';
 import { useNotice } from '@/hooks/useNotice';
 import { readonlyParamWithIDAtom } from '@/state/paramsState';
+import { readonlyTokensAtom } from '@/state/tokenState';
 import { gameListFetcher } from '../api/gameListFetcher';
 import { createGame, deleteGame } from '../api/gameService';
 
 export const useGame = () => {
   const refreshGameListData = useSetAtom(gameListFetcher);
   const paramID = useAtomValue(readonlyParamWithIDAtom);
+  const tokens = useAtomValue(readonlyTokensAtom);
   const loading = useLoading();
   const { set } = useNotice();
   const errorEmpty = 'error:empty data';
 
   const create = async (formdata: GameFormData) => {
     if (!paramID) return;
-    const req: ReqCreateGame = { ...formdata, leagueID: paramID };
+    const req: ReqCreateGame = { ...formdata };
     try {
       loading.start();
-      const res = await createGame(req);
+
+      const token = tokens[paramID];
+      if (!token) return;
+
+      const res = await createGame(req, token);
       if (res) {
         refreshGameListData();
         set({ message: '登録が完了しました。', severity: 'success' });
@@ -39,7 +45,11 @@ export const useGame = () => {
     if (!paramID) return;
     try {
       loading.start();
-      const res = await deleteGame(gid, paramID);
+
+      const token = tokens[paramID];
+      if (!token) return;
+
+      const res = await deleteGame(gid, token);
       if (res) {
         refreshGameListData();
         set({ message: '削除が完了しました。', severity: 'success' });
@@ -56,8 +66,5 @@ export const useGame = () => {
     }
   };
 
-  return {
-    create,
-    remove,
-  };
+  return { create, remove };
 };
