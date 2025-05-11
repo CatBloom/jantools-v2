@@ -46,7 +46,7 @@ export const PasswordInput = (props: {
               </IconButton>
             </InputAdornment>
           }
-          label="簡易パスワード"
+          label="パスワード"
           autoComplete="new-password"
         />
         <FormHelperText>{helperText}</FormHelperText>
