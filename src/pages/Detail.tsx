@@ -40,7 +40,11 @@ export const Detail = () => {
       {tabValue === 'detail' && (
         <Stack spacing={3}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap">
-            <Typography flexGrow="1" variant="h2">
+            <Typography
+              flexGrow="1"
+              variant="h2"
+              style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}
+            >
               {league.name}
             </Typography>
             <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
@@ -49,7 +53,9 @@ export const Detail = () => {
             <Stack spacing={1}>
               <Typography variant="h3">詳細</Typography>
               <Divider />
-              <Typography component="p">{league.manual}</Typography>
+              <Typography sx={{ overflowWrap: 'break-word' }} component="p">
+                {league.manual}
+              </Typography>
             </Stack>
           )}
           <Stack spacing={1}>
