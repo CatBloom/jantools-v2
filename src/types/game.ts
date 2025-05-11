@@ -12,7 +12,7 @@ export interface GameResult {
   calcPoint: number;
 }
 
-export type ReqCreateGame = Omit<Game, 'id' | 'createdAt'>;
+export type ReqCreateGame = Pick<Game, 'results'>;
 
 export type ResDeleteGame = Pick<Game, 'id'>;
 
@@ -25,4 +25,4 @@ export interface GameResultTotal {
 }
 
 // Formから返却される型
-export type GameFormData = Omit<Game, 'id' | 'createdAt' | 'leagueID'>;
+export type GameFormData = Pick<Game, 'results'>;

@@ -13,22 +13,38 @@ export const fetchGame = async (id: string, lid: string, signal?: AbortSignal): 
   return res.data;
 };
 
-export const createGame = async (game: ReqCreateGame, signal?: AbortSignal): Promise<Game> => {
-  const res = await apiClient.post<Game>(`/game`, game, { signal: signal });
+export const createGame = async (
+  game: ReqCreateGame,
+  token: string,
+  signal?: AbortSignal
+): Promise<Game> => {
+  const res = await apiClient.post<Game>(`/game`, game, {
+    signal: signal,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res.data;
 };
 
-export const updateGame = async (game: Game, signal?: AbortSignal): Promise<Game> => {
-  const res = await apiClient.put<Game>(`/game`, game, { signal: signal });
-  return res.data;
-};
+// 未実装
+// export const updateGame = async (game: Game, signal?: AbortSignal): Promise<Game> => {
+//   const res = await apiClient.put<Game>(`/game`, game, { signal: signal });
+//   return res.data;
+// };
 
 export const deleteGame = async (
   id: string,
-  lid: string,
+  token: string,
   signal?: AbortSignal
 ): Promise<ResDeleteGame> => {
-  const params = { id: id, leagueID: lid };
-  const res = await apiClient.delete<ResDeleteGame>(`/game`, { params: params, signal: signal });
+  const params = { id: id };
+  const res = await apiClient.delete<ResDeleteGame>(`/game`, {
+    params: params,
+    signal: signal,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res.data;
 };

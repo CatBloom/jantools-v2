@@ -3,6 +3,7 @@ export interface League {
   createdAt: string;
   name: string;
   manual: string;
+  password: string;
   rule: LeagueRule;
 }
 
