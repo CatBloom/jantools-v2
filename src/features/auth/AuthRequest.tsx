@@ -16,6 +16,7 @@ export const AuthRequest = () => {
     <Stack direction="row" spacing={1} component="form">
       <PasswordInput value={password} onChange={handlePasswordChange} />
       <Button
+        sx={{ minWidth: '6.5rem' }}
         variant="contained"
         color="secondary"
         onClick={() => {
