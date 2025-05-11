@@ -20,9 +20,14 @@ export const useGame = () => {
     const req: ReqCreateGame = { ...formdata };
     try {
       loading.start();
-
       const token = tokens[paramID];
-      if (!token) return;
+      if (!token) {
+        set({
+          message: '編集権限がありません。再度編集権限をリクエストしてください。',
+          severity: 'error',
+        });
+        return;
+      }
 
       const res = await createGame(req, token);
       if (res) {
@@ -45,9 +50,14 @@ export const useGame = () => {
     if (!paramID) return;
     try {
       loading.start();
-
       const token = tokens[paramID];
-      if (!token) return;
+      if (!token) {
+        set({
+          message: '編集権限が無効です。再度編集権限をリクエストしてください。',
+          severity: 'error',
+        });
+        return;
+      }
 
       const res = await deleteGame(gid, token);
       if (res) {
