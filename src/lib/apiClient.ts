@@ -16,6 +16,7 @@ axiosRetry(apiClient, {
   retryCondition: (error) => {
     const config = error.config;
     if (!config) return false;
+    if (error.response?.status === 401) return false;
     const isExcludedPath = excludedPaths.some((path) => config.url?.includes(path));
     return !isExcludedPath;
   },
