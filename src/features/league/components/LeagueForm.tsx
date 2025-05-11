@@ -214,7 +214,7 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
           control={control}
           rules={validation.password}
           render={({ field }) => (
-            <Stack direction="row" flexWrap="nowrap" spacing={3} alignItems="center">
+            <Stack direction="row" flexWrap="wrap" gap={1} alignItems="center">
               <PasswordInput
                 value={field.value}
                 onChange={(e) => field.onChange(e.target.value)}
