@@ -21,17 +21,15 @@ export const FavoriteMenu = () => {
       </Button>
       <Menu anchorEl={anchorEl} open={isOpen} onClose={closeMenu} sx={{ width: 150 }}>
         {favoriteList.map((v) => (
-          <MenuItem onClick={closeMenu} key={v.id}>
+          <MenuItem
+            key={v.id}
+            component={Link}
+            to={`/detail/${v.id}`}
+            onClick={closeMenu}
+            sx={{ textDecoration: 'none', color: theme.palette.text.primary }}
+          >
             <Typography variant="inherit" noWrap>
-              <Link
-                to={`/detail/${v.id}`}
-                style={{
-                  textDecoration: 'none',
-                  color: theme.palette.text.primary,
-                }}
-              >
-                {v.name}
-              </Link>
+              {v.name}
             </Typography>
           </MenuItem>
         ))}
