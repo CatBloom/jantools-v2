@@ -33,7 +33,9 @@ export const PasswordInput = (props: {
           readOnly
           tabIndex={-1}
         />
-        <InputLabel htmlFor="password">パスワード</InputLabel>
+        <InputLabel required htmlFor="password">
+          パスワード
+        </InputLabel>
         <OutlinedInput
           id="password"
           type={showPassword ? 'text' : 'password'}
