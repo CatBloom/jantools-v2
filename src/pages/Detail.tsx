@@ -81,7 +81,7 @@ export const Detail = () => {
                 成績登録
               </Button>
             )}
-            <GameResultTable id={id} isDeleted={isAuth}></GameResultTable>
+            <GameResultTable id={id} isEdit={isAuth} rule={league.rule}></GameResultTable>
           </Stack>
         </Stack>
       )}

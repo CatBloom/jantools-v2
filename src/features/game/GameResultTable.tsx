@@ -3,15 +3,28 @@ import { TablePagination, TableRow } from '@mui/material';
 import { Column } from '@/types/common';
 import { Game, GameResult } from '@/types/game';
 import { TableContainer } from '@/components/TableContainer';
-import { useConfirm } from '@/hooks/useConfirm';
 import { usePagination } from '@/hooks/usePagination';
 import { useGameData } from './hooks/useGameData';
-import { useGame } from './hooks/useGame';
 import { GameResultRow } from './components/GameResultRow';
-import { GameDeleteConfirm } from './components/GameDeleteConfirm';
+import { LeagueRule } from '@/types/league';
 
-export const GameResultTable = (props: { id: string; name?: string; isDeleted?: boolean }) => {
-  const { id, name, isDeleted } = props;
+// isEditがtrueの際は、ルールが必須
+type GameResultTabaleProps =
+  | {
+      id: string;
+      name?: string;
+      isEdit: true;
+      rule: LeagueRule;
+    }
+  | {
+      id: string;
+      name?: string;
+      isEdit: false;
+      rule?: LeagueRule;
+    };
+
+export const GameResultTable = (props: GameResultTabaleProps) => {
+  const { id, name, isEdit, rule } = props;
 
   const { resultDescData } = useGameData();
   const navigate = useNavigate();
@@ -23,15 +36,7 @@ export const GameResultTable = (props: { id: string; name?: string; isDeleted?: 
     { key: 'createdAt', display: '登録日' },
     { key: 'results', display: '試合結果' },
   ];
-  const { remove } = useGame();
-  const { isOpen, open, close } = useConfirm();
   const { page, rowsPerPage, setPage, handleChangePage } = usePagination();
-
-  const deleteGame = async (gid: string) => {
-    const result = await open();
-    if (!result) return;
-    remove(gid);
-  };
 
   const clickRow = (row: GameResult) => {
     setPage(0); // Paginationをリセット
@@ -47,7 +52,8 @@ export const GameResultTable = (props: { id: string; name?: string; isDeleted?: 
             row={row}
             align="center"
             clickRow={clickRow}
-            handleDelete={isDeleted ? deleteGame : undefined}
+            isEdit={isEdit}
+            rule={isEdit ? rule : undefined}
           />
         ))}
         <TableRow>
@@ -60,7 +66,6 @@ export const GameResultTable = (props: { id: string; name?: string; isDeleted?: 
           />
         </TableRow>
       </TableContainer>
-      <GameDeleteConfirm isOpen={isOpen} close={close}></GameDeleteConfirm>
     </>
   );
 };

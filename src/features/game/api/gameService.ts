@@ -27,11 +27,19 @@ export const createGame = async (
   return res.data;
 };
 
-// 未実装
-// export const updateGame = async (game: Game, signal?: AbortSignal): Promise<Game> => {
-//   const res = await apiClient.put<Game>(`/game`, game, { signal: signal });
-//   return res.data;
-// };
+export const updateGame = async (
+  game: Game,
+  token: string,
+  signal?: AbortSignal
+): Promise<Game> => {
+  const res = await apiClient.put<Game>(`/game`, game, {
+    signal: signal,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+};
 
 export const deleteGame = async (
   id: string,
