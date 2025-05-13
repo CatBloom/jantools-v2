@@ -205,7 +205,7 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
       <Controller
         name="manual"
         control={control}
-        render={({ field }) => <TextField {...field} fullWidth label="説明" multiline rows={4} />}
+        render={({ field }) => <TextField {...field} label="説明" />}
       ></Controller>
 
       <Stack>
@@ -232,7 +232,6 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
       </Stack>
 
       <FormControl>
-        <FormLabel>ルール</FormLabel>
         <RadioGroup row value={selectedRule} onChange={handleRuleChange}>
           <FormControlLabel
             value="M"

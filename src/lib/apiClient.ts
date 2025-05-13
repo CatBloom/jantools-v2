@@ -16,7 +16,10 @@ axiosRetry(apiClient, {
   retryCondition: (error) => {
     const config = error.config;
     if (!config) return false;
+    // 401は認証エラーのため、リトライを行わない
     if (error.response?.status === 401) return false;
+    // GETは、リトライを行わない
+    if (config.method?.toLowerCase() === 'get') return false;
     const isExcludedPath = excludedPaths.some((path) => config.url?.includes(path));
     return !isExcludedPath;
   },
