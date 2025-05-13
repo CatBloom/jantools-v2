@@ -1,4 +1,4 @@
-import { Game, ReqCreateGame, ResDeleteGame } from '@/types/game';
+import { Game, GameFormData } from '@/types/game';
 import { apiClient } from '@/lib/apiClient';
 
 export const fetchGameList = async (lid: string, signal?: AbortSignal): Promise<Game[]> => {
@@ -14,7 +14,7 @@ export const fetchGame = async (id: string, lid: string, signal?: AbortSignal): 
 };
 
 export const createGame = async (
-  game: ReqCreateGame,
+  game: GameFormData,
   token: string,
   signal?: AbortSignal
 ): Promise<Game> => {
@@ -37,9 +37,9 @@ export const deleteGame = async (
   id: string,
   token: string,
   signal?: AbortSignal
-): Promise<ResDeleteGame> => {
+): Promise<Pick<Game, 'id'>> => {
   const params = { id: id };
-  const res = await apiClient.delete<ResDeleteGame>(`/game`, {
+  const res = await apiClient.delete<Pick<Game, 'id'>>(`/game`, {
     params: params,
     signal: signal,
     headers: {

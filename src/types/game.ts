@@ -12,10 +12,7 @@ export interface GameResult {
   calcPoint: number;
 }
 
-export type ReqCreateGame = Pick<Game, 'results'>;
-
-export type ResDeleteGame = Pick<Game, 'id'>;
-
+export type GameFormData = Pick<Game, 'results'>;
 export interface GameResultTotal {
   rank: number;
   name: string;
@@ -23,6 +20,3 @@ export interface GameResultTotal {
   totalPoint: number;
   averageRank: number;
 }
-
-// Formから返却される型
-export type GameFormData = Pick<Game, 'results'>;

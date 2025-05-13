@@ -29,7 +29,7 @@ interface FormDataGameResult {
 export const GameForm = (props: {
   rule: LeagueRule;
   gamePlayers: string[];
-  submit: (formdata: GameFormData) => void;
+  submit: (data: GameFormData) => void;
 }) => {
   const { rule, gamePlayers, submit } = props;
 
@@ -162,7 +162,7 @@ export const GameForm = (props: {
     }
 
     // FormDataをAPI用のデータに加工
-    const gameFormData: GameFormData = {
+    const data: GameFormData = {
       results: formData.gameArray.map((v) => {
         return {
           rank: Number(v.rank),
@@ -172,7 +172,7 @@ export const GameForm = (props: {
         };
       }),
     };
-    submit(gameFormData);
+    submit(data);
   };
   return (
     <>

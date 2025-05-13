@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import { GameFormData, ReqCreateGame } from '@/types/game';
+import { GameFormData } from '@/types/game';
 import { useLoading } from '@/hooks/useLoading';
 import { useNotice } from '@/hooks/useNotice';
 import { readonlyParamWithIDAtom } from '@/state/paramsState';
@@ -15,9 +15,8 @@ export const useGame = () => {
   const { set } = useNotice();
   const errorEmpty = 'error:empty data';
 
-  const create = async (formdata: GameFormData) => {
+  const create = async (data: GameFormData) => {
     if (!paramID) return;
-    const req: ReqCreateGame = { ...formdata };
     try {
       loading.start();
       const token = tokens[paramID];
@@ -29,7 +28,7 @@ export const useGame = () => {
         return;
       }
 
-      const res = await createGame(req, token);
+      const res = await createGame(data, token);
       if (res) {
         refreshGameListData();
         set({ message: '登録が完了しました。', severity: 'success' });

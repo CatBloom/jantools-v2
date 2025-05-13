@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/apiClient';
-import { League, ReqCreateLeague, ResDeleteLeague } from '@/types/league';
+import { League, LeagueFormData } from '@/types/league';
 
 export const fetchLeague = async (id: string, signal?: AbortSignal): Promise<League> => {
   const params = { id: id };
@@ -8,7 +8,7 @@ export const fetchLeague = async (id: string, signal?: AbortSignal): Promise<Lea
 };
 
 export const createLeague = async (
-  league: ReqCreateLeague,
+  league: LeagueFormData,
   signal?: AbortSignal
 ): Promise<League> => {
   const res = await apiClient.post<League>('/league', league, { signal: signal });
@@ -20,9 +20,12 @@ export const updateLeague = async (league: League, signal?: AbortSignal): Promis
   return res.data;
 };
 
-export const deleteLeague = async (id: string, signal?: AbortSignal): Promise<ResDeleteLeague> => {
+export const deleteLeague = async (
+  id: string,
+  signal?: AbortSignal
+): Promise<Pick<League, 'id'>> => {
   const params = { id: id };
-  const res = await apiClient.delete<ResDeleteLeague>('/league', {
+  const res = await apiClient.delete<Pick<League, 'id'>>('/league', {
     params: params,
     signal: signal,
   });
