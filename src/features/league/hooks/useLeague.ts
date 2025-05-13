@@ -8,10 +8,10 @@ export const useLeague = () => {
   const { set } = useNotice();
   const errorEmpty = 'error:empty data';
 
-  const create = async (data: LeagueFormData) => {
+  const create = async (formData: LeagueFormData) => {
     try {
       loading.start();
-      const res = await createLeague(data);
+      const res = await createLeague(formData);
       if (res) {
         return res;
       } else {

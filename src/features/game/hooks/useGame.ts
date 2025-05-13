@@ -15,7 +15,7 @@ export const useGame = () => {
   const { set } = useNotice();
   const errorEmpty = 'error:empty data';
 
-  const create = async (data: GameFormData) => {
+  const create = async (formData: GameFormData) => {
     if (!paramID) return;
     try {
       loading.start();
@@ -28,7 +28,7 @@ export const useGame = () => {
         return;
       }
 
-      const res = await createGame(data, token);
+      const res = await createGame(formData, token);
       if (res) {
         refreshGameListData();
         set({ message: '登録が完了しました。', severity: 'success' });
@@ -45,13 +45,13 @@ export const useGame = () => {
     }
   };
 
-  const update = async (prev: Game, data: GameFormData) => {
+  const update = async (prevGameData: Game, formData: GameFormData) => {
     if (!paramID) return;
     const req: Game = {
-      id: prev.id,
-      leagueID: prev.leagueID,
-      createdAt: prev.createdAt,
-      ...data,
+      id: prevGameData.id,
+      leagueID: prevGameData.leagueID,
+      createdAt: prevGameData.createdAt,
+      ...formData,
     };
     try {
       loading.start();
