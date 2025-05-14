@@ -51,7 +51,7 @@ export const GameResultTable = (props: GameResultTabaleProps) => {
             key={i}
             row={row}
             align="center"
-            clickRow={clickRow}
+            clickRow={isEdit ? undefined : clickRow}
             isEdit={isEdit}
             rule={isEdit ? rule : undefined}
           />

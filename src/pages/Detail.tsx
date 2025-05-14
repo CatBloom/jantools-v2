@@ -2,6 +2,7 @@ import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { useTab } from '@/hooks/useTab';
+import { useEditMode } from '@/hooks/useEditMode';
 import { LeagueRuleList } from '@/features/league/LeagueRuleList';
 import { useLeagueData } from '@/features/league/hooks/useLeagueData';
 import { GameTotalTable } from '@/features/game/GameTotalTable';
@@ -18,6 +19,7 @@ export const Detail = () => {
   const { id } = useParams();
   const { league } = useLeagueData();
   const { isAuth } = useAuth();
+  const { isEdit, toggle } = useEditMode();
 
   if (!league || !id) return null;
 
@@ -75,13 +77,26 @@ export const Detail = () => {
             </Typography>
           </Stack>
 
-          <Stack>
+          <Stack spacing={0.5}>
             {isAuth && (
-              <Button variant="contained" color="secondary" onClick={open}>
-                成績登録
-              </Button>
+              <Stack direction="row" justifyContent="end" spacing={0.5}>
+                <Button
+                  variant={isOpen ? 'contained' : 'outlined'}
+                  color="secondary"
+                  onClick={open}
+                >
+                  成績登録
+                </Button>
+                <Button
+                  variant={isEdit ? 'contained' : 'outlined'}
+                  color="secondary"
+                  onClick={toggle}
+                >
+                  編集モード
+                </Button>
+              </Stack>
             )}
-            <GameResultTable id={id} isEdit={isAuth} rule={league.rule}></GameResultTable>
+            <GameResultTable id={id} isEdit={isEdit} rule={league.rule}></GameResultTable>
           </Stack>
         </Stack>
       )}

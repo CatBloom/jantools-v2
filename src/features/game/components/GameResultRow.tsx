@@ -27,10 +27,12 @@ export const GameResultRow = (props: {
 
   return (
     <>
-      <TableRow>
-        <TableCell align={align} onClick={() => isEdit && open()}>
-          {dateFormat(row.createdAt)}
-        </TableCell>
+      <TableRow
+        hover={isEdit}
+        onClick={() => isEdit && open()}
+        sx={{ cursor: isEdit ? 'pointer' : 'default' }}
+      >
+        <TableCell align={align}>{dateFormat(row.createdAt)}</TableCell>
         <TableCell colSpan={4}>
           <Box sx={{ margin: 0 }}>
             <TableContainer<GameResult> columns={resultColumns} align={align} size="small">
@@ -39,6 +41,7 @@ export const GameResultRow = (props: {
                   key={resultRow.name}
                   hover={!!clickRow}
                   onClick={clickRow ? () => clickRow(resultRow) : undefined}
+                  sx={{ cursor: 'pointer' }}
                 >
                   <TableCell align={align}>{resultRow.rank}</TableCell>
                   <TableCell align={align}>{resultRow.name}</TableCell>
