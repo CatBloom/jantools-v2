@@ -1,6 +1,6 @@
 import { useLoading } from '@/hooks/useLoading';
 import { useNotice } from '@/hooks/useNotice';
-import { ReqCreateLeague, LeagueFormData } from '@/types/league';
+import { LeagueFormData } from '@/types/league';
 import { createLeague } from '../api/leagueService';
 
 export const useLeague = () => {
@@ -8,11 +8,10 @@ export const useLeague = () => {
   const { set } = useNotice();
   const errorEmpty = 'error:empty data';
 
-  const create = async (formdata: LeagueFormData) => {
-    const req: ReqCreateLeague = { ...formdata };
+  const create = async (formData: LeagueFormData) => {
     try {
       loading.start();
-      const res = await createLeague(req);
+      const res = await createLeague(formData);
       if (res) {
         return res;
       } else {

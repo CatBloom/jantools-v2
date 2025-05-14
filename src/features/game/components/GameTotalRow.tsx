@@ -4,17 +4,12 @@ import { GameResultTotal } from '@/types/game';
 export const GameTotalRow = (props: {
   row: GameResultTotal;
   align?: TableCellProps['align'];
-  clickRow: (row: GameResultTotal) => void;
+  clickRow?: (row: GameResultTotal) => void;
 }) => {
   const { row, align, clickRow } = props;
 
   return (
-    <TableRow
-      hover
-      onClick={() => {
-        clickRow(row);
-      }}
-    >
+    <TableRow hover onClick={() => clickRow && clickRow(row)}>
       <TableCell align={align}>{row.rank}</TableCell>
       <TableCell align={align}>{row.name}</TableCell>
       <TableCell align={align}>{row.gameCount}</TableCell>

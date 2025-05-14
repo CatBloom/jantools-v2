@@ -35,7 +35,7 @@ interface FormDataRule {
   umaArray: string[];
 }
 
-export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }) => {
+export const LeagueForm = (props: { submit: (data: LeagueFormData) => void }) => {
   const { submit } = props;
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
   const [disableForm, setDisableForm] = useState(false);
@@ -116,7 +116,7 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
       return;
     }
     // FormDataをAPI用のデータに加工
-    const leagueFormData: LeagueFormData = {
+    const data: LeagueFormData = {
       name: formData.name,
       manual: formData.manual,
       password: formData.password,
@@ -131,7 +131,7 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
         uma: formData.umaArray.map(Number),
       },
     };
-    submit(leagueFormData);
+    submit(data);
   };
 
   // ルールプリセット選択時に対応のルールをフォームに入力する
