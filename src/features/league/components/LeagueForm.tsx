@@ -150,11 +150,9 @@ export const LeagueForm = (props: { submit: (formdata: LeagueFormData) => void }
     const rule = ruleMap[value];
 
     if (!rule) {
-      const { name, manual } = getValues();
+      const { name, manual, password } = getValues();
       setDisableForm(false);
-      reset();
-      setValue('name', name);
-      setValue('manual', manual);
+      reset({ name, manual, password });
     } else {
       Object.keys(rule).forEach((key) => {
         setValue(key as keyof FormData, rule[key as keyof FormDataRule], {
