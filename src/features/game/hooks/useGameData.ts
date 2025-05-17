@@ -14,6 +14,9 @@ export const useGameData = () => {
   const playersData = useAtomValue(gamePlayerAtom);
   const resultTotalData = useAtomValue(gameResultTotalAtom);
 
+  // ゲームデータが存在するか確認用
+  const isGameListLength = gameListData && gameListData.length > 0;
+
   return {
     gameListData,
     resultDescData,
@@ -21,5 +24,6 @@ export const useGameData = () => {
     pieChartData,
     playersData,
     resultTotalData,
+    isGameListLength,
   };
 };
