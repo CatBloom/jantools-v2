@@ -5,6 +5,8 @@ import { gamePlayerAtom } from '../jotai/gamePlayerAtom';
 import { gameResultTotalAtom } from '../jotai/gameResultTotalAtom';
 import { gameResultDescAtom } from '../jotai/gameResultDescAtom';
 import { gameListFetcher } from '../api/gameListFetcher';
+import { useEditMode } from '@/hooks/useEditMode';
+import { useEffect } from 'react';
 
 export const useGameData = () => {
   const gameListData = useAtomValue(gameListFetcher);
@@ -14,8 +16,16 @@ export const useGameData = () => {
   const playersData = useAtomValue(gamePlayerAtom);
   const resultTotalData = useAtomValue(gameResultTotalAtom);
 
+  const gameEdit = useEditMode();
   // ゲームデータが存在するか確認用
-  const isGameListLength = gameListData && gameListData.length > 0;
+  const hasGames = !!(gameListData && gameListData.length > 0);
+
+  // 編集モード中にゲームが空になった時、編集モード中を解除する
+  useEffect(() => {
+    if (!hasGames && gameEdit.isEdit) {
+      gameEdit.setIsEdit(false);
+    }
+  }, [hasGames, gameEdit.setIsEdit]);
 
   return {
     gameListData,
@@ -24,6 +34,7 @@ export const useGameData = () => {
     pieChartData,
     playersData,
     resultTotalData,
-    isGameListLength,
+    hasGames,
+    gameEdit,
   };
 };

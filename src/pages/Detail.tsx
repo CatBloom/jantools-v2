@@ -2,7 +2,6 @@ import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { useTab } from '@/hooks/useTab';
-import { useEditMode } from '@/hooks/useEditMode';
 import { LeagueRuleList } from '@/features/league/LeagueRuleList';
 import { useLeagueData } from '@/features/league/hooks/useLeagueData';
 import { useAuth } from '@/features/auth/hooks/useAuth';
@@ -19,9 +18,8 @@ export const Detail = () => {
   const { tabValue, switchTab } = useTab('detail');
   const { id } = useParams();
   const { league } = useLeagueData();
-  const { isGameListLength } = useGameData();
+  const { hasGames, gameEdit } = useGameData();
   const { isAuth } = useAuth();
-  const { isEdit, toggle } = useEditMode();
 
   if (!league || !id) return null;
 
@@ -34,9 +32,9 @@ export const Detail = () => {
           textColor="secondary"
           indicatorColor="secondary"
         >
-          <Tab value="detail" label="詳細" disabled={isEdit}></Tab>
-          <Tab value="edit" label="成績管理" disabled={isEdit}></Tab>
-          <Tab value="setting" label="設定" disabled={isEdit}></Tab>
+          <Tab value="detail" label="詳細" disabled={gameEdit.isEdit}></Tab>
+          <Tab value="edit" label="成績管理" disabled={gameEdit.isEdit}></Tab>
+          <Tab value="setting" label="設定" disabled={gameEdit.isEdit}></Tab>
         </Tabs>
         <FavoriteToggle favorite={{ id: league.id, name: league.name }} />
       </Stack>
@@ -89,18 +87,18 @@ export const Detail = () => {
                 >
                   成績登録
                 </Button>
-                {isGameListLength && (
+                {hasGames && (
                   <Button
-                    variant={isEdit ? 'contained' : 'outlined'}
+                    variant={gameEdit.isEdit ? 'contained' : 'outlined'}
                     color="secondary"
-                    onClick={toggle}
+                    onClick={gameEdit.toggle}
                   >
                     編集モード
                   </Button>
                 )}
               </Stack>
             )}
-            <GameResultTable id={id} isEdit={isEdit} rule={league.rule}></GameResultTable>
+            <GameResultTable id={id} isEdit={gameEdit.isEdit} rule={league.rule}></GameResultTable>
           </Stack>
         </Stack>
       )}
