@@ -52,6 +52,12 @@ export const darkTheme = createTheme({
             borderColor: commonTheme.palette.secondary.main,
           },
         },
+        text: {
+          color: '#ffffff',
+          '&:hover': {
+            color: commonTheme.palette.secondary.main,
+          },
+        },
       },
     },
     MuiOutlinedInput: {

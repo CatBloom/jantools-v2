@@ -22,12 +22,7 @@ export const Dashboard = () => {
           <Typography flexGrow="1" variant="h2">
             {name}
           </Typography>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              navigate(`/detail/${id}`);
-            }}
-          >
+          <Button variant="text" onClick={() => navigate(`/detail/${id}`)}>
             詳細ページに戻る
           </Button>
         </Stack>
