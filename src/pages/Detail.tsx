@@ -18,7 +18,7 @@ export const Detail = () => {
   const { tabValue, switchTab } = useTab('detail');
   const { id } = useParams();
   const { league } = useLeagueData();
-  const { hasGames, gameEdit } = useGameData();
+  const { hasGameListData, gameEdit } = useGameData();
   const { isAuth } = useAuth();
 
   if (!league || !id) return null;
@@ -87,7 +87,7 @@ export const Detail = () => {
                 >
                   成績登録
                 </Button>
-                {hasGames && (
+                {hasGameListData && (
                   <Button
                     variant={gameEdit.isEdit ? 'contained' : 'outlined'}
                     color="secondary"

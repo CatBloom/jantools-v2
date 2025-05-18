@@ -18,14 +18,14 @@ export const useGameData = () => {
 
   const gameEdit = useEditMode();
   // ゲームデータが存在するか確認用
-  const hasGames = !!(gameListData && gameListData.length > 0);
+  const hasGameListData = !!(gameListData && gameListData.length > 0);
 
   // 編集モード中にゲームが空になった時、編集モード中を解除する
   useEffect(() => {
-    if (!hasGames && gameEdit.isEdit) {
+    if (!hasGameListData && gameEdit.isEdit) {
       gameEdit.setIsEdit(false);
     }
-  }, [hasGames, gameEdit.setIsEdit]);
+  }, [hasGameListData, gameEdit.setIsEdit]);
 
   return {
     gameListData,
@@ -34,7 +34,7 @@ export const useGameData = () => {
     pieChartData,
     playersData,
     resultTotalData,
-    hasGames,
+    hasGameListData,
     gameEdit,
   };
 };
