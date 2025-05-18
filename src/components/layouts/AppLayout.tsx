@@ -21,11 +21,6 @@ export const AppLayout = () => {
           onClose={() => {
             clear();
           }}
-          sx={{
-            zIndex: 1000,
-            position: 'absolute',
-            width: '100%',
-          }}
         >
           {notice.message}
         </Alert>

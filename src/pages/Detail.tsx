@@ -4,19 +4,21 @@ import { useDisclosure } from '@/hooks/useDisclosure';
 import { useTab } from '@/hooks/useTab';
 import { LeagueRuleList } from '@/features/league/LeagueRuleList';
 import { useLeagueData } from '@/features/league/hooks/useLeagueData';
+import { useAuth } from '@/features/auth/hooks/useAuth';
+import { useGameData } from '@/features/game/hooks/useGameData';
 import { GameTotalTable } from '@/features/game/GameTotalTable';
 import { GameResultTable } from '@/features/game/GameResultTable';
 import { GameRegister } from '@/features/game/GameRegister';
 import { FavoriteToggle } from '@/features/favorite/FavoriteToggle';
 import { dateFormat } from '@/utils/date';
 import { AuthRequest } from '@/features/auth/AuthRequest';
-import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export const Detail = () => {
   const { isOpen, open, close } = useDisclosure(false);
   const { tabValue, switchTab } = useTab('detail');
   const { id } = useParams();
   const { league } = useLeagueData();
+  const { hasGameListData, gameEdit } = useGameData();
   const { isAuth } = useAuth();
 
   if (!league || !id) return null;
@@ -30,9 +32,9 @@ export const Detail = () => {
           textColor="secondary"
           indicatorColor="secondary"
         >
-          <Tab value="detail" label="詳細"></Tab>
-          <Tab value="edit" label="成績管理"></Tab>
-          <Tab value="setting" label="設定"></Tab>
+          <Tab value="detail" label="詳細" disabled={gameEdit.isEdit}></Tab>
+          <Tab value="edit" label="成績管理" disabled={gameEdit.isEdit}></Tab>
+          <Tab value="setting" label="設定" disabled={gameEdit.isEdit}></Tab>
         </Tabs>
         <FavoriteToggle favorite={{ id: league.id, name: league.name }} />
       </Stack>
@@ -75,13 +77,28 @@ export const Detail = () => {
             </Typography>
           </Stack>
 
-          <Stack>
+          <Stack spacing={0.5}>
             {isAuth && (
-              <Button variant="contained" color="secondary" onClick={open}>
-                成績登録
-              </Button>
+              <Stack direction="row" justifyContent="end" spacing={0.5}>
+                <Button
+                  variant={isOpen ? 'contained' : 'outlined'}
+                  color="secondary"
+                  onClick={open}
+                >
+                  成績登録
+                </Button>
+                {hasGameListData && (
+                  <Button
+                    variant={gameEdit.isEdit ? 'contained' : 'outlined'}
+                    color="secondary"
+                    onClick={gameEdit.toggle}
+                  >
+                    編集モード
+                  </Button>
+                )}
+              </Stack>
             )}
-            <GameResultTable id={id} isDeleted={isAuth}></GameResultTable>
+            <GameResultTable id={id} isEdit={gameEdit.isEdit} rule={league.rule}></GameResultTable>
           </Stack>
         </Stack>
       )}

@@ -13,7 +13,7 @@ import {
 import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { LeagueRule } from '@/types/league';
-import { GameFormData } from '@/types/game';
+import { Game, GameFormData } from '@/types/game';
 
 interface FormData {
   gameArray: FormDataGameResult[];
@@ -28,10 +28,12 @@ interface FormDataGameResult {
 
 export const GameForm = (props: {
   rule: LeagueRule;
+  data?: Game;
+  handleDelete?: () => Promise<void>;
   gamePlayers: string[];
-  submit: (formdata: GameFormData) => void;
+  submit: (data: GameFormData) => void;
 }) => {
-  const { rule, gamePlayers, submit } = props;
+  const { rule, data, handleDelete, gamePlayers, submit } = props;
 
   const [autoCalc, setAutoCalc] = useState(true);
   const [validateErorrMsg, setValidateErrorMsg] = useState('');
@@ -44,12 +46,19 @@ export const GameForm = (props: {
     reset,
   } = useForm<FormData>({
     defaultValues: {
-      gameArray: Array.from({ length: rule.playerCount }, (_, i) => ({
-        rank: String(i + 1),
-        name: '',
-        point: '',
-        calcPoint: '',
-      })),
+      gameArray: data
+        ? data.results.map((result) => ({
+            rank: String(result.rank),
+            name: result.name,
+            point: String(result.point),
+            calcPoint: String(result.calcPoint),
+          }))
+        : Array.from({ length: rule.playerCount }, (_, i) => ({
+            rank: String(i + 1),
+            name: '',
+            point: '',
+            calcPoint: '',
+          })),
     },
   });
 
@@ -162,7 +171,7 @@ export const GameForm = (props: {
     }
 
     // FormDataをAPI用のデータに加工
-    const gameFormData: GameFormData = {
+    const data: GameFormData = {
       results: formData.gameArray.map((v) => {
         return {
           rank: Number(v.rank),
@@ -172,7 +181,7 @@ export const GameForm = (props: {
         };
       }),
     };
-    submit(gameFormData);
+    submit(data);
   };
   return (
     <>
@@ -182,12 +191,19 @@ export const GameForm = (props: {
         sx={{ width: '100%' }}
         onSubmit={handleSubmit(handleSubmitForm)}
       >
-        <FormControl onChange={handleAutoCalcCheck} sx={{ width: '7rem' }}>
-          <FormControlLabel
-            control={<Checkbox defaultChecked color="secondary" />}
-            label="自動計算"
-          />
-        </FormControl>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+          <FormControl onChange={handleAutoCalcCheck} sx={{ width: '7rem' }}>
+            <FormControlLabel
+              control={<Checkbox defaultChecked color="secondary" />}
+              label="自動計算"
+            />
+          </FormControl>
+          {handleDelete && (
+            <Button color="error" onClick={handleDelete}>
+              削除
+            </Button>
+          )}
+        </Stack>
         {getValues('gameArray').map((_, i) => (
           <Stack spacing={1} key={i}>
             <Grid container spacing={1}>

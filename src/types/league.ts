@@ -18,9 +18,4 @@ export interface LeagueRule {
   uma: number[];
 }
 
-export type ReqCreateLeague = Omit<League, 'id' | 'createdAt'>;
-
-export type ResDeleteLeague = Pick<League, 'id'>;
-
-// Formから返却される型
 export type LeagueFormData = Omit<League, 'id' | 'createdAt'>;
