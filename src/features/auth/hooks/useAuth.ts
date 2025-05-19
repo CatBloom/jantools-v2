@@ -68,6 +68,11 @@ export const useAuth = () => {
           message: '認証期限切れです。再度、編集権限をリクエストしてください。',
           severity: 'warning',
         });
+        // 有効期限切れでlocalstorageから削除
+        setTokens((prev) => {
+          const { [id]: a, ...rest } = prev;
+          return rest;
+        });
         setIsAuth(false);
         return;
       }
