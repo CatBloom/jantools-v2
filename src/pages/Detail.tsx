@@ -1,5 +1,5 @@
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
-import { useParams } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { useTab } from '@/hooks/useTab';
 import { LeagueRuleList } from '@/features/league/LeagueRuleList';
@@ -65,7 +65,7 @@ export const Detail = () => {
             <Divider />
             <LeagueRuleList rule={league.rule} />
           </Stack>
-          <GameTotalTable id={id}></GameTotalTable>
+          <GameTotalTable />
         </Stack>
       )}
 
@@ -98,7 +98,7 @@ export const Detail = () => {
                 )}
               </Stack>
             )}
-            <GameResultTable id={id} isEdit={gameEdit.isEdit} rule={league.rule}></GameResultTable>
+            <GameResultTable isEdit={gameEdit.isEdit} rule={league.rule}></GameResultTable>
           </Stack>
         </Stack>
       )}

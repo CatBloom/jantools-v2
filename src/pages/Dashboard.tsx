@@ -35,7 +35,7 @@ export const Dashboard = () => {
             <GamePieChart name={name} />
           </Stack>
         </Stack>
-        <GameResultTable id={id} name={name} isEdit={false}></GameResultTable>
+        <GameResultTable name={name} isEdit={false}></GameResultTable>
       </Stack>
     </Stack>
   );

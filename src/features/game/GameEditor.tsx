@@ -6,19 +6,16 @@ import { useGameData } from './hooks/useGameData';
 import { useGame } from './hooks/useGame';
 import { useConfirm } from '@/hooks/useConfirm';
 import { GameDeleteConfirm } from './components/GameDeleteConfirm';
+import { useParams } from 'react-router';
 
-export const GameEditor = (props: {
-  id: string;
-  rule: LeagueRule;
-  isOpen: boolean;
-  close: () => void;
-}) => {
-  const { id, rule, isOpen, close } = props;
+export const GameEditor = (props: { rule: LeagueRule; isOpen: boolean; close: () => void }) => {
+  const { rule, isOpen, close } = props;
 
+  const { id } = useParams();
+  if (!id) return null;
   const confirm = useConfirm();
   const { update, remove } = useGame();
   const { playersData, resultDescData } = useGameData();
-
   const data = resultDescData.find((result) => result.id === id);
   if (!data) return null;
 

@@ -1,13 +1,13 @@
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Column } from '@/types/common';
 import { GameResultTotal } from '@/types/game';
 import { TableContainer } from '@/components/TableContainer';
 import { GameTotalRow } from './components/GameTotalRow';
 import { useGameData } from './hooks/useGameData';
 
-export const GameTotalTable = (props: { id: string }) => {
-  const { id } = props;
-
+export const GameTotalTable = () => {
+  const { id } = useParams();
+  if (!id) return null;
   const { resultTotalData } = useGameData();
   const columns: Column<GameResultTotal>[] = [
     { key: 'rank', display: '順位' },

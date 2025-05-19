@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { TablePagination, TableRow } from '@mui/material';
 import { Column } from '@/types/common';
 import { Game, GameResult } from '@/types/game';
@@ -11,21 +11,21 @@ import { LeagueRule } from '@/types/league';
 // isEditがtrueの際は、ルールが必須
 type GameResultTabaleProps =
   | {
-      id: string;
       name?: string;
       isEdit: true;
       rule: LeagueRule;
     }
   | {
-      id: string;
       name?: string;
       isEdit: false;
       rule?: LeagueRule;
     };
 
 export const GameResultTable = (props: GameResultTabaleProps) => {
-  const { id, name, isEdit, rule } = props;
+  const { name, isEdit, rule } = props;
 
+  const { id } = useParams();
+  if (!id) return null;
   const { resultDescData } = useGameData();
   const navigate = useNavigate();
   // nameがある場合は、参加したゲームの結果のみ表示する
