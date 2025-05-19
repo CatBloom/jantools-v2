@@ -1,6 +1,7 @@
 import { atom, useAtom } from 'jotai';
 import { AlertColor } from '@mui/material';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router';
 
 interface Notice {
   message?: string;
@@ -11,6 +12,9 @@ const noticeAtom = atom<Notice | null>(null);
 
 export const useNotice = () => {
   const [notice, setNotice] = useAtom(noticeAtom);
+  const location = useLocation();
+  const prevPathnameRef = useRef(location.pathname);
+
   const defaultMessage = 'エラーが発生しました。しばらくしてからもう一度お試しください。';
 
   const set = useCallback(
@@ -26,6 +30,14 @@ export const useNotice = () => {
   const clear = useCallback(() => {
     setNotice(null);
   }, [setNotice]);
+
+  // pathが変わった際に、通知を消す
+  useEffect(() => {
+    if (prevPathnameRef.current !== location.pathname) {
+      clear();
+      prevPathnameRef.current = location.pathname;
+    }
+  }, [location.pathname]);
 
   return { notice, set, clear };
 };
