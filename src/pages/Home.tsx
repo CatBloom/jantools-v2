@@ -10,7 +10,10 @@ export const Home = () => {
       <Box
         sx={{
           width: 1,
-          height: { xs: 'auto', md: 430 },
+          height: { xs: 'auto', md: 450 },
+          '@media (min-width:1980px)': {
+            height: { xs: 'auto', md: 700 },
+          },
           position: 'relative',
         }}
       >
