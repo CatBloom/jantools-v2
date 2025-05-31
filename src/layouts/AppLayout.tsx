@@ -5,7 +5,7 @@ import { useNotice } from '@/hooks/useNotice';
 import { useSetIDParam } from '@/state/params';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { LoadingSpinner } from '../LoadingSpinner';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const AppLayout = () => {
   const { isLoading } = useLoading();
