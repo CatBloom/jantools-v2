@@ -1,5 +1,5 @@
 import { PieChart } from '@mui/x-charts';
-import { useGameData } from './hooks/useGameData';
+import { useGameData } from '../hooks/useGameData';
 
 export const GamePieChart = (props: { name: string }) => {
   const { name } = props;

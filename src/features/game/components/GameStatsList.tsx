@@ -1,5 +1,5 @@
 import { List, ListItem, ListItemText } from '@mui/material';
-import { useGameData } from './hooks/useGameData';
+import { useGameData } from '../hooks/useGameData';
 
 export const GameStatsList = (props: { name: string }) => {
   const { name } = props;

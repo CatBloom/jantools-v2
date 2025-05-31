@@ -2,8 +2,8 @@ import { useNavigate, useParams } from 'react-router';
 import { Column } from '@/types/common';
 import { GameResultTotal } from '@/types/game';
 import { TableContainer } from '@/components/TableContainer';
-import { GameTotalRow } from './components/GameTotalRow';
-import { useGameData } from './hooks/useGameData';
+import { GameTotalRow } from './GameTotalRow';
+import { useGameData } from '../hooks/useGameData';
 
 export const GameTotalTable = () => {
   const { id } = useParams();

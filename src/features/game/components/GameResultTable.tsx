@@ -4,9 +4,9 @@ import { Column } from '@/types/common';
 import { Game, GameResult } from '@/types/game';
 import { TableContainer } from '@/components/TableContainer';
 import { usePagination } from '@/hooks/usePagination';
-import { useGameData } from './hooks/useGameData';
-import { GameResultRow } from './components/GameResultRow';
 import { LeagueRule } from '@/types/league';
+import { useGameData } from '../hooks/useGameData';
+import { GameResultRow } from './GameResultRow';
 
 // isEditがtrueの際は、ルールが必須
 type GameResultTabaleProps =

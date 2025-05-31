@@ -1,11 +1,11 @@
 import { ModalContainer } from '@/components/ModalContainer';
 import { LeagueRule } from '@/types/league';
 import { GameFormData } from '@/types/game';
-import { GameForm } from './components/GameForm';
-import { useGameData } from './hooks/useGameData';
-import { useGame } from './hooks/useGame';
+import { GameForm } from './GameForm';
+import { GameDeleteConfirm } from './GameDeleteConfirm';
+import { useGameData } from '../hooks/useGameData';
+import { useGame } from '../hooks/useGame';
 import { useConfirm } from '@/hooks/useConfirm';
-import { GameDeleteConfirm } from './components/GameDeleteConfirm';
 
 export const GameEditor = (props: {
   gameID: string;
