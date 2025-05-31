@@ -2,7 +2,7 @@ import { AppBar, Box, Stack, Toolbar } from '@mui/material';
 import { Link } from 'react-router';
 import logo from '@/assets/titlelogo.png';
 import { useTheme } from '@/hooks/useTheme';
-import { FavoriteMenu } from '@/features/favorite/FavoriteMenu';
+import { FavoriteMenu } from '@/features/favorite/components/FavoriteMenu';
 import { ThemeSwitch } from './ThemeSwitch';
 
 export const Header = () => {
