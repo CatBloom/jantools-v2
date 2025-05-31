@@ -2,16 +2,16 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { Game, GameFormData } from '@/types/game';
 import { useLoading } from '@/hooks/useLoading';
 import { useNotice } from '@/hooks/useNotice';
+import { useToken } from '@/hooks/useToken';
 import { readonlyParamWithIDAtom } from '@/state/params';
-import { readonlyTokensAtom } from '@/state/token';
 import { gameListFetcher } from '../api/gameListFetcher';
 import { createGame, deleteGame, updateGame } from '../api/gameService';
 
 export const useGame = () => {
   const refreshGameListData = useSetAtom(gameListFetcher);
   const paramID = useAtomValue(readonlyParamWithIDAtom);
-  const tokens = useAtomValue(readonlyTokensAtom);
   const loading = useLoading();
+  const token = useToken();
   const { set } = useNotice();
   const errorEmpty = 'error:empty data';
 
@@ -19,8 +19,8 @@ export const useGame = () => {
     if (!paramID) return;
     try {
       loading.start();
-      const token = tokens[paramID];
-      if (!token) {
+      const currToken = token.search(paramID);
+      if (!currToken) {
         set({
           message: '編集権限がありません。再度編集権限をリクエストしてください。',
           severity: 'error',
@@ -28,7 +28,7 @@ export const useGame = () => {
         return;
       }
 
-      const res = await createGame(formData, token);
+      const res = await createGame(formData, currToken);
       if (res) {
         refreshGameListData();
         set({ message: '登録が完了しました。', severity: 'success' });
@@ -55,8 +55,8 @@ export const useGame = () => {
     };
     try {
       loading.start();
-      const token = tokens[paramID];
-      if (!token) {
+      const currToken = token.search(paramID);
+      if (!currToken) {
         set({
           message: '編集権限がありません。再度編集権限をリクエストしてください。',
           severity: 'error',
@@ -64,7 +64,7 @@ export const useGame = () => {
         return;
       }
 
-      const res = await updateGame(req, token);
+      const res = await updateGame(req, currToken);
       if (res) {
         refreshGameListData();
         set({ message: '編集が完了しました。', severity: 'success' });
@@ -85,7 +85,7 @@ export const useGame = () => {
     if (!paramID) return;
     try {
       loading.start();
-      const token = tokens[paramID];
+      const currToken = token.search(paramID);
       if (!token) {
         set({
           message: '編集権限が無効です。再度編集権限をリクエストしてください。',
@@ -94,7 +94,7 @@ export const useGame = () => {
         return;
       }
 
-      const res = await deleteGame(gid, token);
+      const res = await deleteGame(gid, currToken);
       if (res) {
         refreshGameListData();
         set({ message: '削除が完了しました。', severity: 'success' });

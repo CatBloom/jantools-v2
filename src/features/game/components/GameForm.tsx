@@ -184,128 +184,120 @@ export const GameForm = (props: {
     submit(data);
   };
   return (
-    <>
-      <Stack
-        component="form"
-        spacing={1}
-        sx={{ width: '100%' }}
-        onSubmit={handleSubmit(handleSubmitForm)}
-      >
-        <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap">
-          <FormControl onChange={handleAutoCalcCheck} sx={{ width: '7rem' }}>
-            <FormControlLabel
-              control={<Checkbox defaultChecked color="secondary" />}
-              label="自動計算"
-            />
-          </FormControl>
-          {handleDelete && (
-            <Button color="error" onClick={handleDelete}>
-              削除
-            </Button>
-          )}
-        </Stack>
-        {getValues('gameArray').map((_, i) => (
-          <Stack spacing={1} key={i}>
-            <Grid container spacing={1}>
-              <Grid size={1} sx={{ minWidth: '4rem' }}>
-                <Controller
-                  name={`gameArray.${i}.rank`}
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      select
-                      required
-                      label="順位"
-                      type="number"
-                      disabled={autoCalc}
-                      sx={{ minWidth: '4rem' }}
-                    >
-                      {getValues('gameArray').map((_, i) => (
-                        <MenuItem key={i} value={i + 1}>
-                          {i + 1}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  )}
-                />
-              </Grid>
-              <Grid size="grow">
-                <Controller
-                  name={`gameArray.${i}.name`}
-                  control={control}
-                  rules={validation.name}
-                  render={({ field }) => (
-                    <Autocomplete
-                      {...field}
-                      freeSolo
-                      options={gamePlayers ? gamePlayers : []}
-                      onChange={(_, data) => field.onChange(data || '')}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          required
-                          fullWidth
-                          label="名前"
-                          type="string"
-                          onChange={(e) => field.onChange(e)}
-                          error={!!errors.gameArray?.[i]?.name}
-                        />
-                      )}
-                    />
-                  )}
-                />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={1}>
-              <Grid size="grow">
-                <Controller
-                  name={`gameArray.${i}.point`}
-                  control={control}
-                  rules={validation.point}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      fullWidth
-                      required
-                      label="点数"
-                      type="number"
-                      onChange={(e) => {
-                        handleAutoCalcPoint(i, e.target.value);
-                        field.onChange(e);
-                      }}
-                      error={errors.gameArray?.[i]?.point !== undefined}
-                      helperText={errors.gameArray?.[i]?.point?.message}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid size={2} sx={{ minWidth: '5rem' }}>
-                <Controller
-                  name={`gameArray.${i}.calcPoint`}
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      required
-                      label="順位点"
-                      disabled={autoCalc}
-                      type="number"
-                    />
-                  )}
-                />
-              </Grid>
-            </Grid>
-          </Stack>
-        ))}
-        <Typography component="p" color="error">
-          {validateErorrMsg}
-        </Typography>
-        <Button variant="contained" type="submit" color="secondary">
-          送信
-        </Button>
+    <Stack
+      component="form"
+      spacing={1}
+      sx={{ width: '100%' }}
+      onSubmit={handleSubmit(handleSubmitForm)}
+    >
+      <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap">
+        <FormControl onChange={handleAutoCalcCheck} sx={{ width: '7rem' }}>
+          <FormControlLabel
+            control={<Checkbox defaultChecked color="secondary" />}
+            label="自動計算"
+          />
+        </FormControl>
+        {handleDelete && (
+          <Button color="error" onClick={handleDelete}>
+            削除
+          </Button>
+        )}
       </Stack>
-    </>
+      {getValues('gameArray').map((_, i) => (
+        <Stack spacing={1} key={i}>
+          <Grid container spacing={1}>
+            <Grid size={1} sx={{ minWidth: '4rem' }}>
+              <Controller
+                name={`gameArray.${i}.rank`}
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    required
+                    label="順位"
+                    type="number"
+                    disabled={autoCalc}
+                    sx={{ minWidth: '4rem' }}
+                  >
+                    {getValues('gameArray').map((_, i) => (
+                      <MenuItem key={i} value={i + 1}>
+                        {i + 1}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid size="grow">
+              <Controller
+                name={`gameArray.${i}.name`}
+                control={control}
+                rules={validation.name}
+                render={({ field }) => (
+                  <Autocomplete
+                    {...field}
+                    freeSolo
+                    options={gamePlayers ? gamePlayers : []}
+                    onChange={(_, data) => field.onChange(data || '')}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        required
+                        fullWidth
+                        label="名前"
+                        type="string"
+                        onChange={(e) => field.onChange(e)}
+                        error={!!errors.gameArray?.[i]?.name}
+                      />
+                    )}
+                  />
+                )}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={1}>
+            <Grid size="grow">
+              <Controller
+                name={`gameArray.${i}.point`}
+                control={control}
+                rules={validation.point}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    required
+                    label="点数"
+                    type="number"
+                    onChange={(e) => {
+                      handleAutoCalcPoint(i, e.target.value);
+                      field.onChange(e);
+                    }}
+                    error={errors.gameArray?.[i]?.point !== undefined}
+                    helperText={errors.gameArray?.[i]?.point?.message}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid size={2} sx={{ minWidth: '5rem' }}>
+              <Controller
+                name={`gameArray.${i}.calcPoint`}
+                control={control}
+                render={({ field }) => (
+                  <TextField {...field} required label="順位点" disabled={autoCalc} type="number" />
+                )}
+              />
+            </Grid>
+          </Grid>
+        </Stack>
+      ))}
+      <Typography component="p" color="error">
+        {validateErorrMsg}
+      </Typography>
+      <Button variant="contained" type="submit" color="secondary">
+        送信
+      </Button>
+    </Stack>
   );
 };
