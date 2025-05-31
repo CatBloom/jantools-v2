@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { PasswordInput } from '@/components/PasswordInput';
 import { Button, Stack } from '@mui/material';
-import { useAuth } from './hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 export const AuthRequest = () => {
   const [password, setPassword] = useState('');
