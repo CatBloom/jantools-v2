@@ -1,4 +1,4 @@
-import { apiClient } from '@/lib/apiClient';
+import { apiClient } from '@/lib/api-client';
 import { League, LeagueFormData } from '@/types/league';
 
 export const fetchLeague = async (id: string, signal?: AbortSignal): Promise<League> => {

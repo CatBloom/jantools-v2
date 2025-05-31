@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { createToken } from '../api/authService';
-import { readonlyParamWithIDAtom } from '@/state/paramsState';
-import { tokensAtom } from '@/state/tokenState';
+import { readonlyParamWithIDAtom } from '@/state/params';
+import { tokensAtom } from '@/state/token';
 import { useLoading } from '@/hooks/useLoading';
 import { useNotice } from '@/hooks/useNotice';
 import { parseJwt } from '@/utils/jwt';
@@ -70,7 +70,8 @@ export const useAuth = () => {
         });
         // 有効期限切れでlocalstorageから削除
         setTokens((prev) => {
-          const { [id]: a, ...rest } = prev;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { [id]: _, ...rest } = prev;
           return rest;
         });
         setIsAuth(false);
@@ -78,7 +79,7 @@ export const useAuth = () => {
       }
       setIsAuth(payload.sub === id);
     },
-    [tokens, set, setIsAuth]
+    [tokens, setIsAuth, set, setTokens]
   );
 
   // paramIDが変更されるたびに、認証済みか確認する

@@ -25,7 +25,7 @@ export const useGameData = () => {
     if (!hasGameListData && gameEdit.isEdit) {
       gameEdit.setIsEdit(false);
     }
-  }, [hasGameListData, gameEdit.setIsEdit]);
+  }, [hasGameListData, gameEdit.setIsEdit, gameEdit]);
 
   return {
     gameListData,

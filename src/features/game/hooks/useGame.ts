@@ -2,8 +2,8 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { Game, GameFormData } from '@/types/game';
 import { useLoading } from '@/hooks/useLoading';
 import { useNotice } from '@/hooks/useNotice';
-import { readonlyParamWithIDAtom } from '@/state/paramsState';
-import { readonlyTokensAtom } from '@/state/tokenState';
+import { readonlyParamWithIDAtom } from '@/state/params';
+import { readonlyTokensAtom } from '@/state/token';
 import { gameListFetcher } from '../api/gameListFetcher';
 import { createGame, deleteGame, updateGame } from '../api/gameService';
 
