@@ -4,8 +4,8 @@ import { Column } from '@/types/common';
 import { Game, GameResult } from '@/types/game';
 import { dateFormat } from '@/utils/date';
 import { LeagueRule } from '@/types/league';
-import { GameEditor } from '../GameEditor';
 import { useDisclosure } from '@/hooks/useDisclosure';
+import { GameEditor } from './GameEditor';
 
 export const GameResultRow = (props: {
   row: Game;
@@ -53,7 +53,7 @@ export const GameResultRow = (props: {
           </Box>
         </TableCell>
       </TableRow>
-      {rule && <GameEditor id={row.id} rule={rule} isOpen={isOpen} close={close}></GameEditor>}
+      {rule && <GameEditor gameID={row.id} rule={rule} isOpen={isOpen} close={close}></GameEditor>}
     </>
   );
 };

@@ -1,31 +1,30 @@
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { TablePagination, TableRow } from '@mui/material';
 import { Column } from '@/types/common';
 import { Game, GameResult } from '@/types/game';
 import { TableContainer } from '@/components/TableContainer';
 import { usePagination } from '@/hooks/usePagination';
-import { useGameData } from './hooks/useGameData';
-import { GameResultRow } from './components/GameResultRow';
 import { LeagueRule } from '@/types/league';
+import { useGameData } from '../hooks/useGameData';
+import { GameResultRow } from './GameResultRow';
 
 // isEditがtrueの際は、ルールが必須
 type GameResultTabaleProps =
   | {
-      id: string;
       name?: string;
       isEdit: true;
       rule: LeagueRule;
     }
   | {
-      id: string;
       name?: string;
       isEdit: false;
       rule?: LeagueRule;
     };
 
 export const GameResultTable = (props: GameResultTabaleProps) => {
-  const { id, name, isEdit, rule } = props;
+  const { name, isEdit, rule } = props;
 
+  const { id } = useParams();
   const { resultDescData } = useGameData();
   const navigate = useNavigate();
   // nameがある場合は、参加したゲームの結果のみ表示する
@@ -42,6 +41,8 @@ export const GameResultTable = (props: GameResultTabaleProps) => {
     setPage(0); // Paginationをリセット
     navigate(`/dashboard/${id}/${row.name}`);
   };
+
+  if (!id) return null;
 
   return (
     <>

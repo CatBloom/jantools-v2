@@ -2,16 +2,16 @@ import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
 import { useParams } from 'react-router';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { useTab } from '@/hooks/useTab';
-import { LeagueRuleList } from '@/features/league/LeagueRuleList';
+import { LeagueRuleList } from '@/features/league/components/LeagueRuleList';
 import { useLeagueData } from '@/features/league/hooks/useLeagueData';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useGameData } from '@/features/game/hooks/useGameData';
-import { GameTotalTable } from '@/features/game/GameTotalTable';
-import { GameResultTable } from '@/features/game/GameResultTable';
-import { GameRegister } from '@/features/game/GameRegister';
-import { FavoriteToggle } from '@/features/favorite/FavoriteToggle';
+import { GameTotalTable } from '@/features/game/components/GameTotalTable';
+import { GameResultTable } from '@/features/game/components/GameResultTable';
+import { GameRegister } from '@/features/game/components/GameRegister';
+import { FavoriteToggle } from '@/features/favorite/components/FavoriteToggle';
+import { AuthRequest } from '@/features/auth/components/AuthRequest';
 import { dateFormat } from '@/utils/date';
-import { AuthRequest } from '@/features/auth/AuthRequest';
 
 export const Detail = () => {
   const { isOpen, open, close } = useDisclosure(false);
@@ -65,7 +65,7 @@ export const Detail = () => {
             <Divider />
             <LeagueRuleList rule={league.rule} />
           </Stack>
-          <GameTotalTable id={id}></GameTotalTable>
+          <GameTotalTable />
         </Stack>
       )}
 
@@ -98,7 +98,7 @@ export const Detail = () => {
                 )}
               </Stack>
             )}
-            <GameResultTable id={id} isEdit={gameEdit.isEdit} rule={league.rule}></GameResultTable>
+            <GameResultTable isEdit={gameEdit.isEdit} rule={league.rule}></GameResultTable>
           </Stack>
         </Stack>
       )}

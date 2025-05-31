@@ -1,9 +1,9 @@
 import { Button, Stack, Typography } from '@mui/material';
 import { Navigate, useNavigate, useParams } from 'react-router';
-import { GameStatsList } from '@/features/game/GameStatsList';
-import { GameLineChart } from '@/features/game/GameLineChart';
-import { GamePieChart } from '@/features/game/GamePieChart';
-import { GameResultTable } from '@/features/game/GameResultTable';
+import { GameStatsList } from '@/features/game/components/GameStatsList';
+import { GameLineChart } from '@/features/game/components/GameLineChart';
+import { GamePieChart } from '@/features/game/components/GamePieChart';
+import { GameResultTable } from '@/features/game/components/GameResultTable';
 import { useGameData } from '@/features/game/hooks/useGameData';
 
 export const Dashboard = () => {
@@ -35,7 +35,7 @@ export const Dashboard = () => {
             <GamePieChart name={name} />
           </Stack>
         </Stack>
-        <GameResultTable id={id} name={name} isEdit={false}></GameResultTable>
+        <GameResultTable name={name} isEdit={false}></GameResultTable>
       </Stack>
     </Stack>
   );

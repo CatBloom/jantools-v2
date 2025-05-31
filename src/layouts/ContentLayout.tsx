@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { Outlet, ScrollRestoration } from 'react-router';
 import { Container } from '@mui/material';
-import { LoadingSpinner } from '../LoadingSpinner';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const ContentLayout = () => {
   return (

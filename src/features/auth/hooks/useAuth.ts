@@ -1,19 +1,19 @@
 import { useCallback, useEffect } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { createToken } from '../api/authService';
-import { readonlyParamWithIDAtom } from '@/state/paramsState';
-import { tokensAtom } from '@/state/tokenState';
+import { readonlyParamWithIDAtom } from '@/state/params';
 import { useLoading } from '@/hooks/useLoading';
 import { useNotice } from '@/hooks/useNotice';
+import { useToken } from '@/hooks/useToken';
 import { parseJwt } from '@/utils/jwt';
 
 const isAuthAtom = atom(false);
 
 export const useAuth = () => {
-  const [tokens, setTokens] = useAtom(tokensAtom);
   const [isAuth, setIsAuth] = useAtom(isAuthAtom);
   const paramID = useAtomValue(readonlyParamWithIDAtom);
   const loading = useLoading();
+  const token = useToken();
   const { set } = useNotice();
 
   const create = async (password: string) => {
@@ -26,11 +26,8 @@ export const useAuth = () => {
 
     try {
       loading.start();
-      const token = await createToken(paramID, password);
-      setTokens((prev) => ({
-        ...prev,
-        [paramID]: token.token,
-      }));
+      const res = await createToken(paramID, password);
+      token.set(paramID, res.token);
       set({ message: '編集権限を取得しました。', severity: 'success' });
     } catch (err) {
       if (err instanceof Error) {
@@ -48,7 +45,7 @@ export const useAuth = () => {
         setIsAuth(false);
         return;
       }
-      const jwt = tokens[id];
+      const jwt = token.search(id);
       if (!jwt) {
         setIsAuth(false);
         return;
@@ -68,12 +65,14 @@ export const useAuth = () => {
           message: '認証期限切れです。再度、編集権限をリクエストしてください。',
           severity: 'warning',
         });
+        // 有効期限切れでlocalstorageから削除
+        token.remove(id);
         setIsAuth(false);
         return;
       }
       setIsAuth(payload.sub === id);
     },
-    [tokens, set, setIsAuth]
+    [token, setIsAuth, set]
   );
 
   // paramIDが変更されるたびに、認証済みか確認する

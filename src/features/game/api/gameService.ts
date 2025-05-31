@@ -1,5 +1,5 @@
 import { Game, GameFormData } from '@/types/game';
-import { apiClient } from '@/lib/apiClient';
+import { apiClient } from '@/lib/api-client';
 
 export const fetchGameList = async (lid: string, signal?: AbortSignal): Promise<Game[]> => {
   const params = { leagueId: lid };

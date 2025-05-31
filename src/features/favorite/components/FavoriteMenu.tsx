@@ -4,7 +4,7 @@ import { IconStar } from '@/components/icons/IconSrar';
 import { IconArrowDown } from '@/components/icons/IconArrow';
 import { useMenu } from '@/hooks/useMenu';
 import { useTheme } from '@/hooks/useTheme';
-import { useFavorite } from './hooks/useFavorite';
+import { useFavorite } from '../hooks/useFavorite';
 
 export const FavoriteMenu = () => {
   const { favoriteList } = useFavorite();

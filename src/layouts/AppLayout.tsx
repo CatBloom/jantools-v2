@@ -2,10 +2,10 @@ import { Outlet } from 'react-router';
 import { Alert, Box, Stack } from '@mui/material';
 import { useLoading } from '@/hooks/useLoading';
 import { useNotice } from '@/hooks/useNotice';
-import { useSetIDParam } from '@/state/paramsState';
-import { Header } from '../Header';
-import { Footer } from '../Footer';
-import { LoadingSpinner } from '../LoadingSpinner';
+import { useSetIDParam } from '@/state/params';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export const AppLayout = () => {
   const { isLoading } = useLoading();

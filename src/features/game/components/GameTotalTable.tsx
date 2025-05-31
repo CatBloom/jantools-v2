@@ -1,13 +1,12 @@
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Column } from '@/types/common';
 import { GameResultTotal } from '@/types/game';
 import { TableContainer } from '@/components/TableContainer';
-import { GameTotalRow } from './components/GameTotalRow';
-import { useGameData } from './hooks/useGameData';
+import { GameTotalRow } from './GameTotalRow';
+import { useGameData } from '../hooks/useGameData';
 
-export const GameTotalTable = (props: { id: string }) => {
-  const { id } = props;
-
+export const GameTotalTable = () => {
+  const { id } = useParams();
   const { resultTotalData } = useGameData();
   const columns: Column<GameResultTotal>[] = [
     { key: 'rank', display: '順位' },
@@ -21,6 +20,8 @@ export const GameTotalTable = (props: { id: string }) => {
   const clickRow = (row: GameResultTotal) => {
     navigate(`/dashboard/${id}/${row.name}`);
   };
+
+  if (!id) return null;
 
   return (
     <TableContainer<GameResultTotal> columns={columns} align="center" elevation={1}>

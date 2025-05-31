@@ -1,5 +1,5 @@
 import { LineChart } from '@mui/x-charts';
-import { useGameData } from './hooks/useGameData';
+import { useGameData } from '../hooks/useGameData';
 
 export const GameLineChart = (props: { name: string }) => {
   const { name } = props;
