@@ -5,18 +5,16 @@ import { isRouteErrorResponse, Link, useRouteError } from 'react-router';
 export const Error = () => {
   const error = useRouteError();
 
-  const renderErrorContent = (title: string, message?: string) => {
+  const renderErrorContent = (title: string) => {
     return (
       <Container>
         <Stack spacing={2} p="2rem">
           <Typography variant="h1" component="h1">
             {title}
           </Typography>
-          {message && (
-            <Typography variant="body1" component="p">
-              {message}
-            </Typography>
-          )}
+          <Typography variant="body1" component="p">
+            エラーが発生しました。
+          </Typography>
           <Typography
             variant="body1"
             component={Link}
@@ -29,11 +27,14 @@ export const Error = () => {
       </Container>
     );
   };
+
   switch (true) {
     case isRouteErrorResponse(error):
-      return renderErrorContent(`${error.status} ${error.statusText}`, error.data?.message);
+      console.error(error.data?.message);
+      return renderErrorContent(`${error.status} ${error.statusText}`);
     case isAxiosError(error):
-      return renderErrorContent(`${error.status} ${error.response?.statusText}`, error.message);
+      console.error(error.message);
+      return renderErrorContent(`${error.status} ${error.response?.statusText}`);
     default:
       return renderErrorContent('error');
   }
