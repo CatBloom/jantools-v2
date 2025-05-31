@@ -53,7 +53,7 @@ export const GameResultRow = (props: {
           </Box>
         </TableCell>
       </TableRow>
-      {rule && <GameEditor id={row.id} rule={rule} isOpen={isOpen} close={close}></GameEditor>}
+      {rule && <GameEditor gameID={row.id} rule={rule} isOpen={isOpen} close={close}></GameEditor>}
     </>
   );
 };
