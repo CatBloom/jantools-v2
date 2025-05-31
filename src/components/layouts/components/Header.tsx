@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import logo from '@/assets/titlelogo.png';
 import { useTheme } from '@/hooks/useTheme';
 import { FavoriteMenu } from '@/features/favorite/components/FavoriteMenu';
-import { ThemeSwitch } from './ThemeSwitch';
+import { ThemeSwitch } from '@/components/ThemeSwitch';
 
 export const Header = () => {
   const { currentTheme, switchTheme } = useTheme();

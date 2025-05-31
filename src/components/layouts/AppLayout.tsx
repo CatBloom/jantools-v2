@@ -3,8 +3,8 @@ import { Alert, Box, Stack } from '@mui/material';
 import { useLoading } from '@/hooks/useLoading';
 import { useNotice } from '@/hooks/useNotice';
 import { useSetIDParam } from '@/state/params';
-import { Header } from '../Header';
-import { Footer } from '../Footer';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 import { LoadingSpinner } from '../LoadingSpinner';
 
 export const AppLayout = () => {
