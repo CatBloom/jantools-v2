@@ -7,7 +7,6 @@ import { useGameData } from './hooks/useGameData';
 
 export const GameTotalTable = () => {
   const { id } = useParams();
-
   const { resultTotalData } = useGameData();
   const columns: Column<GameResultTotal>[] = [
     { key: 'rank', display: '順位' },
