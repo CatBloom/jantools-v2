@@ -14,7 +14,7 @@ export const useEditMode = () => {
       });
       return next;
     });
-  }, []);
+  }, [set]);
 
   return { isEdit, setIsEdit, toggle };
 };

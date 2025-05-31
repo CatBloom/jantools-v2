@@ -1,5 +1,5 @@
 import { Divider, Stack, Typography, Tabs, Tab, Button } from '@mui/material';
-import { Navigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { useTab } from '@/hooks/useTab';
 import { LeagueRuleList } from '@/features/league/LeagueRuleList';

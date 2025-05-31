@@ -37,7 +37,7 @@ export const useNotice = () => {
       clear();
       prevPathnameRef.current = location.pathname;
     }
-  }, [location.pathname]);
+  }, [clear, location.pathname]);
 
   return { notice, set, clear };
 };

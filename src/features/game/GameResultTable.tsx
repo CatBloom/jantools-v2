@@ -25,7 +25,6 @@ export const GameResultTable = (props: GameResultTabaleProps) => {
   const { name, isEdit, rule } = props;
 
   const { id } = useParams();
-  if (!id) return null;
   const { resultDescData } = useGameData();
   const navigate = useNavigate();
   // nameがある場合は、参加したゲームの結果のみ表示する
@@ -42,6 +41,8 @@ export const GameResultTable = (props: GameResultTabaleProps) => {
     setPage(0); // Paginationをリセット
     navigate(`/dashboard/${id}/${row.name}`);
   };
+
+  if (!id) return null;
 
   return (
     <>

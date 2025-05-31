@@ -7,7 +7,7 @@ import { useGameData } from './hooks/useGameData';
 
 export const GameTotalTable = () => {
   const { id } = useParams();
-  if (!id) return null;
+
   const { resultTotalData } = useGameData();
   const columns: Column<GameResultTotal>[] = [
     { key: 'rank', display: '順位' },
@@ -21,6 +21,8 @@ export const GameTotalTable = () => {
   const clickRow = (row: GameResultTotal) => {
     navigate(`/dashboard/${id}/${row.name}`);
   };
+
+  if (!id) return null;
 
   return (
     <TableContainer<GameResultTotal> columns={columns} align="center" elevation={1}>
