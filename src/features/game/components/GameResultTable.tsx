@@ -32,7 +32,7 @@ export const GameResultTable = (props: GameResultTabaleProps) => {
     ? resultDescData.filter((game) => game.results.some((result) => result.name === name))
     : resultDescData;
   const columns: Column<Game>[] = [
-    { key: 'createdAt', display: '登録日' },
+    { key: 'gameDate', display: '試合日' },
     { key: 'results', display: '試合結果' },
   ];
   const { page, rowsPerPage, setPage, handleChangePage } = usePagination();
@@ -45,28 +45,26 @@ export const GameResultTable = (props: GameResultTabaleProps) => {
   if (!id) return null;
 
   return (
-    <>
-      <TableContainer<Game> columns={columns} align="center" size="small" elevation={1}>
-        {gameResults.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => (
-          <GameResultRow
-            key={i}
-            row={row}
-            align="center"
-            clickRow={isEdit ? undefined : clickRow}
-            isEdit={isEdit}
-            rule={isEdit ? rule : undefined}
-          />
-        ))}
-        <TableRow>
-          <TablePagination
-            count={gameResults.length}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[rowsPerPage]}
-            page={page}
-            onPageChange={handleChangePage}
-          />
-        </TableRow>
-      </TableContainer>
-    </>
+    <TableContainer<Game> columns={columns} align="center" size="small" elevation={1}>
+      {gameResults.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => (
+        <GameResultRow
+          key={i}
+          row={row}
+          align="left"
+          clickRow={isEdit ? undefined : clickRow}
+          isEdit={isEdit}
+          rule={isEdit ? rule : undefined}
+        />
+      ))}
+      <TableRow>
+        <TablePagination
+          count={gameResults.length}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[rowsPerPage]}
+          page={page}
+          onPageChange={handleChangePage}
+        />
+      </TableRow>
+    </TableContainer>
   );
 };

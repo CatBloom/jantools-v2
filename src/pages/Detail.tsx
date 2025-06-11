@@ -49,7 +49,7 @@ export const Detail = () => {
             >
               {league.name}
             </Typography>
-            <Typography component="p">作成日:{dateFormat(league.createdAt)}</Typography>
+            <Typography component="p">作成日:{dateFormat(league.createdAt, true)}</Typography>
           </Stack>
           {league.manual && (
             <Stack spacing={1}>

@@ -32,8 +32,8 @@ export const GameResultRow = (props: {
         onClick={() => isEdit && open()}
         sx={{ cursor: isEdit ? 'pointer' : 'default' }}
       >
-        <TableCell align={align}>{dateFormat(row.createdAt)}</TableCell>
-        <TableCell colSpan={4}>
+        <TableCell align="center">{dateFormat(row.gameDate)}</TableCell>
+        <TableCell>
           <Box sx={{ margin: 0 }}>
             <TableContainer<GameResult> columns={resultColumns} align={align} size="small">
               {row.results.map((resultRow) => (
