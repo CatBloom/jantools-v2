@@ -20,7 +20,7 @@ export const gameResultTotalAtom = atom(async (get) => {
           sumRank: 0,
         };
       }
-      nameMap[name].totalPoint += calcPoint;
+      nameMap[name].totalPoint += calcPoint * 10;
       nameMap[name].gameCount += 1;
       nameMap[name].sumRank += rank;
     });
@@ -28,7 +28,7 @@ export const gameResultTotalAtom = atom(async (get) => {
 
   Object.values(nameMap).forEach((name) => {
     // 合計得点を整形(少数第1位まで)
-    name.totalPoint = Math.floor(name.totalPoint * 10) / 10;
+    name.totalPoint = Math.floor(name.totalPoint) / 10;
     // 平均着順を作成(少数点第2位まで)
     name.averageRank = Math.floor((name.sumRank / name.gameCount) * 100) / 100;
   });
