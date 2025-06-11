@@ -2,6 +2,7 @@ export interface Game {
   id: string;
   leagueID: string;
   createdAt: string;
+  gameDate: string;
   results: GameResult[];
 }
 
@@ -12,7 +13,7 @@ export interface GameResult {
   calcPoint: number;
 }
 
-export type GameFormData = Pick<Game, 'results'>;
+export type GameFormData = Pick<Game, 'results' | 'gameDate'>;
 export interface GameResultTotal {
   rank: number;
   name: string;

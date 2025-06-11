@@ -1,4 +1,4 @@
-export const dateFormat = (dateString: string) => {
+export const dateFormat = (dateString: string, fullDate: boolean = false) => {
   const date = new Date(dateString);
 
   const year = date.getFullYear();
@@ -8,5 +8,7 @@ export const dateFormat = (dateString: string) => {
   const minutes = String(date.getMinutes()).padStart(2, '0');
   const seconds = String(date.getSeconds()).padStart(2, '0');
 
-  return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+  return fullDate
+    ? `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`
+    : `${year}/${month}/${day}`;
 };

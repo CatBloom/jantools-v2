@@ -4,7 +4,9 @@ import { gameListFetcher } from '../api/gameListFetcher';
 
 interface GameLineData {
   rank: number | null;
+  gameDate: string;
   createdAt: string;
+  sortKey: string;
 }
 
 export const gameLineChartAtom = atom(async (get) => {
@@ -25,12 +27,20 @@ export const gameLineChartAtom = atom(async (get) => {
         if (result) {
           return {
             rank: result.rank,
-            createdAt: dateFormat(game.createdAt),
+            gameDate: dateFormat(game.gameDate),
+            createdAt: game.createdAt,
+            sortKey: '',
           };
         }
       })
       .filter((item) => !!item)
       .sort((a, b) => {
+        // 試合日は、重複する可能性があるため
+        // 重複した場合は、作成日でソートする
+        const dateCompare = b.gameDate.localeCompare(a.gameDate);
+        if (dateCompare !== 0) {
+          return dateCompare;
+        }
         return b.createdAt.localeCompare(a.createdAt);
       })
       .slice(0, displayCount)
@@ -38,8 +48,26 @@ export const gameLineChartAtom = atom(async (get) => {
 
     // 10件のデータがない場合は、ダミーデータを追加
     while (results.length < displayCount) {
-      results.push({ rank: null, createdAt: results.length.toString() });
+      results.push({
+        rank: null,
+        gameDate: results.length.toString(),
+        createdAt: '',
+        sortKey: '',
+      });
     }
-    return { name: name, results: results };
+
+    // gameDateが同じ場合、ソートができないため
+    // createdAtをもとに、sortKeyを作成して対応
+    const seenDates = new Map<string, number>();
+    const resultsWithSortKey = results.map((item) => {
+      const count = seenDates.get(item.gameDate) || 0;
+      seenDates.set(item.gameDate, count + 1);
+      const sortKey = count === 0 ? item.gameDate : `${item.gameDate}_${count}`;
+      return {
+        ...item,
+        sortKey,
+      };
+    });
+    return { name: name, results: resultsWithSortKey };
   });
 });

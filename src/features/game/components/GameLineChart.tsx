@@ -22,7 +22,7 @@ export const GameLineChart = (props: { name: string }) => {
       xAxis={[
         {
           scaleType: 'point',
-          data: results.map((v) => v.createdAt).slice(0, 10),
+          data: results.map((v) => v.sortKey),
         },
       ]}
       yAxis={[{ min: 0.9, max: 4.1, reverse: true }]}

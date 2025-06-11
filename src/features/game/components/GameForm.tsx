@@ -14,8 +14,11 @@ import Grid from '@mui/material/Grid2';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { LeagueRule } from '@/types/league';
 import { Game, GameFormData } from '@/types/game';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface FormData {
+  gameDate: Dayjs;
   gameArray: FormDataGameResult[];
 }
 
@@ -46,6 +49,7 @@ export const GameForm = (props: {
     reset,
   } = useForm<FormData>({
     defaultValues: {
+      gameDate: data ? dayjs(data.gameDate) : dayjs(),
       gameArray: data
         ? data.results.map((result) => ({
             rank: String(result.rank),
@@ -63,6 +67,9 @@ export const GameForm = (props: {
   });
 
   const validation = {
+    gameDate: {
+      required: '必須項目です',
+    },
     rank: {
       required: '必須項目です',
     },
@@ -172,6 +179,8 @@ export const GameForm = (props: {
 
     // FormDataをAPI用のデータに加工
     const data: GameFormData = {
+      // 時間は使用せず、年月日で統一
+      gameDate: formData.gameDate.startOf('day').format(),
       results: formData.gameArray.map((v) => {
         return {
           rank: Number(v.rank),
@@ -197,11 +206,28 @@ export const GameForm = (props: {
             label="自動計算"
           />
         </FormControl>
-        {handleDelete && (
-          <Button color="error" onClick={handleDelete}>
-            削除
-          </Button>
-        )}
+
+        <Controller
+          name="gameDate"
+          control={control}
+          rules={validation.gameDate}
+          render={({ field }) => (
+            <DatePicker
+              format="YYYY/MM/DD"
+              label="試合日"
+              value={field.value}
+              onChange={field.onChange}
+              slotProps={{
+                textField: {
+                  variant: 'standard',
+                  size: 'small',
+                  color: 'primary',
+                  error: !!errors.gameDate,
+                },
+              }}
+            />
+          )}
+        />
       </Stack>
       {getValues('gameArray').map((_, i) => (
         <Stack spacing={1} key={i}>
@@ -295,9 +321,16 @@ export const GameForm = (props: {
       <Typography component="p" color="error">
         {validateErorrMsg}
       </Typography>
-      <Button variant="contained" type="submit" color="secondary">
-        送信
-      </Button>
+      <Stack direction="row" spacing={1}>
+        <Button variant="contained" type="submit" color="secondary" fullWidth>
+          送信
+        </Button>
+        {handleDelete && (
+          <Button variant="contained" color="error" onClick={handleDelete} sx={{ width: '25%' }}>
+            削除
+          </Button>
+        )}
+      </Stack>
     </Stack>
   );
 };
